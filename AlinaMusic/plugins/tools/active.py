@@ -10,15 +10,16 @@
 from pyrogram import filters
 from pyrogram.errors import ChannelInvalid
 from pyrogram.types import Message
-from strings import get_command
-from YukkiMusic import app
-from YukkiMusic.misc import SUDOERS, db
-from YukkiMusic.utils.database.memorydatabase import (
+
+from AlinaMusic import app
+from AlinaMusic.misc import SUDOERS, db
+from AlinaMusic.utils.database.memorydatabase import (
     get_active_chats,
     get_active_video_chats,
     remove_active_chat,
     remove_active_video_chat,
 )
+from strings import get_command
 
 # Commands
 ACTIVEVC_COMMAND = get_command("ACTIVEVC_COMMAND")
@@ -34,7 +35,7 @@ async def _clear_(chat_id):
 
 @app.on_message(filters.command(ACTIVEVC_COMMAND) & SUDOERS)
 async def activevc(_, message: Message):
-    mystic = await message.reply_text("ɢᴇᴛᴛɪɴɢ ᴀᴄᴛɪᴠᴇ ᴠᴏɪᴄᴇ ᴄʜᴀᴛ....ᴘʟᴇᴀsᴇ ʜᴏʟᴅ ᴏɴ")
+    mystic = await message.reply_text("**- هێنانی ئەو گرووپانەی تێلیان کردۆتەوە . .**")
     served_chats = await get_active_chats()
     text = ""
     j = 0
@@ -51,17 +52,17 @@ async def activevc(_, message: Message):
             await _clear_(x)
             continue
     if not text:
-        await mystic.edit_text("ɴᴏ ᴀᴄᴛɪᴠᴇ ᴠᴏɪᴄᴇ ᴄʜᴀᴛ's")
+        await mystic.edit_text("**- هیچ تێلێکی دەنگی چالاک نەدۆزرایەوە**")
     else:
         await mystic.edit_text(
-            f"**ᴀᴄᴛɪᴠᴇ ᴠᴏɪᴄᴇ ᴄʜᴀᴛ's:-**\n\n{text}",
+            f"**- تێلی گرووپەکان :\n\n{text}**",
             disable_web_page_preview=True,
         )
 
 
 @app.on_message(filters.command(ACTIVEVIDEO_COMMAND) & SUDOERS)
 async def activevi_(_, message: Message):
-    mystic = await message.reply_text("ɢᴇᴛᴛɪɴɢ ᴀᴄᴛɪᴠᴇ ᴠᴏɪᴄᴇ ᴄʜᴀᴛ....ᴘʟᴇᴀsᴇ ʜᴏʟᴅ ᴏɴ")
+    mystic = await message.reply_text("**- هێنانی ئەو گرووپانەی تێلیان کردۆتەوە . .**")
     served_chats = await get_active_video_chats()
     text = ""
     j = 0
@@ -78,19 +79,21 @@ async def activevi_(_, message: Message):
             await _clear_(x)
             continue
     if not text:
-        await mystic.edit_text("ɴᴏ ᴀᴄᴛɪᴠᴇ ᴠɪᴅᴇᴏ ᴄʜᴀᴛ's")
+        await mystic.edit_text("**- هیچ تێلێکی ڤیدیۆی چالاک نەدۆزرایەوە**")
     else:
         await mystic.edit_text(
-            f"**ᴀᴄᴛɪᴠᴇ ᴠɪᴅᴇᴏ ᴄʜᴀᴛ's:-**\n\n{text}",
+            f"**- تێلی ڤیدیۆیی گرووپەکان :\n\n{text}**",
             disable_web_page_preview=True,
         )
 
 
-@app.on_message(filters.command(["ac"]) & SUDOERS)
+@app.on_message(filters.command(["/ac", "/av", "چالاکی پەخش"], "") & SUDOERS)
 async def vc(client, message: Message):
     ac_audio = str(len(await get_active_chats()))
-
-    await message.reply_text(f"ᴀᴄᴛɪᴠᴇ ᴄʜᴀᴛs ɪɴғᴏ: {ac_audio}")
+    ac_video = str(len(await get_active_video_chats()))
+    await message.reply_text(
+        f"<b>✫ زانیاری چالاکی پەخشکردن :</b>\n\n<b>دەنگی : {ac_audio}\nڤیدیۆ : {ac_video}</b>"
+    )
 
 
 __MODULE__ = "Acᴛɪᴠᴇ"
