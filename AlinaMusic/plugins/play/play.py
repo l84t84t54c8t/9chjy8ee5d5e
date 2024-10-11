@@ -12,38 +12,93 @@ import random
 import string
 
 from pyrogram import filters
-from pyrogram.errors import FloodWait
-from pyrogram.types import InlineKeyboardMarkup, InputMediaPhoto, Message
-from strings import get_command
-from YukkiMusic import Apple, Resso, SoundCloud, Spotify, Telegram, YouTube, app
-from YukkiMusic.utils import seconds_to_min, time_to_seconds
-from YukkiMusic.utils.channelplay import get_channeplayCB
-from YukkiMusic.utils.database import is_video_allowed
-from YukkiMusic.utils.decorators.language import languageCB
-from YukkiMusic.utils.decorators.play import PlayWrapper
-from YukkiMusic.utils.formatters import formats
-from YukkiMusic.utils.inline.play import (
+from pyrogram.errors import FloodWait, UserNotParticipant
+from pyrogram.types import (
+    InlineKeyboardButton,
+    InlineKeyboardMarkup,
+    InputMediaPhoto,
+    Message,
+)
+
+import config
+from AlinaMusic import Apple, Resso, SoundCloud, Spotify, Telegram, YouTube, app
+from AlinaMusic.utils import seconds_to_min, time_to_seconds
+from AlinaMusic.utils.channelplay import get_channeplayCB
+from AlinaMusic.utils.database import add_served_chat, is_video_allowed
+from AlinaMusic.utils.decorators.language import languageCB
+from AlinaMusic.utils.decorators.play import PlayWrapper
+from AlinaMusic.utils.formatters import formats
+from AlinaMusic.utils.inline.play import (
     livestream_markup,
     playlist_markup,
     slider_markup,
     track_markup,
 )
-from YukkiMusic.utils.inline.playlist import botplaylist_markup
-from YukkiMusic.utils.logger import play_logs
-from YukkiMusic.utils.stream.stream import stream
+from AlinaMusic.utils.inline.playlist import botplaylist_markup
+from AlinaMusic.utils.logger import play_logs
+from AlinaMusic.utils.stream.stream import stream
+from config import BANNED_USERS, MUST_JOIN2, lyrical
 
-import config
-from config import BANNED_USERS, lyrical
 
-PLAY_COMMAND = get_command("PLAY_COMMAND")
+async def joinch(message):
+    if not MUST_JOIN2:
+        return
+    try:
+        await app.get_chat_member(MUST_JOIN2, message.from_user.id)
+    except UserNotParticipant:
+        if MUST_JOIN2.isalpha():
+            link = "https://t.me/" + MUST_JOIN2
+        else:
+            chat_info = await app.get_chat(MUST_JOIN2)
+            link = chat_info.invite_link
+        try:
+            await message.reply(
+                f"**• You must join the group\n• To be able to play songs\n• Bot Group : « @{MUST_JOIN2} »\n\n• پێویستە جۆینی گرووپ بکەیت\n• بۆ ئەوەی بتوانی گۆرانی پەخش بکەیت\n• گرووپی بۆت : « @{MUST_JOIN2} »**",
+                reply_markup=InlineKeyboardMarkup(
+                    [
+                        [
+                            InlineKeyboardButton("• جۆینی کەناڵ بکە •", url=f"{link}"),
+                        ]
+                    ]
+                ),
+                disable_web_page_preview=True,
+            )
+            return True
+        except Exception as e:
+            print(e)
+    except Exception as e:
+        print(e)
 
 
 @app.on_message(
     filters.command(
-        PLAY_COMMAND,
-        prefixes=["/", "!", "%", ",", "@", "#"],
+        [
+            "play",
+            "vplay",
+            "cplay",
+            "cvplay",
+            "playforce",
+            "vplayforce",
+            "cplayforce",
+            "cvplayforce",
+            "/play",
+            "/vplay",
+            "cplay",
+            "g",
+            "پلەی",
+            "video",
+            "پ کەناڵ",
+            "gorani",
+            "ڤیدیو",
+            "پ ئەلینا",
+            "سوڕەتی",
+            "سورەتی",
+            "سورەت",
+            "سوڕەت",
+        ],
+        prefixes=["/", "!", "%", "", "@", "#"],
     )
-    & filters.group
+    & ~filters.private
     & ~BANNED_USERS
 )
 @PlayWrapper
@@ -58,6 +113,9 @@ async def play_commnd(
     url,
     fplay,
 ):
+    if await joinch(message):
+        return
+    await add_served_chat(message.chat.id)
     mystic = await message.reply_text(
         _["play_2"].format(channel) if channel else _["play_1"]
     )
@@ -65,8 +123,14 @@ async def play_commnd(
     slider = None
     plist_type = None
     spotify = None
-    user_id = message.from_user.id
-    user_name = message.from_user.first_name
+    user_id = message.from_user.id if message.from_user else "1121532100"
+    user_name = message.from_user.first_name if message.from_user else "𝖠𝖽𝗆𝗂𝗇"
+    try:
+        is_call_active = (await app.get_chat(chat_id)).is_call_active
+        if not is_call_active:
+            return await mystic.edit_text(_["call_9"])
+    except Exception:
+        pass
     audio_telegram = (
         (message.reply_to_message.audio or message.reply_to_message.voice)
         if message.reply_to_message
@@ -532,7 +596,7 @@ async def anonymous_check(client, CallbackQuery):
         return
 
 
-@app.on_callback_query(filters.regex("YukkiPlaylists") & ~BANNED_USERS)
+@app.on_callback_query(filters.regex("VIPPlaylists") & ~BANNED_USERS)
 @languageCB
 async def play_playlists_command(client, CallbackQuery, _):
     callback_data = CallbackQuery.data.strip()
