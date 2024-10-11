@@ -12,12 +12,12 @@ import sys
 
 from pyrogram import idle
 from pytgcalls.exceptions import NoActiveGroupCall
+
+import config
 from AlinaMusic import HELPABLE, LOGGER, app, userbot
 from AlinaMusic.core.call import Alina
 from AlinaMusic.plugins import ALL_MODULES
 from AlinaMusic.utils.database import get_banned_users, get_gbanned
-
-import config
 from config import BANNED_USERS
 
 
