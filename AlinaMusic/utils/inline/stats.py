@@ -8,7 +8,7 @@
 # All rights reserved.
 #
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
-from YukkiMusic import app
+from AlinaMusic import app
 
 
 def back_stats_markup(_):
