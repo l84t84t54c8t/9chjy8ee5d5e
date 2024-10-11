@@ -9,15 +9,15 @@
 #
 from pyrogram import filters
 from pyrogram.types import Message
-from YukkiMusic import app, userbot
-from YukkiMusic.core.userbot import assistants
-from YukkiMusic.utils.database import (
+from AlinaMusic import app, userbot
+from AlinaMusic.core.userbot import assistants
+from AlinaMusic.utils.database import (
     get_assistant,
     get_client,
     save_assistant,
     set_assistant,
 )
-from YukkiMusic.utils.decorators import AdminActual
+from AlinaMusic.utils.decorators import AdminActual
 
 from config import BANNED_USERS, LOG_GROUP_ID
 
