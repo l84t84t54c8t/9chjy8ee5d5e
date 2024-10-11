@@ -12,6 +12,8 @@ import asyncio
 from datetime import datetime
 
 from pyrogram.enums import ChatType
+
+import config
 from AlinaMusic import app
 from AlinaMusic.core.call import Alina
 from AlinaMusic.utils.database import (
@@ -20,8 +22,6 @@ from AlinaMusic.utils.database import (
     is_active_chat,
     is_autoend,
 )
-
-import config
 
 autoend = {}
 
