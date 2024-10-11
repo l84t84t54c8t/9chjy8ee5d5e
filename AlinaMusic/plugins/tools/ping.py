@@ -12,11 +12,11 @@ from datetime import datetime
 from pyrogram import filters
 from pyrogram.types import Message
 from strings import get_command
-from YukkiMusic import app
-from YukkiMusic.core.call import Yukki
-from YukkiMusic.utils import bot_sys_stats
-from YukkiMusic.utils.decorators.language import language
-from YukkiMusic.utils.inline import support_group_markup
+from AlinaMusic import app
+from AlinaMusic.core.call import Alina
+from AlinaMusic.utils import bot_sys_stats
+from AlinaMusic.utils.decorators.language import language
+from AlinaMusic.utils.inline import support_group_markup
 
 from config import BANNED_USERS, PING_IMG_URL
 
@@ -31,7 +31,7 @@ async def ping_com(client, message: Message, _):
         caption=_["ping_1"].format(app.mention),
     )
     start = datetime.now()
-    pytgping = await Yukki.ping()
+    pytgping = await Alina.ping()
     UP, CPU, RAM, DISK = await bot_sys_stats()
     resp = (datetime.now() - start).microseconds / 1000
     await response.edit_text(
