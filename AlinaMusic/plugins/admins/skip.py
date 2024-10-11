@@ -11,7 +11,8 @@
 
 from pyrogram import filters
 from pyrogram.types import InlineKeyboardMarkup, Message
-from strings import get_command
+
+import config
 from AlinaMusic import YouTube, app
 from AlinaMusic.core.call import Alina
 from AlinaMusic.misc import db
@@ -21,9 +22,8 @@ from AlinaMusic.utils.inline import close_markup
 from AlinaMusic.utils.inline.play import stream_markup, telegram_markup
 from AlinaMusic.utils.stream.autoclear import auto_clean
 from AlinaMusic.utils.thumbnails import gen_thumb
-
-import config
 from config import BANNED_USERS
+
 
 @app.on_message(
     filters.command(
