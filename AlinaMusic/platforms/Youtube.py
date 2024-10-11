@@ -18,12 +18,12 @@ import yt_dlp
 from pyrogram.enums import MessageEntityType
 from pyrogram.types import Message
 from youtubesearchpython.__future__ import VideosSearch
-from YukkiMusic.utils.exceptions import DownloadError
-from YukkiMusic.utils.formatters import time_to_seconds
+from AlinaMusic.utils.exceptions import DownloadError
+from AlinaMusic.utils.formatters import time_to_seconds
 
 
 def cookies():
-    cookie_dir = "YukkiMusic/utils/cookies"
+    cookie_dir = "AlinaMusic/utils/cookies"
     cookies_files = [f for f in os.listdir(cookie_dir) if f.endswith(".txt")]
 
     cookie_file = os.path.join(cookie_dir, random.choice(cookies_files))
