@@ -15,7 +15,6 @@ from AlinaMusic import app
 from AlinaMusic.core.call import Alina
 from AlinaMusic.utils.database import is_music_playing, music_on
 from AlinaMusic.utils.decorators import AdminRightsCheck
-
 from config import BANNED_USERS
 
 
