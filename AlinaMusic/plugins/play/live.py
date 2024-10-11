@@ -9,10 +9,10 @@
 #
 
 from pyrogram import filters
-from YukkiMusic import YouTube, app
-from YukkiMusic.utils.channelplay import get_channeplayCB
-from YukkiMusic.utils.decorators.language import languageCB
-from YukkiMusic.utils.stream.stream import stream
+from AlinaMusic import YouTube, app
+from AlinaMusic.utils.channelplay import get_channeplayCB
+from AlinaMusic.utils.decorators.language import languageCB
+from AlinaMusic.utils.stream.stream import stream
 
 from config import BANNED_USERS
 
