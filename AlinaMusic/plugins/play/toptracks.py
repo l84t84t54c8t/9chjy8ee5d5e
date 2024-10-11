@@ -18,20 +18,20 @@ from pyrogram.errors import (
     UserNotParticipant,
 )
 from pyrogram.types import InlineKeyboardMarkup
-from YukkiMusic import app
-from YukkiMusic.utils.database import (
+from AlinaMusic import app
+from AlinaMusic.utils.database import (
     get_assistant,
     get_global_tops,
     get_particulars,
     get_userss,
 )
-from YukkiMusic.utils.decorators.language import languageCB
-from YukkiMusic.utils.inline.playlist import (
+from AlinaMusic.utils.decorators.language import languageCB
+from AlinaMusic.utils.inline.playlist import (
     botplaylist_markup,
     failed_top_markup,
     top_play_markup,
 )
-from YukkiMusic.utils.stream.stream import stream
+from AlinaMusic.utils.stream.stream import stream
 
 from config import BANNED_USERS
 
