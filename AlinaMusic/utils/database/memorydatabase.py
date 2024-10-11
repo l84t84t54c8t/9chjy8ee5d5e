@@ -12,7 +12,7 @@ import json
 import os
 from typing import Dict, List, Union
 
-from YukkiMusic.core.mongo import mongodb
+from AlinaMusic.core.mongo import mongodb
 
 import config
 
