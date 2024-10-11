@@ -1,9 +1,9 @@
 #
-# Copyright (C) 2024 by TheTeamVivek@Github, < https://github.com/TheTeamVivek >.
+# Copyright (C) 2024 by THE-VIP-BOY-OP@Github, < https://github.com/THE-VIP-BOY-OP >.
 #
-# This file is part of < https://github.com/TheTeamVivek/YukkiMusic > project,
+# This file is part of < https://github.com/THE-VIP-BOY-OP/VIP-MUSIC > project,
 # and is released under the MIT License.
-# Please see < https://github.com/TheTeamVivek/YukkiMusic/blob/master/LICENSE >
+# Please see < https://github.com/THE-VIP-BOY-OP/VIP-MUSIC/blob/master/LICENSE >
 #
 # All rights reserved.
 #
@@ -15,13 +15,14 @@ from pyrogram import filters
 from pyrogram.enums import ChatMembersFilter
 from pyrogram.errors import FloodWait
 from pyrogram.raw import types
-from strings import get_command
-from YukkiMusic import app
-from YukkiMusic.utils.cleanmode import protected_messages
-from YukkiMusic.utils.database import (
+
+import config
+from AlinaMusic import app
+from AlinaMusic.misc import SUDOERS
+from AlinaMusic.utils.cleanmode import protected_messages
+from AlinaMusic.utils.database import (
     get_active_chats,
     get_authuser_names,
-    get_client,
     get_particular_top,
     get_served_chats,
     get_served_users,
@@ -31,13 +32,10 @@ from YukkiMusic.utils.database import (
     update_particular_top,
     update_user_top,
 )
-from YukkiMusic.utils.decorators.language import language
-from YukkiMusic.utils.formatters import alpha_to_int
-
-import config
+from AlinaMusic.utils.decorators.language import language
+from AlinaMusic.utils.formatters import alpha_to_int
 from config import adminlist, chatstats, clean, userstats
 
-BROADCAST_COMMAND = get_command("BROADCAST_COMMAND")
 AUTO_DELETE = config.CLEANMODE_DELETE_MINS
 AUTO_SLEEP = 5
 IS_BROADCASTING = False
@@ -73,7 +71,7 @@ async def clean_mode(client, update, users, chats):
     await set_queries(1)
 
 
-@app.on_message(filters.command(BROADCAST_COMMAND) & filters.user(config.OWNER_ID))
+@app.on_message(filters.command(["/broadcast", "ناردن", "فۆروارد"], "") & SUDOERS)
 @language
 async def braodcast_message(client, message, _):
     global IS_BROADCASTING
@@ -98,7 +96,7 @@ async def braodcast_message(client, message, _):
             return await message.reply_text(_["broad_6"])
 
     IS_BROADCASTING = True
-
+    ok = await message.reply_text(_["broad_8"])
     # Bot broadcast inside chats
     if "-nobot" not in message.text:
         sent = 0
@@ -116,19 +114,19 @@ async def braodcast_message(client, message, _):
                     if message.reply_to_message
                     else await app.send_message(i, text=query)
                 )
+                sent += 1
                 if "-pin" in message.text:
                     try:
                         await m.pin(disable_notification=True)
                         pin += 1
                     except Exception:
-                        continue
+                        pass
                 elif "-pinloud" in message.text:
                     try:
                         await m.pin(disable_notification=False)
                         pin += 1
                     except Exception:
-                        continue
-                sent += 1
+                        pass
             except FloodWait as e:
                 flood_time = int(e.value)
                 if flood_time > 200:
@@ -137,7 +135,9 @@ async def braodcast_message(client, message, _):
             except Exception:
                 continue
         try:
+            await ok.delete()
             await message.reply_text(_["broad_1"].format(sent, pin))
+            await save_broadcast_stats(sent, 0)  # Save sent count, no users
         except:
             pass
 
@@ -165,6 +165,7 @@ async def braodcast_message(client, message, _):
                 pass
         try:
             await message.reply_text(_["broad_7"].format(susr))
+            await save_broadcast_stats(0, susr)  # Save user count, no groups
         except:
             pass
 
@@ -172,7 +173,7 @@ async def braodcast_message(client, message, _):
     if "-assistant" in message.text:
         aw = await message.reply_text(_["broad_2"])
         text = _["broad_3"]
-        from YukkiMusic.core.userbot import assistants
+        from AlinaMusic.core.userbot import assistants
 
         for num in assistants:
             sent = 0
@@ -200,6 +201,46 @@ async def braodcast_message(client, message, _):
             await aw.edit_text(text)
         except:
             pass
+    IS_BROADCASTING = False
+
+
+@app.on_message(filters.command(["buser"]) & SUDOERS)
+@language
+async def braodcast_message_user(client, message, _):
+    global IS_BROADCASTING
+    if message.reply_to_message:
+        x = message.reply_to_message.id
+        y = message.chat.id
+    else:
+        if len(message.command) < 2:
+            return await message.reply_text(_["broad_2"])
+        query = message.text.split(None, 1)[1]
+    IS_BROADCASTING = True
+    susr = 0
+    served_users = []
+    susers = await get_served_users()
+    for user in susers:
+        served_users.append(int(user["user_id"]))
+    for i in served_users:
+        try:
+            m = (
+                await app.forward_messages(i, y, x)
+                if message.reply_to_message
+                else await app.send_message(i, text=query)
+            )
+            susr += 1
+            await asyncio.sleep(0.2)
+        except FloodWait as fw:
+            flood_time = int(fw.value)
+            if flood_time > 200:
+                continue
+            await asyncio.sleep(flood_time)
+        except:
+            pass
+    try:
+        await message.reply_text(_["broad_4"].format(susr))
+    except:
+        pass
     IS_BROADCASTING = False
 
 
