@@ -14,6 +14,9 @@ from typing import Dict, List, Union
 
 import config
 from AlinaMusic.core.mongo import mongodb
+from config import CHANNEL as CHANNELOWNER
+from config import GROUP as GROUPOWNER
+
 
 channeldb = mongodb.cplaymode
 commanddb = mongodb.commands
@@ -27,6 +30,9 @@ onoffdb = mongodb.onoffper
 autoenddb = mongodb.autoend
 notesdb = mongodb.notes
 filtersdb = mongodb.filters
+channeldb = mongodb.ch
+groupdb = mongodb.gr
+mustdb = mongodb.must
 
 # Shifting to memory [ mongo sucks often]
 loop = {}
@@ -43,7 +49,65 @@ vlimit = []
 maintenance = []
 autoend = {}
 greeting_message = {"welcome": {}, "goodbye": {}}
+CHANNEL = {}
+GROUP = {}
+must = {}
 
+
+# Bot group
+async def get_group(chat_id):
+    name = GROUP.get(chat_id)
+    if not name:
+        bot = await groupdb.find_one({"chat_id": chat_id})
+        if not bot:
+            return GROUPOWNER
+        GROUP[chat_id] = bot["group"]
+        return bot["group"]
+    return name
+
+
+async def set_group(chat_id: str, group: str):
+    GROUP[chat_id] = group
+    groupdb.update_one({"chat_id": chat_id}, {"$set": {"group": group}}, upsert=True)
+
+
+# Bot channel
+async def get_channel(chat_id):
+    name = CHANNEL.get(chat_id)
+    if not name:
+        bot = await channeldb.find_one({"chat_id": chat_id})
+        if not bot:
+            return CHANNELOWNER
+        CHANNEL[chat_id] = bot["channel"]
+        return bot["channel"]
+    return name
+
+
+async def set_channel(chat_id: str, channel: str):
+    CHANNEL[chat_id] = channel
+    channeldb.update_one(
+        {"chat_id": chat_id}, {"$set": {"channel": channel}}, upsert=True
+    )
+
+
+async def must_join(chat_id):
+    name = must.get(chat_id)
+    if not name:
+        bot = await mustdb.find_one({"chat_id": chat_id})  # Ensure awaiting here
+        if not bot:
+            return "off"
+        must[chat_id] = bot["getmust"]
+        return bot["getmust"]
+    return name
+
+
+async def set_must(chat_id: str, m: str):
+    if m == "• ناچالاککردنی جۆینی ناچاری •":
+        ii = "off"
+    else:
+        ii = "on"
+    must[chat_id] = ii
+    mustdb.update_one({"chat_id": chat_id}, {"$set": {"getmust": ii}}, upsert=True)
 
 async def get_filters_count() -> dict:
     chats_count = 0
