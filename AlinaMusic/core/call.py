@@ -8,6 +8,7 @@
 # All rights reserved.
 #
 import asyncio
+import os
 from typing import Union
 
 from ntgcalls import TelegramServerError
@@ -24,9 +25,9 @@ from pytgcalls.types import (
     Update,
 )
 from strings import get_string
-from YukkiMusic import LOGGER, YouTube, app, userbot
-from YukkiMusic.misc import db
-from YukkiMusic.utils.database import (
+from AlinaMusic import LOGGER, YouTube, app, userbot
+from AlinaMusic.misc import db
+from AlinaMusic.utils.database import (
     add_active_chat,
     add_active_video_chat,
     get_audio_bitrate,
@@ -39,10 +40,11 @@ from YukkiMusic.utils.database import (
     remove_active_video_chat,
     set_loop,
 )
-from YukkiMusic.utils.exceptions import AssistantErr
-from YukkiMusic.utils.inline.play import stream_markup, telegram_markup
-from YukkiMusic.utils.stream.autoclear import auto_clean
-from YukkiMusic.utils.thumbnails import gen_thumb
+from AlinaMusic.utils.exceptions import AssistantErr
+from AlinaMusic.utils.formatters import check_duration, seconds_to_min, speed_converter
+from AlinaMusic.utils.inline.play import stream_markup, telegram_markup
+from AlinaMusic.utils.stream.autoclear import auto_clean
+from AlinaMusic.utils.thumbnails import gen_thumb
 
 import config
 
@@ -154,6 +156,76 @@ class Call:
         )
         await assistant.play(chat_id, stream, config=call_config)
 
+    async def speedup_stream(self, chat_id: int, file_path, speed, playing):
+        assistant = await group_assistant(self, chat_id)
+        audio_stream_quality = await get_audio_bitrate(chat_id)
+        video_stream_quality = await get_video_bitrate(chat_id)
+        if str(speed) != "1.0":
+            base = os.path.basename(file_path)
+            chatdir = os.path.join(os.getcwd(), "playback", str(speed))
+            if not os.path.isdir(chatdir):
+                os.makedirs(chatdir)
+            out = os.path.join(chatdir, base)
+            if not os.path.isfile(out):
+                if str(speed) == "0.5":
+                    vs = 2.0
+                if str(speed) == "0.75":
+                    vs = 1.35
+                if str(speed) == "1.5":
+                    vs = 0.68
+                if str(speed) == "2.0":
+                    vs = 0.5
+                proc = await asyncio.create_subprocess_shell(
+                    cmd=(
+                        "ffmpeg "
+                        "-i "
+                        f"{file_path} "
+                        "-filter:v "
+                        f"setpts={vs}*PTS "
+                        "-filter:a "
+                        f"atempo={speed} "
+                        f"{out}"
+                    ),
+                    stdin=asyncio.subprocess.PIPE,
+                    stderr=asyncio.subprocess.PIPE,
+                )
+                await proc.communicate()
+        else:
+            out = file_path
+        dur = await loop.run_in_executor(None, check_duration, out)
+        dur = int(dur)
+        played, con_seconds = speed_converter(playing[0]["played"], speed)
+        duration = seconds_to_min(dur)
+        stream = (
+            MediaStream(
+                out,
+                audio_parameters=audio_stream_quality,
+                video_parameters=video_stream_quality,
+                ffmpeg_parameters=f"-ss {played} -to {duration}",
+            )
+            if playing[0]["streamtype"] == "video"
+            else MediaStream(
+                out,
+                audio_parameters=audio_stream_quality,
+                ffmpeg_parameters=f"-ss {played} -to {duration}",
+                video_flags=MediaStream.Flags.IGNORE,
+            )
+        )
+        if str(db[chat_id][0]["file"]) == str(file_path):
+            await assistant.play(chat_id, stream)
+        else:
+            raise AssistantErr("Umm")
+        if str(db[chat_id][0]["file"]) == str(file_path):
+            exis = (playing[0]).get("old_dur")
+            if not exis:
+                db[chat_id][0]["old_dur"] = db[chat_id][0]["dur"]
+                db[chat_id][0]["old_second"] = db[chat_id][0]["seconds"]
+            db[chat_id][0]["played"] = con_seconds
+            db[chat_id][0]["dur"] = duration
+            db[chat_id][0]["seconds"] = dur
+            db[chat_id][0]["speed_path"] = out
+            db[chat_id][0]["speed"] = speed
+
     async def stream_call(self, link):
         assistant = await group_assistant(self, config.LOG_GROUP_ID)
         call_config = GroupCallConfig(auto_start=False)
@@ -200,18 +272,11 @@ class Call:
                 config=call_config,
             )
         except NoActiveGroupCall:
-            raise AssistantErr(
-                "**ɴᴏ ᴀᴄᴛɪᴠᴇ ᴠɪᴅᴇᴏ ᴄʜᴀᴛ ғᴏᴜɴᴅ**\n\nᴩʟᴇᴀsᴇ ᴍᴀᴋᴇ sᴜʀᴇ ʏᴏᴜ sᴛᴀʀᴛᴇᴅ ᴛʜᴇ ᴠɪᴅᴇᴏᴄʜᴀᴛ."
-            )
-
+            raise AssistantErr(_["call_9"])
         except AlreadyJoinedError:
-            raise AssistantErr(
-                "**ᴀssɪsᴛᴀɴᴛ ᴀʟʀᴇᴀᴅʏ ɪɴ ᴠɪᴅᴇᴏᴄʜᴀᴛ**\n\nᴍᴜsɪᴄ ʙᴏᴛ sʏsᴛᴇᴍs ᴅᴇᴛᴇᴄᴛᴇᴅ ᴛʜᴀᴛ ᴀssɪᴛᴀɴᴛ ɪs ᴀʟʀᴇᴀᴅʏ ɪɴ ᴛʜᴇ ᴠɪᴅᴇᴏᴄʜᴀᴛ, ɪғ ᴛʜɪs ᴩʀᴏʙʟᴇᴍ ᴄᴏɴᴛɪɴᴜᴇs ʀᴇsᴛᴀʀᴛ ᴛʜᴇ ᴠɪᴅᴇᴏᴄʜᴀᴛ ᴀɴᴅ ᴛʀʏ ᴀɢᴀɪɴ."
-            )
+            raise AssistantErr(_["call_10"])
         except TelegramServerError:
-            raise AssistantErr(
-                "**ᴛᴇʟᴇɢʀᴀᴍ sᴇʀᴠᴇʀ ᴇʀʀᴏʀ**\n\nᴩʟᴇᴀsᴇ ᴛᴜʀɴ ᴏғғ ᴀɴᴅ ʀᴇsᴛᴀʀᴛ ᴛʜᴇ ᴠɪᴅᴇᴏᴄʜᴀᴛ ᴀɢᴀɪɴ."
-            )
+            raise AssistantErr(_["call_11"])
         await add_active_chat(chat_id)
         await music_on(chat_id)
         if video:
@@ -296,7 +361,7 @@ class Call:
                     original_chat_id,
                     photo=img,
                     caption=_["stream_1"].format(
-                        title[:27],
+                        title[:23],
                         f"https://t.me/{app.username}?start=info_{videoid}",
                         check[0]["dur"],
                         user,
@@ -355,7 +420,7 @@ class Call:
                     original_chat_id,
                     photo=img,
                     caption=_["stream_1"].format(
-                        title[:27],
+                        title[:23],
                         f"https://t.me/{app.username}?start=info_{videoid}",
                         check[0]["dur"],
                         user,
@@ -462,7 +527,7 @@ class Call:
                             original_chat_id,
                             photo=img,
                             caption=_["stream_1"].format(
-                                title[:27],
+                                title[:23],
                                 f"https://t.me/{app.username}?start=info_{videoid}",
                                 check[0]["dur"],
                                 user,
@@ -502,4 +567,4 @@ class Call:
                     await self.change_stream(client, update.chat_id)
 
 
-Yukki = Call()
+Alina = Call()
