@@ -18,6 +18,7 @@ from pyrogram.errors import (
     UserNotParticipant,
 )
 from pyrogram.types import InlineKeyboardMarkup
+
 from AlinaMusic import app
 from AlinaMusic.utils.database import (
     get_assistant,
@@ -32,7 +33,6 @@ from AlinaMusic.utils.inline.playlist import (
     top_play_markup,
 )
 from AlinaMusic.utils.stream.stream import stream
-
 from config import BANNED_USERS
 
 loop = asyncio.get_running_loop()
