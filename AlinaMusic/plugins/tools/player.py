@@ -10,9 +10,9 @@
 
 from pyrogram import filters
 from pyrogram.types import Message
-from YukkiMusic import app
-from YukkiMusic.misc import db
-from YukkiMusic.utils.decorators import AdminRightsCheck
+from AlinaMusic import app
+from AlinaMusic.misc import db
+from AlinaMusic.utils.decorators import AdminRightsCheck
 
 from config import BANNED_USERS
 
