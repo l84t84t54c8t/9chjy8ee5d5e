@@ -11,10 +11,10 @@
 from pyrogram import filters
 from pyrogram.types import Message
 from strings import get_command
-from YukkiMusic import app
-from YukkiMusic.misc import SUDOERS
-from YukkiMusic.utils.database import add_sudo, remove_sudo
-from YukkiMusic.utils.decorators.language import language
+from AlinaMusic import app
+from AlinaMusic.misc import SUDOERS
+from AlinaMusic.utils.database import add_sudo, remove_sudo
+from AlinaMusic.utils.decorators.language import language
 
 from config import BANNED_USERS, MONGO_DB_URI, OWNER_ID
 
