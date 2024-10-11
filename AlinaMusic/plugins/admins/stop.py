@@ -10,11 +10,12 @@
 from pyrogram import filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 from strings import get_command, get_string
-from YukkiMusic import app
-from YukkiMusic.core.call import Yukki
-from YukkiMusic.misc import SUDOERS
-from YukkiMusic.plugins import extra_plugins_enabled
-from YukkiMusic.utils.database import (
+from AlinaMusic import app
+from AlinaMusic.core.call import Alina
+from AlinaMusic.misc import SUDOERS
+from AlinaMusic.plugins import extra_plugins_enabled
+from AlinaMusic.utils.inline import close_markup
+from AlinaMusic.utils.database import (
     delete_filter,
     get_cmode,
     get_lang,
@@ -27,10 +28,14 @@ from YukkiMusic.utils.database import (
 
 from config import BANNED_USERS, adminlist
 
-STOP_COMMAND = get_command("STOP_COMMAND")
-
-
-@app.on_message(filters.command(STOP_COMMAND) & filters.group & ~BANNED_USERS)
+@app.on_message(
+    filters.command(
+        ["end", "stop", "cend", "cstop", "ڕاگرتن", "وەستان"],
+        prefixes=["/", "!", "%", ",", "", "@", "#"],
+    )
+    & ~filters.private
+    & ~BANNED_USERS
+)
 async def stop_music(cli, message: Message):
     if await is_maintenance() is False:
         if message.from_user.id not in SUDOERS:
@@ -43,9 +48,9 @@ async def stop_music(cli, message: Message):
                 filter = " ".join(message.command[1:])
                 deleted = await delete_filter(message.chat.id, filter)
                 if deleted:
-                    return await message.reply_text(f"**ᴅᴇʟᴇᴛᴇᴅ ғɪʟᴛᴇʀ {filter}.**")
+                    return await message.reply_text(f"**چاتی زیادکراو: {filter} سڕدرایەوە**")
                 else:
-                    return await message.reply_text("**ɴᴏ sᴜᴄʜ ғɪʟᴛᴇʀ.**")
+                    return await message.reply_text("**هیچ چاتێکی زیادکراو نییە**")
 
     if await is_commanddelete_on(message.chat.id):
         try:
@@ -92,6 +97,6 @@ async def stop_music(cli, message: Message):
             else:
                 if message.from_user.id not in admins:
                     return await message.reply_text(_["admin_19"])
-    await Yukki.stop_stream(chat_id)
+    await Alina.stop_stream(chat_id)
     await set_loop(chat_id, 0)
-    await message.reply_text(_["admin_9"].format(message.from_user.mention))
+    await message.reply_text(_["admin_9"].format(message.from_user.mention), reply_markup=close_markup(_))
