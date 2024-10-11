@@ -13,17 +13,17 @@ from datetime import datetime, timedelta
 
 from pyrogram.types import InlineKeyboardMarkup
 from strings import get_string
-from YukkiMusic.core.call import Yukki
-from YukkiMusic.misc import db
-from YukkiMusic.utils.database import (
+from AlinaMusic.core.call import Alina
+from AlinaMusic.misc import db
+from AlinaMusic.utils.database import (
     get_active_chats,
     get_assistant,
     get_lang,
     is_music_playing,
     set_loop,
 )
-from YukkiMusic.utils.formatters import seconds_to_min
-from YukkiMusic.utils.inline import stream_markup_timer, telegram_markup_timer
+from AlinaMusic.utils.formatters import seconds_to_min
+from AlinaMusic.utils.inline import stream_markup_timer, telegram_markup_timer
 
 from ..admins.callback import wrong
 from .autoleave import autoend
@@ -66,7 +66,7 @@ async def leave_if_muted():
                             members.append(member)
                     except ValueError:
                         try:
-                            await Yukki.stop_stream(chat_id)
+                            await Alina.stop_stream(chat_id)
                         except Exception:
                             pass
                         continue
@@ -77,7 +77,7 @@ async def leave_if_muted():
                     is_muted = bool(m.is_muted and not m.can_self_unmute)
 
                     if is_muted:
-                        await Yukki.stop_stream(chat_id)
+                        await Alina.stop_stream(chat_id)
                         await set_loop(chat_id, 0)
 
                     del muted[chat_id]
@@ -130,7 +130,7 @@ async def markup_timer():
                             pass
                         continue
                     if not members:
-                        await Yukki.stop_stream(chat_id)
+                        await Alina.stop_stream(chat_id)
                         await set_loop(chat_id, 0)
                         continue
                     autoend[chat_id] = datetime.now() + timedelta(seconds=30)
