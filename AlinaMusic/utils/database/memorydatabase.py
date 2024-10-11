@@ -17,7 +17,6 @@ from AlinaMusic.core.mongo import mongodb
 from config import CHANNEL as CHANNELOWNER
 from config import GROUP as GROUPOWNER
 
-
 channeldb = mongodb.cplaymode
 commanddb = mongodb.commands
 cleandb = mongodb.cleanmode
@@ -108,6 +107,7 @@ async def set_must(chat_id: str, m: str):
         ii = "on"
     must[chat_id] = ii
     mustdb.update_one({"chat_id": chat_id}, {"$set": {"getmust": ii}}, upsert=True)
+
 
 async def get_filters_count() -> dict:
     chats_count = 0
