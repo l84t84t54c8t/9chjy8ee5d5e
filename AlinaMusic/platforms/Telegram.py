@@ -16,10 +16,10 @@ from typing import Union
 
 import httpx
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Voice
+from YukkiMusic import app
 
 import config
 from config import lyrical
-from YukkiMusic import app
 
 from ..utils.formatters import convert_bytes, get_readable_time, seconds_to_min
 

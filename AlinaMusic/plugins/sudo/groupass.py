@@ -9,18 +9,17 @@
 #
 from pyrogram import filters
 from pyrogram.types import Message
-
-from config import BANNED_USERS, LOG_GROUP_ID
 from YukkiMusic import app, userbot
 from YukkiMusic.core.userbot import assistants
 from YukkiMusic.utils.database import (
     get_assistant,
+    get_client,
     save_assistant,
     set_assistant,
-    get_client,
 )
 from YukkiMusic.utils.decorators import AdminActual
-from YukkiMusic.core.userbot import assistants
+
+from config import BANNED_USERS, LOG_GROUP_ID
 
 
 async def get_assistant_details():

@@ -11,9 +11,6 @@
 
 from pyrogram import filters
 from pyrogram.types import InlineKeyboardMarkup, Message
-
-import config
-from config import BANNED_USERS
 from strings import get_command
 from YukkiMusic import YouTube, app
 from YukkiMusic.core.call import Yukki
@@ -23,6 +20,9 @@ from YukkiMusic.utils.decorators import AdminRightsCheck
 from YukkiMusic.utils.inline.play import stream_markup, telegram_markup
 from YukkiMusic.utils.stream.autoclear import auto_clean
 from YukkiMusic.utils.thumbnails import gen_thumb
+
+import config
+from config import BANNED_USERS
 
 # Commands
 SKIP_COMMAND = get_command("SKIP_COMMAND")

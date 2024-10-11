@@ -10,13 +10,13 @@
 
 from pyrogram import filters
 from pyrogram.types import Message
-
-import config
 from strings import get_command
 from YukkiMusic import app
 from YukkiMusic.misc import SUDOERS
 from YukkiMusic.utils.database import add_off, add_on
 from YukkiMusic.utils.decorators.language import language
+
+import config
 
 # Commands
 VIDEOMODE_COMMAND = get_command("VIDEOMODE_COMMAND")

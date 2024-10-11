@@ -9,11 +9,9 @@
 #
 
 import asyncio
-
-from pyrogram.enums import ChatType
 from datetime import datetime
 
-import config
+from pyrogram.enums import ChatType
 from YukkiMusic import app
 from YukkiMusic.core.call import Yukki
 from YukkiMusic.utils.database import (
@@ -23,6 +21,7 @@ from YukkiMusic.utils.database import (
     is_autoend,
 )
 
+import config
 
 autoend = {}
 
@@ -72,7 +71,7 @@ async def auto_end():
     while True:
         await asyncio.sleep(30)
         if not await is_autoend():
-            continue 
+            continue
         for chat_id, timer in list(autoend.items()):
             if datetime.now() > timer:
                 if not await is_active_chat(chat_id):
@@ -81,7 +80,7 @@ async def auto_end():
 
                 userbot = await get_assistant(chat_id)
                 members = []
-         
+
                 try:
                     async for member in userbot.get_call_members(chat_id):
                         if member is None:

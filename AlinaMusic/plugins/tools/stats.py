@@ -18,9 +18,6 @@ from pyrogram import filters
 from pyrogram.errors import FloodWait, MessageIdInvalid
 from pyrogram.types import CallbackQuery, InputMediaPhoto, Message
 from pytgcalls.__version__ import __version__ as pytgver
-
-import config
-from config import BANNED_USERS
 from strings import get_command
 from YukkiMusic import YouTube, app
 from YukkiMusic.core.userbot import assistants
@@ -45,6 +42,9 @@ from YukkiMusic.utils.inline.stats import (
     stats_buttons,
     top_ten_stats_markup,
 )
+
+import config
+from config import BANNED_USERS
 
 loop = asyncio.get_running_loop()
 

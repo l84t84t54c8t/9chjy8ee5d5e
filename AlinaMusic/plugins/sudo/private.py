@@ -10,8 +10,6 @@
 
 from pyrogram import filters
 from pyrogram.types import Message
-
-import config
 from strings import get_command
 from YukkiMusic import app
 from YukkiMusic.misc import SUDOERS
@@ -22,6 +20,8 @@ from YukkiMusic.utils.database import (
     remove_private_chat,
 )
 from YukkiMusic.utils.decorators.language import language
+
+import config
 
 AUTHORIZE_COMMAND = get_command("AUTHORIZE_COMMAND")
 UNAUTHORIZE_COMMAND = get_command("UNAUTHORIZE_COMMAND")

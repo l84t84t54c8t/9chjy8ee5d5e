@@ -23,7 +23,6 @@ from pytgcalls.types import (
     StreamVideoEnded,
     Update,
 )
-import config
 from strings import get_string
 from YukkiMusic import LOGGER, YouTube, app, userbot
 from YukkiMusic.misc import db
@@ -44,6 +43,8 @@ from YukkiMusic.utils.exceptions import AssistantErr
 from YukkiMusic.utils.inline.play import stream_markup, telegram_markup
 from YukkiMusic.utils.stream.autoclear import auto_clean
 from YukkiMusic.utils.thumbnails import gen_thumb
+
+import config
 
 
 async def _clear_(chat_id):

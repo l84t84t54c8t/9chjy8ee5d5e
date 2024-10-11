@@ -16,8 +16,6 @@ from pyrogram.types import (
     InlineKeyboardMarkup,
     Message,
 )
-
-from config import BANNED_USERS, CLEANMODE_DELETE_MINS, OWNER_ID
 from strings import get_command
 from YukkiMusic import app
 from YukkiMusic.utils.database import (
@@ -52,6 +50,8 @@ from YukkiMusic.utils.inline.settings import (
     video_quality_markup,
 )
 from YukkiMusic.utils.inline.start import private_panel
+
+from config import BANNED_USERS, CLEANMODE_DELETE_MINS, OWNER_ID
 
 ### Command
 SETTINGS_COMMAND = get_command("SETTINGS_COMMAND")

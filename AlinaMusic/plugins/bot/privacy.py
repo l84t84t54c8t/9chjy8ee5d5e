@@ -1,11 +1,10 @@
 from pyrogram import filters
 from pyrogram.enums import ParseMode
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
+from strings import get_command
+from YukkiMusic import app
 
 import config
-from strings import get_command
-
-from YukkiMusic import app
 
 PRIVACY_COMMAND = get_command("PRIVACY_COMMAND")
 

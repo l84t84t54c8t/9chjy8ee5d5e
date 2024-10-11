@@ -18,8 +18,6 @@ from pyrogram.errors import (
     UserNotParticipant,
 )
 from pyrogram.types import InlineKeyboardMarkup
-
-from config import BANNED_USERS
 from YukkiMusic import app
 from YukkiMusic.utils.database import (
     get_assistant,
@@ -34,6 +32,8 @@ from YukkiMusic.utils.inline.playlist import (
     top_play_markup,
 )
 from YukkiMusic.utils.stream.stream import stream
+
+from config import BANNED_USERS
 
 loop = asyncio.get_running_loop()
 

@@ -12,8 +12,9 @@ import json
 import os
 from typing import Dict, List, Union
 
-import config
 from YukkiMusic.core.mongo import mongodb
+
+import config
 
 channeldb = mongodb.cplaymode
 commanddb = mongodb.commands

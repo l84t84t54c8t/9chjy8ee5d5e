@@ -21,8 +21,6 @@ import urllib3
 from git import Repo
 from git.exc import GitCommandError, InvalidGitRepositoryError
 from pyrogram import filters
-
-import config
 from strings import get_command
 from YukkiMusic import app
 from YukkiMusic.misc import HAPP, SUDOERS, XCB
@@ -33,6 +31,8 @@ from YukkiMusic.utils.database import (
 )
 from YukkiMusic.utils.decorators.language import language
 from YukkiMusic.utils.pastebin import Yukkibin
+
+import config
 
 # Commands
 GETLOG_COMMAND = get_command("GETLOG_COMMAND")
