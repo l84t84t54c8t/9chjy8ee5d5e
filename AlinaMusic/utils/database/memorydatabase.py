@@ -12,9 +12,8 @@ import json
 import os
 from typing import Dict, List, Union
 
-from AlinaMusic.core.mongo import mongodb
-
 import config
+from AlinaMusic.core.mongo import mongodb
 
 channeldb = mongodb.cplaymode
 commanddb = mongodb.commands
