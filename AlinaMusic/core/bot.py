@@ -21,18 +21,19 @@ from pyrogram.types import (
     BotCommandScopeAllChatAdministrators,
     BotCommandScopeAllGroupChats,
     BotCommandScopeAllPrivateChats,
+    InlineKeyboardButton,
+    InlineKeyboardMarkup,
 )
-
 import config
 
 from ..logging import LOGGER
 
 
-class YukkiBot(Client):
+class AlinaBot(Client):
     def __init__(self):
         LOGGER(__name__).info(f"Starting Bot")
         super().__init__(
-            "YukkiMusic",
+            "AlinaMusic",
             api_id=config.API_ID,
             api_hash=config.API_HASH,
             bot_token=config.BOT_TOKEN,
@@ -47,10 +48,23 @@ class YukkiBot(Client):
         self.name = self.me.first_name + " " + (self.me.last_name or "")
         self.mention = self.me.mention
 
+        # Create the button
+        button = InlineKeyboardMarkup(
+            [
+                [
+                    InlineKeyboardButton(
+                        text="๏ ᴀᴅᴅ ᴍᴇ ɪɴ ɢʀᴏᴜᴘ ๏",
+                        url=f"https://t.me/{self.username}?startgroup=true",
+                    )
+                ]
+            ]
+        )
+
         try:
             await self.send_message(
                 config.LOG_GROUP_ID,
-                text=f"<u><b>{self.mention} ʙᴏᴛ sᴛᴀʀᴛᴇᴅ :</b><u>\n\nɪᴅ : <code>{self.id}</code>\nɴᴀᴍᴇ : {self.name}\nᴜsᴇʀɴᴀᴍᴇ : @{self.username}",
+                text="╔═══❰𝐖𝐄𝐋𝐂𝐎𝐌𝐄❱═══❍⊱❁۪۪\n║\n║┣⪼🥀𝐁𝐨𝐭 𝐒𝐭𝐚𝐫𝐭𝐞𝐝 𝐁𝐚𝐛𝐲🎉\n║\n║◈ {self.mention}\n║\n║┣⪼🎈𝐈𝐃:- `{self.id}` \n║\n║┣⪼🎄@{self.username} \n║ \n║┣⪼💖𝐓𝐡𝐚𝐧𝐤𝐬 𝐅𝐨𝐫 𝐔𝐬𝐢𝐧𝐠😍\n║\n╚══════════════❍⊱❁",
+                reply_markup=button,
             )
         except:
             LOGGER(__name__).error(
@@ -62,34 +76,114 @@ class YukkiBot(Client):
 
                 await self.set_bot_commands(
                     commands=[
-                        BotCommand("start", "sᴛᴀʀᴛ ᴛʜᴇ ʙᴏᴛ"),
-                        BotCommand("help", "ɢᴇᴛ ᴛʜᴇ ʜᴇʟᴘ ᴍᴇɴᴜ"),
-                        BotCommand("ping", "ᴄʜᴇᴄᴋ ʙᴏᴛ ɪs ᴀʟɪᴠᴇ ᴏʀ ᴅᴇᴀᴅ"),
+                        BotCommand("start", "• دەستپێکردنی بۆت"),
+                        BotCommand("help", "• فەرمان و ڕوونکردنەوە"),
+                        BotCommand("ping", "• پشکنینی بۆت"),
                     ],
                     scope=BotCommandScopeAllPrivateChats(),
                 )
                 await self.set_bot_commands(
                     commands=[
-                        BotCommand("play", "sᴛᴀʀᴛ ᴘʟᴀʏɪɴɢ ʀᴇǫᴜᴇᴛᴇᴅ sᴏɴɢ"),
+                        BotCommand("start", "• دەستپێکردنی بۆت"),
+                        BotCommand("help", "• فەرمان و ڕوونکردنەوە"),
+                        BotCommand("ping", "• پشکنینی بۆت"),
+                        BotCommand("play", "• پەخشکردنی گۆرانی داواکراو"),
+                        BotCommand("vplay", "• پەخشکردنی ڤیدیۆی داواکراو"),
+                        BotCommand("stop", "• وەستاندنی پەخشکردن"),
+                        BotCommand("pause", "• وەستاندنی پەخشکردن بۆ ماوەیەکی کاتی"),
+                        BotCommand("resume", "• دەستپێکردنەوەی پەخشکردن"),
+                        BotCommand("queue", "• پشکنین بۆ گۆرانی ڕیزکراو"),
+                        BotCommand(
+                            "skip", "• تێپەڕاندنی گۆرانی-پەخشکردن بۆ گۆرانی دواتر"
+                        ),
+                        BotCommand("reload", "• ڕیلۆدکردنی بۆت"),
+                        BotCommand("end", "• وەستاندنی پەخشکردن"),
+                        BotCommand("song", "• داگرتنی گۆرانی"),
+                        BotCommand("video", "• داگرتنی ڤیدیۆ"),
+                        BotCommand("couples", "• دیاری کردن کەپڵ تەنیا بۆخۆشی"),
+                        BotCommand("cute", "• دیاری کردنی ڕێژەی قشتیت تەنیا یارییە"),
+                        BotCommand(
+                            "love", "• دیاری کردنی ڕێژەی خۆشەویستی نێوان دوو کەس"
+                        ),
+                        BotCommand("sudolist", "• لیستی گەشەپێدەرانی بۆت"),
+                        BotCommand("dev", "• خاوەنی بۆت"),
+                        BotCommand("staff", "• پیشاندانی ستافی ئەدمینەکان"),
+                        BotCommand("bots", "• پیشاندانی بۆتەکانی گرووپ"),
+                        BotCommand("botcheck", "• پشکنینی بۆتەکانی تێلەگرام"),
+                        BotCommand("gdata", "• زانیاری گرووپەکان"),
+                        BotCommand("stats", "• ئاماری بۆتی ئەلینا"),
+                        BotCommand("admin", "• بانگکردنی ئەدمینەکانی گرووپ"),
+                        BotCommand("gpt", "• چات جیپیتی"),
+                        BotCommand("gemini", "• زیرەکی دەستکردی گوگڵ"),
+                        BotCommand("tr", "• وەرگێڕانی دەق بۆ هەر زمانێك"),
+                        BotCommand("lyrics", "• هێنانی ژێرنووسی گۆرانی"),
                     ],
                     scope=BotCommandScopeAllGroupChats(),
                 )
                 await self.set_bot_commands(
                     commands=[
-                        BotCommand("play", "sᴛᴀʀᴛ ᴘʟᴀʏɪɴɢ ʀᴇǫᴜᴇᴛᴇᴅ sᴏɴɢ"),
-                        BotCommand("skip", "ᴍᴏᴠᴇ ᴛᴏ ɴᴇxᴛ ᴛʀᴀᴄᴋ ɪɴ ǫᴜᴇᴜᴇ"),
-                        BotCommand("pause", "ᴘʟᴀᴜsᴇ ᴛʜᴇ ᴄᴜʀʀᴇɴᴛ ᴘʟᴀʏɪɴɢ sᴏɴɢ"),
-                        BotCommand("resume", "ʀᴇsᴜᴍᴇ ᴛʜᴇ ᴘᴀᴜsᴇᴅ sᴏɴɢ"),
-                        BotCommand("end", "ᴄʟᴇᴀʀ ᴛʜᴇ ǫᴜᴇᴜᴇ ᴀᴍᴅ ʟᴇᴀᴠᴇ ᴠᴏɪᴄᴇᴄʜᴀᴛ"),
-                        BotCommand("shuffle", "Rᴀɴᴅᴏᴍʟʏ sʜᴜғғʟᴇs ᴛʜᴇ ǫᴜᴇᴜᴇᴅ ᴘʟᴀʏʟɪsᴛ."),
+                        BotCommand("start", "• دەستپێکردنی بۆت"),
+                        BotCommand("ping", "• پشکنینی بۆت"),
+                        BotCommand("help", "• فەرمانەکان"),
+                        BotCommand("all", "• تاگکردنی ئەندامەکان بە دەق"),
+                        BotCommand("cancel", "• وەستاندنی تاگکردن"),
+                        BotCommand("settings", "• ڕێکخستی بۆت"),
+                        BotCommand("reload", "• ڕیلۆدکردنی بۆت"),
+                        BotCommand("play", "• پەخشکردنی گۆرانی داواکراو"),
+                        BotCommand("vplay", "• پەخشکردنی ڤیدیۆی داواکاراو"),
+                        BotCommand("pause", "• وەستاندنی پەخشکردن بۆ ماوەیەکی کاتی"),
+                        BotCommand("resume", "• دەستپێکردنەوەی پەخشکردن"),
+                        BotCommand("queue", "• پشکنین بۆ گۆرانی ڕیزکراو"),
                         BotCommand(
-                            "playmode",
-                            "Aʟʟᴏᴡs ʏᴏᴜ ᴛᴏ ᴄʜᴀɴɢᴇ ᴛʜᴇ ᴅᴇғᴀᴜʟᴛ ᴘʟᴀʏᴍᴏᴅᴇ ғᴏʀ ʏᴏᴜʀ ᴄʜᴀᴛ",
+                            "skip", "• تێپەڕاندنی گۆرانی-پەخشکردن بۆ گۆرانی دواتر"
+                        ),
+                        BotCommand("end", "• وەستاندنی پەخشکردن"),
+                        BotCommand("playlist", "• لیستی گۆرانی-پەخشکراو"),
+                        BotCommand("stop", "• وەستاندنی پەخشکردن"),
+                        BotCommand("lyrics", "• هێنانی دەقی گۆرانی"),
+                        BotCommand("song", "• داگرتنی گۆرانی"),
+                        BotCommand("video", "• داگرتنی ڤیدیۆ"),
+                        BotCommand("couples", "• دیاری کردن کەپڵ تەنیا بۆخۆشی"),
+                        BotCommand("cute", "• دیاری کردنی ڕێژەی قشتیت تەنیا یارییە"),
+                        BotCommand(
+                            "love", "• دیاری کردنی ڕێژەی خۆشەویستی نێوان دوو کەس"
+                        ),
+                        BotCommand("sudolist", "• لیستی گەشەپێدەرانی بۆت"),
+                        BotCommand("dev", "• خاوەنی بۆت"),
+                        BotCommand("filter", "• زیادکردنی چات"),
+                        BotCommand("lang", "• گۆڕینی زمانی بۆت"),
+                        BotCommand("welcome", "• دانانی بەخێرهاتن"),
+                        BotCommand("staff", "• پیشاندانی ستافی ئەدمینەکان"),
+                        BotCommand("bots", "• پیشاندانی بۆتەکانی گرووپ"),
+                        BotCommand("botcheck", "• پشکنینی بۆتەکانی تێلەگرام"),
+                        BotCommand("gdata", "• زانیاری گرووپەکان"),
+                        BotCommand("stats", "• ئاماری بۆتی ئەلینا"),
+                        BotCommand(
+                            "story", "• بۆ داخستن و کردنەوەی ناردنی ستۆری لە گرووپ"
                         ),
                         BotCommand(
-                            "settings",
-                            "Oᴘᴇɴ ᴛʜᴇ sᴇᴛᴛɪɴɢs ᴏғ ᴛʜᴇ ᴍᴜsɪᴄ ʙᴏᴛ ғᴏʀ ʏᴏᴜʀ ᴄʜᴀᴛ.",
+                            "forward", "• بۆ داخستن و کردنەوەی ناردنی ڕێکڵام لە گرووپ"
                         ),
+                        BotCommand("admin", "• بانگکردنی ئەدمینەکانی گرووپ"),
+                        BotCommand("gpt", "• چات جیپیتی"),
+                        BotCommand("gemini", "• زیرەکی دەستکردی گوگڵ"),
+                        BotCommand("tr", "• وەرگێڕانی دەق بۆ هەر زمانێك"),
+                        BotCommand("ban", "• دەرکردنی-باندکردنی کەسێك"),
+                        BotCommand("unban", "• لادانی باند-دەرکردنی لەسەر کەسێك"),
+                        BotCommand("mute", "• کپکردنی-ئاگاداری کەسێك"),
+                        BotCommand("unmute", "• لادانی ئاگاداری-کپکردن"),
+                        BotCommand("warn", "• ئاگادارکردنەوەی کەسێک"),
+                        BotCommand("promote", "• زیادکردنی ئەدمین"),
+                        BotCommand("demote", "• لادانی ئەدمین"),
+                        BotCommand("unbanall", "• لادانی هەموو باندکراوەکانی گرووپ"),
+                        BotCommand(
+                            "unmuteall", "• لادانی هەموو بەکارهێنەرە کپکراوەکان"
+                        ),
+                        BotCommand("purge", "• سڕینەوەی چاتی گرووپ بە ڕیپلەی"),
+                        BotCommand("open", "• کردنەوەی تێلی گرووپ"),
+                        BotCommand("close", "• داخستنی تێلی گرووپ"),
+                        BotCommand("playmode", "• گۆڕینی پەخشکردن"),
+                        BotCommand("quran", "• پەخشکردنی قورئانی پیرۆز"),
                     ],
                     scope=BotCommandScopeAllChatAdministrators(),
                 )
