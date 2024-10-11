@@ -40,6 +40,7 @@ from AlinaMusic.utils.stream.autoclear import auto_clean
 from AlinaMusic.utils.thumbnails import gen_thumb
 from config import (
     BANNED_USERS,
+    SUPPORT_GROUP,
     SOUNCLOUD_IMG_URL,
     STREAM_IMG_URL,
     TELEGRAM_AUDIO_URL,
@@ -282,7 +283,7 @@ async def del_back_playlist(client, CallbackQuery, _):
         )
     elif command == "Stop" or command == "End":
         await CallbackQuery.answer()
-        await Alina.st_stream(chat_id)
+        await Alina.stop_stream(chat_id)
         await set_loop(chat_id, 0)
         await CallbackQuery.message.reply_text(
             _["admin_9"].format(mention), reply_markup=close_markup(_)
@@ -309,7 +310,7 @@ async def del_back_playlist(client, CallbackQuery, _):
     elif command == "Shuffle":
         check = db.get(chat_id)
         if not check:
-            return await CallbackQuery.answer(_["admin_22"], show_alert=True)
+            return await CallbackQuery.answer(_["admin_21"], show_alert=True)
         try:
             popped = check.pop(0)
         except:
@@ -342,7 +343,7 @@ async def del_back_playlist(client, CallbackQuery, _):
                         reply_markup=close_markup(_),
                     )
                     try:
-                        return await Alina.st_stream(chat_id)
+                        return await Alina.stop_stream(chat_id)
                     except:
                         return
             except:
@@ -380,7 +381,7 @@ async def del_back_playlist(client, CallbackQuery, _):
             n, link = await YouTube.video(videoid, True)
             if n == 0:
                 return await CallbackQuery.message.reply_text(
-                    text=_["admin_7"].format(title),
+                    text=_["admin_11"].format(title),
                     reply_markup=close_markup(_),
                 )
             try:
@@ -390,8 +391,8 @@ async def del_back_playlist(client, CallbackQuery, _):
             try:
                 await Alina.skip_stream(chat_id, link, video=status, image=image)
             except:
-                return await CallbackQuery.message.reply_text(_["call_6"])
-            button = stream_markup2(_, chat_id)
+                return await CallbackQuery.message.reply_text(_["call_7"])
+            button = telegram_markup(_, chat_id)
             img = await gen_thumb(videoid)
             run = await CallbackQuery.message.reply_photo(
                 photo=img,
@@ -408,7 +409,7 @@ async def del_back_playlist(client, CallbackQuery, _):
             await CallbackQuery.edit_message_text(txt, reply_markup=close_markup(_))
         elif "vid_" in queued:
             mystic = await CallbackQuery.message.reply_text(
-                _["call_7"], disable_web_page_preview=True
+                _["call_8"], disable_web_page_preview=True
             )
             try:
                 file_path, direct = await YouTube.download(
@@ -418,15 +419,15 @@ async def del_back_playlist(client, CallbackQuery, _):
                     video=status,
                 )
             except:
-                return await mystic.edit_text(_["call_6"])
+                return await mystic.edit_text(_["call_7"])
             try:
                 image = await YouTube.thumbnail(videoid, True)
             except:
                 image = None
             try:
                 await Alina.skip_stream(chat_id, file_path, video=status, image=image)
-            except:
-                return await mystic.edit_text(_["call_6"])
+            except Exception:
+                return await mystic.edit_text(_["call_7"])
             button = stream_markup(_, videoid, chat_id)
             img = await gen_thumb(videoid)
             run = await CallbackQuery.message.reply_photo(
@@ -446,9 +447,9 @@ async def del_back_playlist(client, CallbackQuery, _):
         elif "index_" in queued:
             try:
                 await Alina.skip_stream(chat_id, videoid, video=status)
-            except:
-                return await CallbackQuery.message.reply_text(_["call_6"])
-            button = stream_markup2(_, chat_id)
+            except Exception:
+                return await CallbackQuery.message.reply_text(_["call_7"])
+            button = telegram_markup(_, chat_id)
             run = await CallbackQuery.message.reply_photo(
                 photo=STREAM_IMG_URL,
                 caption=_["stream_2"].format(user),
@@ -469,10 +470,10 @@ async def del_back_playlist(client, CallbackQuery, _):
                     image = None
             try:
                 await Alina.skip_stream(chat_id, queued, video=status, image=image)
-            except:
-                return await CallbackQuery.message.reply_text(_["call_6"])
+            except Exception:
+                return await CallbackQuery.message.reply_text(_["call_7"])
             if videoid == "telegram":
-                button = stream_markup2(_, chat_id)
+                button = telegram_markup(_, chat_id)
                 run = await CallbackQuery.message.reply_photo(
                     photo=(
                         TELEGRAM_AUDIO_URL
@@ -480,14 +481,14 @@ async def del_back_playlist(client, CallbackQuery, _):
                         else TELEGRAM_VIDEO_URL
                     ),
                     caption=_["stream_1"].format(
-                        config.SUPPORT_CHAT, title[:23], duration, user
+                        SUPPORT_GROUP, title[:23], duration, user
                     ),
                     reply_markup=InlineKeyboardMarkup(button),
                 )
                 db[chat_id][0]["mystic"] = run
                 db[chat_id][0]["markup"] = "tg"
             elif videoid == "soundcloud":
-                button = stream_markup2(_, chat_id)
+                button = telegram_markup(_, chat_id)
                 run = await CallbackQuery.message.reply_photo(
                     photo=(
                         SOUNCLOUD_IMG_URL
@@ -495,7 +496,7 @@ async def del_back_playlist(client, CallbackQuery, _):
                         else TELEGRAM_VIDEO_URL
                     ),
                     caption=_["stream_1"].format(
-                        config.SUPPORT_CHAT, title[:23], duration, user
+                        SUPPORT_GROUP, title[:23], duration, user
                     ),
                     reply_markup=InlineKeyboardMarkup(button),
                 )
