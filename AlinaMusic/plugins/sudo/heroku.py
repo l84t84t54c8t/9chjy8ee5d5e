@@ -22,8 +22,6 @@ from git import Repo
 from git.exc import GitCommandError, InvalidGitRepositoryError
 from pyrogram import filters
 from strings import get_command
-
-import config
 from AlinaMusic import app
 from AlinaMusic.misc import HAPP, SUDOERS, XCB
 from AlinaMusic.utils.database import (
@@ -33,6 +31,8 @@ from AlinaMusic.utils.database import (
 )
 from AlinaMusic.utils.decorators.language import language
 from AlinaMusic.utils.pastebin import Alinabin
+
+import config
 
 # Commands
 GETLOG_COMMAND = get_command("GETLOG_COMMAND")
@@ -62,7 +62,7 @@ async def log_(client, message, _):
             if HAPP is None:
                 return await message.reply_text(_["heroku_1"])
             data = HAPP.get_log()
-            link = await Yukkibin(data)
+            link = await Alinabin(data)
             return await message.reply_text(link)
         else:
             if os.path.exists(config.LOG_FILE_NAME):
@@ -137,7 +137,7 @@ async def vardel_(client, message, _):
             return await message.reply_text(_["heroku_4"])
         else:
             await message.reply_text(_["heroku_7"].format(check_var))
-            os.system(f"kill -9 {os.getpid()} && python3 -m YukkiMusic")
+            os.system(f"kill -9 {os.getpid()} && python3 -m AlinaMusic")
 
 
 @app.on_message(filters.command(SETVAR_COMMAND) & SUDOERS)
@@ -166,7 +166,7 @@ async def set_var(client, message, _):
             await message.reply_text(_["heroku_9"].format(to_set))
         else:
             await message.reply_text(_["heroku_10"].format(to_set))
-        os.system(f"kill -9 {os.getpid()} && python3 -m YukkiMusic")
+        os.system(f"kill -9 {os.getpid()} && python3 -m AlinaMusic")
 
 
 @app.on_message(filters.command(USAGE_COMMAND) & SUDOERS)
@@ -247,22 +247,22 @@ async def update_(client, message, _):
     for checks in repo.iter_commits(f"HEAD..origin/{config.UPSTREAM_BRANCH}"):
         verification = str(checks.count())
     if verification == "":
-        return await response.edit("» ʙᴏᴛ ɪs ᴜᴘ-ᴛᴏ-ᴅᴀᴛᴇ.")
+        return await response.edit("<b>⇜ بۆت نوێ کراوەتەوە ئەزیزم ⎋</b>")
     ordinal = lambda format: "%d%s" % (
         format,
         "tsnrhtdd"[(format // 10 % 10 != 1) * (format % 10 < 4) * format % 10 :: 4],
     )
     updates = "".join(
-        f"<b>➣ #{info.count()}: <a href={REPO_}/commit/{info}>{info.summary}</a> ʙʏ -> {info.author}</b>\n\t\t\t\t<b>➥ ᴄᴏᴍᴍɪᴛᴇᴅ ᴏɴ :</b> {ordinal(int(datetime.fromtimestamp(info.committed_date).strftime('%d')))} {datetime.fromtimestamp(info.committed_date).strftime('%b')}, {datetime.fromtimestamp(info.committed_date).strftime('%Y')}\n\n"
+        f"<b>➣ #{info.count()}: <a href={REPO_}/commit/{info}>{info.summary}</a> لەلایەن -> @IQ7amo</b>\n\t\t\t\t<b>➥ لە بەرواری :</b> {ordinal(int(datetime.fromtimestamp(info.committed_date).strftime('%d')))} {datetime.fromtimestamp(info.committed_date).strftime('%b')}, {datetime.fromtimestamp(info.committed_date).strftime('%Y')}\n\n"
         for info in repo.iter_commits(f"HEAD..origin/{config.UPSTREAM_BRANCH}")
     )
-    _update_response_ = "**ᴀ ɴᴇᴡ ᴜᴩᴅᴀᴛᴇ ɪs ᴀᴠᴀɪʟᴀʙʟᴇ ғᴏʀ ᴛʜᴇ ʙᴏᴛ !**\n\n➣ ᴩᴜsʜɪɴɢ ᴜᴩᴅᴀᴛᴇs ɴᴏᴡ\n\n__**ᴜᴩᴅᴀᴛᴇs:**__\n"
+    _update_response_ = "<b>⇜ نوێترین گۆڕانکاری لە فایلەکانی بۆت !\n\n➣ دەستی کرد بە نوێکردنەوە\n\nنوێکارییەکان:</b>\n\n"
     _final_updates_ = f"{_update_response_} {updates}"
 
     if len(_final_updates_) > 4096:
         url = await Yukkibin(updates)
         nrs = await response.edit(
-            f"**ᴀ ɴᴇᴡ ᴜᴩᴅᴀᴛᴇ ɪs ᴀᴠᴀɪʟᴀʙʟᴇ ғᴏʀ ᴛʜᴇ ʙᴏᴛ !**\n\n➣ ᴩᴜsʜɪɴɢ ᴜᴩᴅᴀᴛᴇs ɴᴏᴡ\n\n__**ᴜᴩᴅᴀᴛᴇs :**__\n\n[ᴄʜᴇᴄᴋ ᴜᴩᴅᴀᴛᴇs]({url})",
+            f"<b>⇜ نوێترین گۆڕانکاری لە فایلەکانی بۆت !\n\n➣ دەستی کرد بە نوێکردنەوە\n\nنوێکارییەکان :\n\n[ᴄʜᴇᴄᴋ ᴜᴩᴅᴀᴛᴇs]({url}) </b>",
             disable_web_page_preview=True,
         )
     else:
@@ -275,7 +275,7 @@ async def update_(client, message, _):
             try:
                 await app.send_message(
                     chat_id=int(x),
-                    text="{0} ɪs ᴜᴘᴅᴀᴛᴇᴅ ʜᴇʀsᴇʟғ\n\nʏᴏᴜ ᴄᴀɴ sᴛᴀʀᴛ ᴩʟᴀʏɪɴɢ ᴀɢᴀɪɴ ᴀғᴛᴇʀ 15-20 sᴇᴄᴏɴᴅs.".format(
+                    text="**نوێ دەکرێتەوە {0}\n\nدەتوانی دوای 2 بۆ 4 خولەك گۆرانی لێبدەیتەوە**".format(
                         app.mention
                     ),
                 )
@@ -285,7 +285,7 @@ async def update_(client, message, _):
                 pass
         await response.edit(
             _final_updates_
-            + f"» ʙᴏᴛ ᴜᴩᴅᴀᴛᴇᴅ sᴜᴄᴄᴇssғᴜʟʟʏ ! ɴᴏᴡ ᴡᴀɪᴛ ғᴏʀ ғᴇᴡ ᴍɪɴᴜᴛᴇs ᴜɴᴛɪʟ ᴛʜᴇ ʙᴏᴛ ʀᴇsᴛᴀʀᴛs",
+            + f"<b>⇜ بۆت بە سەرکەوتوویی نوێ دەکرێتەوە\nئێستا چاوەڕێ بکە تاوەکو نوێ دەبێتەوە ⎋</b>",
             disable_web_page_preview=True,
         )
     except:
@@ -309,19 +309,19 @@ async def update_(client, message, _):
             )
     else:
         os.system("pip3 install --no-cache-dir -U -r requirements.txt")
-        os.system(f"kill -9 {os.getpid()} && python3 -m YukkiMusic")
+        os.system(f"kill -9 {os.getpid()} && python3 -m AlinaMusic")
         exit()
 
 
 @app.on_message(filters.command(RESTART_COMMAND) & SUDOERS)
 async def restart_(_, message):
-    response = await message.reply_text("ʀᴇsᴛᴀʀᴛɪɴɢ...")
+    response = await message.reply_text("**دووبارە دەستپێدەکاتەوە . . .**")
     ac_chats = await get_active_chats()
     for x in ac_chats:
         try:
             await app.send_message(
                 chat_id=int(x),
-                text=f"{app.mention} ɪs ʀᴇsᴛᴀʀᴛɪɴɢ...\n\nʏᴏᴜ ᴄᴀɴ sᴛᴀʀᴛ ᴩʟᴀʏɪɴɢ ᴀɢᴀɪɴ ᴀғᴛᴇʀ 15-20 sᴇᴄᴏɴᴅs.",
+                text=f"**نوێ دەکرێتەوە {app.mention}\n\nدەتوانی دوای 15 بۆ 20 گۆرانی لێبدەیتەوە**",
             )
             await remove_active_chat(x)
             await remove_active_video_chat(x)
@@ -335,6 +335,6 @@ async def restart_(_, message):
     except:
         pass
     await response.edit_text(
-        "» ʀᴇsᴛᴀʀᴛ ᴘʀᴏᴄᴇss sᴛᴀʀᴛᴇᴅ, ᴘʟᴇᴀsᴇ ᴡᴀɪᴛ ғᴏʀ ғᴇᴡ sᴇᴄᴏɴᴅs ᴜɴᴛɪʟ ᴛʜᴇ ʙᴏᴛ sᴛᴀʀᴛs..."
+        "**» پڕۆسەی دووبارە دەستپێکردنەوە دەستی پێکرد, کەمێك چاوەڕێ بکە تاوەکو بۆت چالاك دەبێتەوە**"
     )
-    os.system(f"kill -9 {os.getpid()} && python3 -m YukkiMusic")
+    os.system(f"kill -9 {os.getpid()} && python3 -m AlinaMusic")
