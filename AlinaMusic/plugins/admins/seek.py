@@ -9,10 +9,10 @@
 #
 from pyrogram import filters
 from pyrogram.types import Message
-from YukkiMusic import YouTube, app
-from YukkiMusic.core.call import Yukki
-from YukkiMusic.misc import db
-from YukkiMusic.utils import AdminRightsCheck, seconds_to_min
+from AlinaMusic import YouTube, app
+from AlinaMusic.core.call import Alina
+from AlinaMusic.misc import db
+from AlinaMusic.utils import AdminRightsCheck, seconds_to_min
 
 from config import BANNED_USERS
 from strings import get_command
@@ -59,7 +59,7 @@ async def seek_comm(cli, message: Message, _, chat_id):
         if n == 0:
             return await message.reply_text(_["admin_30"])
     try:
-        await Yukki.seek_stream(
+        await Alina.seek_stream(
             chat_id,
             file_path,
             seconds_to_min(to_seek),
