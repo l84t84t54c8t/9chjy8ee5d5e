@@ -14,12 +14,12 @@ from pyrogram import filters
 from pyrogram.errors import FloodWait
 from pyrogram.types import CallbackQuery, InputMediaPhoto, Message
 from strings import get_command
-from YukkiMusic import app
-from YukkiMusic.misc import db
-from YukkiMusic.utils import Yukkibin, get_channeplayCB, seconds_to_min
-from YukkiMusic.utils.database import get_cmode, is_active_chat, is_music_playing
-from YukkiMusic.utils.decorators.language import language, languageCB
-from YukkiMusic.utils.inline import queue_back_markup, queue_markup
+from AlinaMusic import app
+from AlinaMusic.misc import db
+from AlinaMusic.utils import Alinabin, get_channeplayCB, seconds_to_min
+from AlinaMusic.utils.database import get_cmode, is_active_chat, is_music_playing
+from AlinaMusic.utils.decorators.language import language, languageCB
+from AlinaMusic.utils.inline import queue_back_markup, queue_markup
 
 import config
 from config import BANNED_USERS
@@ -208,7 +208,7 @@ async def queued_tracks(client, CallbackQuery: CallbackQuery, _):
         if "ǫᴜᴇᴜᴇᴅ" in msg:
             msg = msg.replace("ǫᴜᴇᴜᴇᴅ", "Queued")
 
-        link = await Yukkibin(msg)
+        link = await Alinabin(msg)
         await CallbackQuery.edit_message_text(
             _["queue_3"].format(link), reply_markup=buttons
         )
