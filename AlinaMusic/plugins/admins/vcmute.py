@@ -10,11 +10,11 @@
 
 from pyrogram import filters
 from pyrogram.types import Message
+
 from AlinaMusic import app
 from AlinaMusic.core.call import Alina
 from AlinaMusic.utils.database import is_muted, mute_off, mute_on
 from AlinaMusic.utils.decorators import AdminRightsCheck
-
 from config import BANNED_USERS
 
 
