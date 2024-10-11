@@ -19,11 +19,11 @@ from pyrogram.errors import FloodWait, MessageIdInvalid
 from pyrogram.types import CallbackQuery, InputMediaPhoto, Message
 from pytgcalls.__version__ import __version__ as pytgver
 from strings import get_command
-from YukkiMusic import YouTube, app
-from YukkiMusic.core.userbot import assistants
-from YukkiMusic.misc import SUDOERS, pymongodb
-from YukkiMusic.plugins import ALL_MODULES
-from YukkiMusic.utils.database import (
+from AlinaMusic import YouTube, app
+from AlinaMusic.core.userbot import assistants
+from AlinaMusic.misc import SUDOERS, pymongodb
+from AlinaMusic.plugins import ALL_MODULES
+from AlinaMusic.utils.database import (
     get_global_tops,
     get_particulars,
     get_queries,
@@ -33,8 +33,8 @@ from YukkiMusic.utils.database import (
     get_top_chats,
     get_topp_users,
 )
-from YukkiMusic.utils.decorators.language import language, languageCB
-from YukkiMusic.utils.inline.stats import (
+from AlinaMusic.utils.decorators.language import language, languageCB
+from AlinaMusic.utils.inline.stats import (
     back_stats_buttons,
     back_stats_markup,
     get_stats_markup,
