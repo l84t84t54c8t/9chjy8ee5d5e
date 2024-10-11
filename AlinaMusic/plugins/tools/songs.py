@@ -1,9 +1,9 @@
 #
-# Copyright (C) 2024 by TheTeamVivek@Github, < https://github.com/TheTeamVivek >.
+# Copyright (C) 2024 by THE-VIP-BOY-OP@Github, < https://github.com/THE-VIP-BOY-OP >.
 #
-# This file is part of < https://github.com/TheTeamVivek/YukkiMusic > project,
+# This file is part of < https://github.com/THE-VIP-BOY-OP/VIP-MUSIC > project,
 # and is released under the MIT License.
-# Please see < https://github.com/TheTeamVivek/YukkiMusic/blob/master/LICENSE >
+# Please see < https://github.com/THE-VIP-BOY-OP/VIP-MUSIC/blob/master/LICENSE >
 #
 # All rights reserved.
 #
@@ -21,13 +21,13 @@ from pyrogram.types import (
     InputMediaVideo,
     Message,
 )
-from strings import get_command
-from YukkiMusic import YouTube, app
-from YukkiMusic.utils.decorators.language import language, languageCB
-from YukkiMusic.utils.formatters import convert_bytes
-from YukkiMusic.utils.inline.song import song_markup
 
+from AlinaMusic import YouTube, app
+from AlinaMusic.utils.decorators.language import language, languageCB
+from AlinaMusic.utils.formatters import convert_bytes
+from AlinaMusic.utils.inline.song import song_markup
 from config import BANNED_USERS, SONG_DOWNLOAD_DURATION, SONG_DOWNLOAD_DURATION_LIMIT
+from strings import get_command
 
 # Command
 
