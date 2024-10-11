@@ -16,9 +16,9 @@ from typing import Union
 
 import httpx
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Voice
-from AlinaMusic import app
 
 import config
+from AlinaMusic import app
 from config import lyrical
 
 from ..utils.formatters import convert_bytes, get_readable_time, seconds_to_min
