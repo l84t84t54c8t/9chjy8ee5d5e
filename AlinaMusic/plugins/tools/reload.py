@@ -15,12 +15,12 @@ from pyrogram import filters
 from pyrogram.enums import ChatMembersFilter
 from pyrogram.types import CallbackQuery, Message
 from strings import get_command
-from YukkiMusic import app
-from YukkiMusic.core.call import Yukki
-from YukkiMusic.misc import db
-from YukkiMusic.utils.database import get_authuser_names, get_cmode
-from YukkiMusic.utils.decorators import ActualAdminCB, AdminActual, language
-from YukkiMusic.utils.formatters import alpha_to_int
+from AlinaMusic import app
+from AlinaMusic.core.call import Alina
+from AlinaMusic.misc import db
+from AlinaMusic.utils.database import get_authuser_names, get_cmode
+from AlinaMusic.utils.decorators import ActualAdminCB, AdminActual, language
+from AlinaMusic.utils.formatters import alpha_to_int
 
 from config import BANNED_USERS, adminlist, lyrical
 
@@ -59,7 +59,7 @@ async def restartbot(client, message: Message, _):
     await asyncio.sleep(1)
     try:
         db[message.chat.id] = []
-        await Yukki.stop_stream(message.chat.id)
+        await Alina.stop_stream(message.chat.id)
     except:
         pass
     chat_id = await get_cmode(message.chat.id)
@@ -70,7 +70,7 @@ async def restartbot(client, message: Message, _):
             pass
         try:
             db[chat_id] = []
-            await Yukki.stop_stream(chat_id)
+            await Alina.stop_stream(chat_id)
         except:
             pass
     return await mystic.edit_text("sᴜᴄᴇssғᴜʟʟʏ ʀᴇsᴛᴀʀᴛᴇᴅ. \nTʀʏ ᴘʟᴀʏɪɴɢ ɴᴏᴡ..")
