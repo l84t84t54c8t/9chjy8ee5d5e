@@ -11,15 +11,15 @@
 from pyrogram import filters
 from pyrogram.types import Message
 from strings import get_command
-from YukkiMusic import app
-from YukkiMusic.utils.database import (
+from AlinaMusic import app
+from AlinaMusic.utils.database import (
     delete_authuser,
     get_authuser,
     get_authuser_names,
     save_authuser,
 )
-from YukkiMusic.utils.decorators import AdminActual, language
-from YukkiMusic.utils.formatters import int_to_alpha
+from AlinaMusic.utils.decorators import AdminActual, language
+from AlinaMusic.utils.formatters import int_to_alpha
 
 from config import BANNED_USERS, adminlist
 
