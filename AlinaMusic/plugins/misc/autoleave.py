@@ -12,9 +12,9 @@ import asyncio
 from datetime import datetime
 
 from pyrogram.enums import ChatType
-from YukkiMusic import app
-from YukkiMusic.core.call import Yukki
-from YukkiMusic.utils.database import (
+from AlinaMusic import app
+from AlinaMusic.core.call import Alina
+from AlinaMusic.utils.database import (
     get_assistant,
     get_client,
     is_active_chat,
@@ -28,7 +28,7 @@ autoend = {}
 
 async def auto_leave():
     if config.AUTO_LEAVING_ASSISTANT == str(True):
-        from YukkiMusic.core.userbot import assistants
+        from AlinaMusic.core.userbot import assistants
 
         async def leave_inactive_chats(client):
             left = 0
@@ -43,8 +43,7 @@ async def auto_leave():
                         chat_id = i.chat.id
                         if chat_id not in [
                             config.LOG_GROUP_ID,
-                            -1002159045835,
-                            -1002146211959,
+                            -1001492553698,
                         ]:
                             if left == 20:
                                 break
@@ -88,20 +87,20 @@ async def auto_end():
                         members.append(member)
                 except ValueError:
                     try:
-                        await Yukki.stop_stream(chat_id)
+                        await Alina.stop_stream(chat_id)
                     except Exception:
                         pass
                     continue
                 if len(members) <= 1:
                     try:
-                        await Yukki.stop_stream(chat_id)
+                        await Alina.stop_stream(chat_id)
                     except Exception:
                         pass
 
                     try:
                         await app.send_message(
                             chat_id,
-                            "ʙᴏᴛ ᴀᴜᴛᴏᴍᴀᴛɪᴄᴀʟʟʏ ᴄʟᴇᴀʀᴇᴅ ᴛʜᴇ ǫᴜᴇᴜᴇ ᴀɴᴅ ʟᴇғᴛ ᴠɪᴅᴇᴏᴄʜᴀᴛ ʙᴇᴄᴀᴜsᴇ ɴᴏ ᴏɴᴇ ᴡᴀs ʟɪsᴛᴇɴɪɴɢ sᴏɴɢs ᴏɴ ᴠɪᴅᴇᴏᴄʜᴀᴛ.",
+                            "**- بۆت خۆکارانە ڕیزکراوەکەی سڕیەوە و لە تێل دەرچوو\n- لەبەر ئەوەی کەس لە تێل نەبوو.**",
                         )
                     except Exception:
                         pass
