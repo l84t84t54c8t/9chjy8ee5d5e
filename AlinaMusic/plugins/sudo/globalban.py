@@ -12,6 +12,7 @@ import asyncio
 from pyrogram import filters
 from pyrogram.errors import FloodWait
 from pyrogram.types import Message
+from strings import get_command
 
 from AlinaMusic import app
 from AlinaMusic.misc import SUDOERS
@@ -27,7 +28,6 @@ from AlinaMusic.utils.database import (
 from AlinaMusic.utils.decorators.language import language
 from AlinaMusic.utils.extraction import extract_user
 from config import BANNED_USERS
-from strings import get_command
 
 # Command
 GBAN_COMMAND = get_command("GBAN_COMMAND")
