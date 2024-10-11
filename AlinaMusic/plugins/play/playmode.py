@@ -11,10 +11,10 @@
 from pyrogram import filters
 from pyrogram.types import InlineKeyboardMarkup, Message
 from strings import get_command
-from YukkiMusic import app
-from YukkiMusic.utils.database import get_playmode, get_playtype, is_nonadmin_chat
-from YukkiMusic.utils.decorators import language
-from YukkiMusic.utils.inline.settings import playmode_users_markup
+from AlinaMusic import app
+from AlinaMusic.utils.database import get_playmode, get_playtype, is_nonadmin_chat
+from AlinaMusic.utils.decorators import language
+from AlinaMusic.utils.inline.settings import playmode_users_markup
 
 from config import BANNED_USERS
 
