@@ -2,7 +2,7 @@
 # Copyright (C) 2024 by TheTeamVivek@Github, < https://github.com/TheTeamVivek >.
 #
 # This file is part of < https://github.com/TheTeamVivek/YukkiMusic > project,
-# and is released under the MIT License.
+# and is released under the "GNU v3.0 License Agreement".
 # Please see < https://github.com/TheTeamVivek/YukkiMusic/blob/master/LICENSE >
 #
 # All rights reserved.
@@ -11,45 +11,61 @@ import asyncio
 import time
 
 from pyrogram import filters
-from pyrogram.enums import ChatType, ParseMode
+from pyrogram.enums import ParseMode
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
-from strings import get_command, get_string
 from youtubesearchpython.__future__ import VideosSearch
-from YukkiMusic import HELPABLE, Telegram, YouTube, app
-from YukkiMusic.misc import SUDOERS, _boot_
-from YukkiMusic.plugins.play.playlist import del_plist_msg
-from YukkiMusic.plugins.sudo.sudoers import sudoers_list
-from YukkiMusic.utils.database import (
+
+import config
+from AlinaMusic import HELPABLE, Telegram, YouTube, app
+from AlinaMusic.misc import SUDOERS, _boot_
+from AlinaMusic.plugins.play.playlist import del_plist_msg
+from AlinaMusic.plugins.sudo.sudoers import sudoers_list
+from AlinaMusic.utils.database import (
     add_served_chat,
     add_served_user,
-    blacklisted_chats,
     get_assistant,
     get_lang,
     get_userss,
+    is_banned_user,
     is_on_off,
     is_served_private_chat,
 )
-from YukkiMusic.utils.decorators.language import LanguageStart
-from YukkiMusic.utils.formatters import get_readable_time
-from YukkiMusic.utils.functions import MARKDOWN, WELCOMEHELP
-from YukkiMusic.utils.inline import alive_panel, private_panel, start_pannel
-
-import config
+from AlinaMusic.utils.decorators.language import LanguageStart
+from AlinaMusic.utils.formatters import get_readable_time
+from AlinaMusic.utils.functions import MARKDOWN, WELCOMEHELP
+from AlinaMusic.utils.inline import alive_panel, private_panel, start_pannel
 from config import BANNED_USERS, START_IMG_URL
-from config.config import OWNER_ID
+from strings import get_string
 
 from .help import paginate_modules
 
 loop = asyncio.get_running_loop()
 
-START_COMMAND = get_command("START_COMMAND")
+
+@app.on_message(group=-1)
+async def ban_new(client, message):
+    user_id = (
+        message.from_user.id if message.from_user and message.from_user.id else 777000
+    )
+    chat_name = message.chat.title if message.chat.title else ""
+
+    # Ensure user_id is a valid type (string or int)
+    if await is_banned_user(int(user_id)):  # Convert to int if necessary
+        try:
+            alert_message = "😳"
+            BAN = await message.chat.ban_member(user_id)
+            if BAN:
+                await message.reply_text(alert_message)
+        except Exception as e:
+            print(f"Failed to ban member: {e}")
 
 
-@app.on_message(filters.command(START_COMMAND) & filters.private & ~BANNED_USERS)
+@app.on_message(filters.command(["start"]) & filters.private & ~BANNED_USERS)
 @LanguageStart
 async def start_comm(client, message: Message, _):
     chat_id = message.chat.id
     await add_served_user(message.from_user.id)
+    await message.react("🕊️")
     if len(message.text.split()) > 1:
         name = message.text.split(None, 1)[1]
         if name[0:4] == "help":
@@ -83,7 +99,7 @@ async def start_comm(client, message: Message, _):
                 disable_web_page_preview=True,
             )
         if name[0:3] == "sta":
-            m = await message.reply_text("🔎 ғᴇᴛᴄʜɪɴɢ ʏᴏᴜʀ ᴘᴇʀsᴏɴᴀʟ sᴛᴀᴛs.!")
+            m = await message.reply_text("**🔎 گەڕان بۆ ئامار**")
             stats = await get_userss(message.from_user.id)
             tot = len(stats)
             if not stats:
@@ -137,12 +153,19 @@ async def start_comm(client, message: Message, _):
             await sudoers_list(client=client, message=message, _=_)
             await asyncio.sleep(1)
             if await is_on_off(config.LOG):
-                sender_id = message.from_user.id
-                sender_mention = message.from_user.mention
-                sender_name = message.from_user.first_name
                 return await app.send_message(
                     config.LOG_GROUP_ID,
-                    f"{message.from_user.mention} ʜᴀs ᴊᴜsᴛ sᴛᴀʀᴛᴇᴅ ʙᴏᴛ ᴛᴏ ᴄʜᴇᴄᴋ <code>sᴜᴅᴏʟɪsᴛ </code>\n\n**ᴜsᴇʀ ɪᴅ :** {sender_id}\n**ᴜsᴇʀ ɴᴀᴍᴇ:** {sender_name}",
+                    f"**🧑🏻‍💻┋ کەسێکی نوێ هاتە ناو بۆت پشکنینی گەشەپێدەران\n\n👤┋ ناوی : {message.from_user.mention}\n👾┋ یوزەری : @{message.from_user.username}\n🆔┋ ئایدی :** `{message.from_user.id}`",
+                    reply_markup=InlineKeyboardMarkup(
+                        [
+                            [
+                                InlineKeyboardButton(
+                                    message.from_user.first_name,
+                                    url=f"https://t.me/{message.from_user.username}",
+                                )
+                            ]
+                        ]
+                    ),
                 )
             return
         if name[0:3] == "lyr":
@@ -159,7 +182,7 @@ async def start_comm(client, message: Message, _):
             await del_plist_msg(client=client, message=message, _=_)
             await asyncio.sleep(1)
         if name[0:3] == "inf":
-            m = await message.reply_text("🔎 ғᴇᴛᴄʜɪɴɢ ɪɴғᴏ!")
+            m = await message.reply_text("**🔎 گەڕان بۆ زانیاری گۆرانی**")
             query = (str(name)).replace("info_", "", 1)
             query = f"https://www.youtube.com/watch?v={query}"
             results = VideosSearch(query, limit=1)
@@ -173,22 +196,29 @@ async def start_comm(client, message: Message, _):
                 link = result["link"]
                 published = result["publishedTime"]
             searched_text = f"""
-🔍__**ᴠɪᴅᴇᴏ ᴛʀᴀᴄᴋ ɪɴғᴏʀᴍᴀᴛɪᴏɴ**__
+**🔍 زانیاری گۆرانی
 
-❇️**ᴛɪᴛʟᴇ:** {title}
+❇️ ناونیشان : {title}
 
-⏳**ᴅᴜʀᴀᴛɪᴏɴ:** {duration} Mins
-👀**ᴠɪᴇᴡs:** `{views}`
-⏰**ᴘᴜʙʟɪsʜᴇᴅ ᴛɪᴍᴇ:** {published}
-🎥**ᴄʜᴀɴɴᴇʟ ɴᴀᴍᴇ:** {channel}
-📎**ᴄʜᴀɴɴᴇʟ ʟɪɴᴋ:** [ᴠɪsɪᴛ ғʀᴏᴍ ʜᴇʀᴇ]({channellink})
-🔗**ᴠɪᴅᴇᴏ ʟɪɴᴋ:** [ʟɪɴᴋ]({link})
+⏳ ماوە : {duration} Mins
+👀 بینەر: {views}
+⏰ کاتی بڵاوکردنەوە : {published}
+🎥 کەناڵ : {channel}
+📎 لینکی کەناڵ [ئێرە دابگرە]({channellink})
+🔗 لینکی گۆرانی : [بەستەر]({link}) **
 """
             key = InlineKeyboardMarkup(
                 [
                     [
-                        InlineKeyboardButton(text="🎥 ᴡᴀᴛᴄʜ ", url=f"{link}"),
-                        InlineKeyboardButton(text="🔄 ᴄʟᴏsᴇ", callback_data="close"),
+                        InlineKeyboardButton(
+                            text="🎸 𝖵𝗂𝖽𝖾𝗈", callback_data=f"downloadvideo {query}"
+                        ),
+                        InlineKeyboardButton(
+                            text="🎸 𝖠𝗎𝖽𝗂𝗈", callback_data=f"downloadaudio {query}"
+                        ),
+                    ],
+                    [
+                        InlineKeyboardButton(text="🎧 sᴇᴇ ᴏɴ ʏᴏᴜᴛᴜʙᴇ 🎧", url=link),
                     ],
                 ]
             )
@@ -202,66 +232,123 @@ async def start_comm(client, message: Message, _):
             )
             await asyncio.sleep(1)
             if await is_on_off(config.LOG):
-                sender_id = message.from_user.id
-                sender_name = message.from_user.first_name
                 return await app.send_message(
                     config.LOG_GROUP_ID,
-                    f"{message.from_user.mention} ʜᴀs ᴊᴜsᴛ sᴛᴀʀᴛᴇᴅ ʙᴏᴛ ᴛᴏ ᴄʜᴇᴄᴋ<code> ᴠɪᴅᴇᴏ ɪɴғᴏʀᴍᴀᴛɪᴏɴ </code>\n\n**ᴜsᴇʀ ɪᴅ:** {sender_id}\n**ᴜsᴇʀ ɴᴀᴍᴇ** {sender_name}",
+                    f"**🧑🏻‍💻┋ کەسێکی نوێ هاتە ناو بۆت زانیاری گۆرانی\n\n👤┋ ناوی : {message.from_user.mention}\n👾┋ یوزەری : @{message.from_user.username}\n🆔┋ ئایدی :** `{message.from_user.id}`",
+                    reply_markup=InlineKeyboardMarkup(
+                        [
+                            [
+                                InlineKeyboardButton(
+                                    message.from_user.first_name,
+                                    url=f"https://t.me/{message.from_user.username}",
+                                )
+                            ]
+                        ]
+                    ),
                 )
     else:
-        try:
-            await app.resolve_peer(OWNER_ID[0])
-            OWNER = OWNER_ID[0]
-        except:
-            OWNER = None
-        out = private_panel(_, app.username, OWNER)
-        if config.START_IMG_URL:
+        out = private_panel(_)
+        vip = await message.reply_text(f"**بەخێربێی ئەزیزم ꨄ︎❣️.....**")
+        await vip.edit_text(f"**بەخێربێی ئەزیزم ꨄ︎.❣️....**")
+        await vip.edit_text(f"**بەخێربێی ئەزیزم ꨄ︎..❣️...**")
+        await vip.edit_text(f"**بەخێربێی ئەزیزم ꨄ︎...❣️..**")
+        await vip.edit_text(f"**بەخێربێی ئەزیزم ꨄ︎....❣️.**")
+        await vip.edit_text(f"**بەخێربێی ئەزیزم ꨄ︎.....❣️**")
+
+        await vip.delete()
+        vips = await message.reply_text("**⚡د**")
+        # await asyncio.sleep(0.1)
+        await vips.edit_text("**⚡دە**")
+        # await asyncio.sleep(0.1)
+        await vips.edit_text("**⚡دەس**")
+        # await asyncio.sleep(0.1)
+        await vips.edit_text("**⚡دەست**")
+        # await asyncio.sleep(0.1)
+        await vips.edit_text("**⚡دەستپ**")
+        # await asyncio.sleep(0.1)
+        await vips.edit_text("**⚡دەستپێ**")
+        # await asyncio.sleep(0.1)
+        await vips.edit_text("**⚡دەستپێکردن .**")
+        # await asyncio.sleep(0.1)
+        await vips.edit_text("**⚡دەستپێکردن ..**")
+        # await asyncio.sleep(0.1)
+        await vips.edit_text("**⚡دەستپێکردن ...**")
+
+        await vips.edit_text("**⚡دەستپێکردن .**")
+
+        await vips.edit_text("**⚡دەستپێکردن ....**")
+        photo_file = await app.download_media(message.from_user.photo.big_file_id)
+        await vips.delete()
+
+        if photo_file:
             try:
                 await message.reply_photo(
+                    photo=photo_file,
+                    caption=_["start_1"].format(message.from_user.mention, app.mention),
+                    reply_markup=InlineKeyboardMarkup(out),
+                )
+                if await is_on_off(config.LOG):
+                    return await app.send_message(
+                        config.LOG_GROUP_ID,
+                        f"**🧑🏻‍💻┋ کەسێکی نوێ هاتە ناو بۆت\n\n👤┋ ناوی : {message.from_user.mention}\n👾┋ یوزەری : @{message.from_user.username}\n🆔┋ ئایدی :** `{message.from_user.id}`",
+                        reply_markup=InlineKeyboardMarkup(
+                            [
+                                [
+                                    InlineKeyboardButton(
+                                        message.from_user.first_name,
+                                        url=f"https://t.me/{message.from_user.username}",
+                                    )
+                                ]
+                            ]
+                        ),
+                    )
+            except Exception as e:
+
+                await message.reply_photo(
                     photo=config.START_IMG_URL,
-                    caption=_["start_1"].format(app.mention),
+                    caption=_["start_1"].format(message.from_user.mention, app.mention),
                     reply_markup=InlineKeyboardMarkup(out),
                 )
-            except:
-                await message.reply_text(
-                    text=_["start_1"].format(app.mention),
-                    reply_markup=InlineKeyboardMarkup(out),
-                )
-        else:
-            await message.reply_text(
-                text=_["start_1"].format(app.mention),
-                reply_markup=InlineKeyboardMarkup(out),
-            )
-        if await is_on_off(config.LOG):
-            sender_id = message.from_user.id
-            sender_name = message.from_user.first_name
-            return await app.send_message(
-                config.LOG_GROUP_ID,
-                f"{message.from_user.mention} ʜᴀs sᴛᴀʀᴛᴇᴅ ʙᴏᴛ. \n\n**ᴜsᴇʀ ɪᴅ :** {sender_id}\n**ᴜsᴇʀ ɴᴀᴍᴇ:** {sender_name}",
-            )
+                if await is_on_off(config.LOG):
+                    return await app.send_message(
+                        config.LOG_GROUP_ID,
+                        f"**🧑🏻‍💻┋ کەسێکی نوێ هاتە ناو بۆت\n\n👤┋ ناوی : {message.from_user.mention}\n👾┋ یوزەری : @{message.from_user.username}\n🆔┋ ئایدی :** `{message.from_user.id}`",
+                        reply_markup=InlineKeyboardMarkup(
+                            [
+                                [
+                                    InlineKeyboardButton(
+                                        message.from_user.first_name,
+                                        url=f"https://t.me/{message.from_user.username}",
+                                    )
+                                ]
+                            ]
+                        ),
+                    )
 
 
-@app.on_message(filters.command(START_COMMAND) & filters.group & ~BANNED_USERS)
+@app.on_message(filters.command(["start"]) & filters.group & ~BANNED_USERS)
 @LanguageStart
 async def testbot(client, message: Message, _):
+    photo_file = await app.download_media(message.chat.photo.big_file_id)
     out = alive_panel(_)
     uptime = int(time.time() - _boot_)
     chat_id = message.chat.id
-    if config.START_IMG_URL:
+    if photo_file:
+        await message.reply_photo(
+            photo=photo_file,
+            caption=_["start_7"].format(app.mention, get_readable_time(uptime)),
+            reply_markup=InlineKeyboardMarkup(out),
+        )
+    else:
         await message.reply_photo(
             photo=config.START_IMG_URL,
             caption=_["start_7"].format(app.mention, get_readable_time(uptime)),
             reply_markup=InlineKeyboardMarkup(out),
         )
-    else:
-        await message.reply_text(
-            text=_["start_7"].format(app.mention, get_readable_time(uptime)),
-            reply_markup=InlineKeyboardMarkup(out),
-        )
     return await add_served_chat(message.chat.id)
 
 
-@app.on_message(filters.new_chat_members, group=-1)
+@app.on_message(filters.new_chat_members, group=3)
 async def welcome(client, message: Message):
     chat_id = message.chat.id
     if config.PRIVATE_BOT_MODE == str(True):
@@ -277,24 +364,13 @@ async def welcome(client, message: Message):
             language = await get_lang(message.chat.id)
             _ = get_string(language)
             if member.id == app.id:
-                chat_type = message.chat.type
-                if chat_type != ChatType.SUPERGROUP:
-                    await message.reply_text(_["start_5"])
-                    return await app.leave_chat(message.chat.id)
-                if chat_id in await blacklisted_chats():
-                    await message.reply_text(
-                        _["start_6"].format(
-                            f"https://t.me/{app.username}?start=sudolist"
-                        )
-                    )
-                    return await app.leave_chat(chat_id)
+                photo_file = await app.download_media(message.chat.photo.big_file_id)
                 userbot = await get_assistant(message.chat.id)
                 out = start_pannel(_)
-                await message.reply_text(
-                    _["start_2"].format(
-                        app.mention,
-                        userbot.username,
-                        userbot.id,
+                await message.reply_photo(
+                    photo=photo_file,
+                    caption=_["start_2"].format(
+                        message.from_user.mention,
                     ),
                     reply_markup=InlineKeyboardMarkup(out),
                 )
@@ -329,7 +405,7 @@ __HELP__ = f"""
 <b>★ /queue ᴏʀ /cqueue</b> - Cʜᴇᴄᴋ Qᴜᴇᴜᴇ Lɪsᴛ ᴏғ Mᴜsɪᴄ.
 
     <u><b>⚡️Pʀɪᴠᴀᴛᴇ Bᴏᴛ:</b></u>
-      
+
 <b>✧ /authorize [CHAT_ID]</b> - Aʟʟᴏᴡ ᴀ ᴄʜᴀᴛ ғᴏʀ ᴜsɪɴɢ ʏᴏᴜʀ ʙᴏᴛ.
 
 <b>✧ /unauthorize[CHAT_ID]</b> - Dɪsᴀʟʟᴏᴡ ᴀ ᴄʜᴀᴛ ғʀᴏᴍ ᴜsɪɴɢ ʏᴏᴜʀ ʙᴏᴛ.
