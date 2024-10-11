@@ -18,10 +18,10 @@ from pyrogram.errors import (
 )
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from strings import get_string
-from YukkiMusic import YouTube, app
-from YukkiMusic.core.call import Yukki
-from YukkiMusic.misc import SUDOERS
-from YukkiMusic.utils.database import (
+from AlinaMusic import YouTube, app
+from AlinaMusic.core.call import Alina
+from AlinaMusic.misc import SUDOERS
+from AlinaMusic.utils.database import (
     get_assistant,
     get_cmode,
     get_lang,
@@ -32,7 +32,7 @@ from YukkiMusic.utils.database import (
     is_maintenance,
     is_served_private_chat,
 )
-from YukkiMusic.utils.inline import botplaylist_markup
+from AlinaMusic.utils.inline import botplaylist_markup
 
 from config import PLAYLIST_IMG_URL, PRIVATE_BOT_MODE
 from config import SUPPORT_GROUP as SUPPORT_CHAT
@@ -45,18 +45,6 @@ def PlayWrapper(command):
     async def wrapper(client, message):
         language = await get_lang(message.chat.id)
         _ = get_string(language)
-        if message.sender_chat:
-            upl = InlineKeyboardMarkup(
-                [
-                    [
-                        InlineKeyboardButton(
-                            text="ʜᴏᴡ ᴛᴏ ғɪx ?",
-                            callback_data="AnonymousAdmin",
-                        ),
-                    ]
-                ]
-            )
-            return await message.reply_text(_["general_4"], reply_markup=upl)
 
         if await is_maintenance() is False:
             if message.from_user.id not in SUDOERS:
@@ -112,8 +100,7 @@ def PlayWrapper(command):
         try:
             is_call_active = (await app.get_chat(chat_id)).is_call_active
             if not is_call_active:
-                return await message.reply_text(
-                    f"**» ɴᴏ ᴀᴄᴛɪᴠᴇ ᴠɪᴅᴇᴏᴄʜᴀᴛ ғᴏᴜɴᴅ.**\n\nᴩʟᴇᴀsᴇ ᴍᴀᴋᴇ sᴜʀᴇ ʏᴏᴜ sᴛᴀʀᴛᴇᴅ ᴛʜᴇ ᴠɪᴅᴇᴏᴄʜᴀᴛ."
+                return await message.reply_text(_["call_9"]
                 )
         except Exception:
             pass
@@ -128,7 +115,7 @@ def PlayWrapper(command):
                 else:
                     if message.from_user.id not in admins:
                         return await message.reply_text(_["play_4"])
-        if message.command[0][0] == "v":
+        if message.command[0][0] == "v" or message.command[0][0] == "ڤ":
             video = True
         else:
             if "-v" in message.text:
@@ -150,7 +137,7 @@ def PlayWrapper(command):
             ]
             # Checking if assistant id not in list so clear queues and remove active voice chat and process
             if userbot.id not in call_participants_id:
-                await Yukki.stop_stream(chat_id)
+                await Alina.stop_stream(chat_id)
 
         else:
             userbot = await get_assistant(message.chat.id)
