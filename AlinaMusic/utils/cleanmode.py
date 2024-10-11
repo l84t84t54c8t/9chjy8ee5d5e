@@ -1,4 +1,4 @@
-from YukkiMusic import app
+from AlinaMusic import app
 
 from config import LOG_GROUP_ID
 
