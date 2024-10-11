@@ -11,6 +11,8 @@
 from pyrogram import filters
 from pyrogram.types import Message
 from strings import get_command
+
+import config
 from AlinaMusic import app
 from AlinaMusic.misc import SUDOERS
 from AlinaMusic.utils.database import (
@@ -20,8 +22,6 @@ from AlinaMusic.utils.database import (
     remove_private_chat,
 )
 from AlinaMusic.utils.decorators.language import language
-
-import config
 
 AUTHORIZE_COMMAND = get_command("AUTHORIZE_COMMAND")
 UNAUTHORIZE_COMMAND = get_command("UNAUTHORIZE_COMMAND")
