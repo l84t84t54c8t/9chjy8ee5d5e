@@ -23,26 +23,26 @@ from pyrogram.errors import (
     UserNotParticipant,
 )
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
-from strings import get_command
 from youtube_search import YoutubeSearch
-from YukkiMusic import Carbon, app
-from YukkiMusic.utils.database import (
+
+from AlinaMusic import Carbon, app
+from AlinaMusic.utils.database import (
     delete_playlist,
     get_assistant,
     get_playlist,
     get_playlist_names,
     save_playlist,
 )
-from YukkiMusic.utils.decorators.language import language, languageCB
-from YukkiMusic.utils.inline.playlist import (
+from AlinaMusic.utils.decorators.language import language, languageCB
+from AlinaMusic.utils.inline.playlist import (
     botplaylist_markup,
     get_playlist_markup,
     warning_markup,
 )
-from YukkiMusic.utils.pastebin import Yukkibin
-from YukkiMusic.utils.stream.stream import stream
-
+from AlinaMusic.utils.pastebin import Alinabin
+from AlinaMusic.utils.stream.stream import stream
 from config import BANNED_USERS, SERVER_PLAYLIST_LIMIT
+from strings import get_command
 
 ADD_PLAYLIST_COMMAND = get_command("ADD_PLAYLIST_COMMAND")
 PLAY_PLAYLIST_COMMAND = get_command("PLAY_PLAYLIST_COMMAND")
@@ -68,7 +68,7 @@ async def check_playlist(client, message: Message, _):
         count += 1
         msg += f"\n\n{count}- {title[:70]}\n"
         msg += _["playlist_5"].format(duration)
-    link = await Yukkibin(msg)
+    link = await Alinabin(msg)
     lines = msg.count("\n")
     if lines >= 17:
         car = os.linesep.join(msg.split(os.linesep)[:17])
@@ -581,7 +581,7 @@ async def add_playlist(client, message: Message, _):
         except Exception as e:
             return await message.reply_text(str(e))
     else:
-        from YukkiMusic import YouTube
+        from AlinaMusic import YouTube
 
         # Add a specific song by name
         query = " ".join(message.command[1:])
@@ -688,7 +688,7 @@ async def del_plist(client, CallbackQuery, _):
 @app.on_callback_query(filters.regex("recover_playlist") & ~BANNED_USERS)
 @languageCB
 async def add_playlist(client, CallbackQuery, _):
-    from YukkiMusic import YouTube
+    from AlinaMusic import YouTube
 
     callback_data = CallbackQuery.data.strip()
     videoid = callback_data.split(None, 1)[1]
@@ -759,7 +759,7 @@ async def del_plist(client, CallbackQuery, _):
 @languageCB
 async def add_playlist(client, CallbackQuery, _):
     try:
-        from YukkiMusic import YouTube
+        from AlinaMusic import YouTube
     except ImportError as e:
         print(f"ERROR {e}")
         return
