@@ -13,13 +13,13 @@ from typing import Union
 
 from pyrogram import filters, types
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
-from strings import get_command, get_string
-from YukkiMusic import HELPABLE, app
-from YukkiMusic.utils.database import get_lang, is_commanddelete_on
-from YukkiMusic.utils.decorators.language import LanguageStart
-from YukkiMusic.utils.inline.help import private_help_panel
 
+from AlinaMusic import HELPABLE, app
+from AlinaMusic.utils.database import get_lang, is_commanddelete_on
+from AlinaMusic.utils.decorators.language import LanguageStart
+from AlinaMusic.utils.inline.help import private_help_panel
 from config import BANNED_USERS, START_IMG_URL
+from strings import get_command, get_string
 
 ### Command
 HELP_COMMAND = get_command("HELP_COMMAND")
@@ -114,10 +114,12 @@ async def helper_private(
             await update.answer()
         except:
             pass
+
         chat_id = update.message.chat.id
         language = await get_lang(chat_id)
         _ = get_string(language)
         keyboard = InlineKeyboardMarkup(paginate_modules(0, HELPABLE, "help"))
+
         await update.edit_message_text(_["help_1"], reply_markup=keyboard)
     else:
         chat_id = update.chat.id
@@ -132,6 +134,7 @@ async def helper_private(
             paginate_modules(0, HELPABLE, "help", close=True)
         )
         if START_IMG_URL:
+
             await update.reply_photo(
                 photo=START_IMG_URL,
                 caption=_["help_1"],
@@ -139,6 +142,7 @@ async def helper_private(
             )
 
         else:
+
             await update.reply_text(
                 text=_["help_1"],
                 reply_markup=keyboard,
@@ -174,7 +178,7 @@ async def help_button(client, query):
         module = mod_match.group(1)
         prev_page_num = int(mod_match.group(2))
         text = (
-            f"<b><u>Hᴇʀᴇ Is Tʜᴇ Hᴇʟᴘ Fᴏʀ {HELPABLE[module].__MODULE__}:</u></b>\n"
+            f"<b>ڕوونکردنەو و شێوازی بەکارهێنانی فەرمانی {HELPABLE[module].__MODULE__}:</b>\n"
             + HELPABLE[module].__HELP__
         )
 
@@ -182,9 +186,9 @@ async def help_button(client, query):
             [
                 [
                     InlineKeyboardButton(
-                        text="↪️ ʙᴀᴄᴋ", callback_data=f"help_back({prev_page_num})"
+                        text="↪️ گەڕانەوە", callback_data=f"help_back({prev_page_num})"
                     ),
-                    InlineKeyboardButton(text="🔄 ᴄʟᴏsᴇ", callback_data="close"),
+                    InlineKeyboardButton(text="🔄 داخستن", callback_data="close"),
                 ],
             ]
         )
