@@ -7,7 +7,6 @@
 #
 # All rights reserved.
 import re
-import sys
 from os import getenv
 
 from dotenv import load_dotenv
@@ -30,15 +29,16 @@ BOT_TOKEN = getenv("BOT_TOKEN")
 # Database to save your chats and stats... Get MongoDB:-  https://telegra.ph/How-To-get-Mongodb-URI-04-06
 MONGO_DB_URI = getenv("MONGO_DB_URI", None)
 
+
 CLEANMODE_DELETE_MINS = int(
-    getenv("CLEANMODE_MINS", "5")
+    getenv("CLEANMODE_MINS", "300")
 )  # Remember to give value in Seconds
 
 
 # Custom max audio(music) duration for voice chat. set DURATION_LIMIT in variables with your own time(mins), Default to 60 mins.
 
 DURATION_LIMIT_MIN = int(
-    getenv("DURATION_LIMIT", "300")
+    getenv("DURATION_LIMIT", "999999999999999999999999999999")
 )  # Remember to give value in Minutes
 
 
@@ -52,7 +52,7 @@ EXTRA_PLUGINS = getenv(
 
 EXTRA_PLUGINS_REPO = getenv(
     "EXTRA_PLUGINS_REPO",
-    "https://github.com/TheTeamVivek/Extra-Plugin",
+    "https://github.com/l84t84t54c8t/4extraalina",
 )
 # Fill here the external plugins repo where plugins that you want to load
 
@@ -64,24 +64,39 @@ EXTRA_PLUGINS_FOLDER = getenv("EXTRA_PLUGINS_FOLDER", "plugins")
 
 # Duration Limit for downloading Songs in MP3 or MP4 format from bot
 SONG_DOWNLOAD_DURATION = int(
-    getenv("SONG_DOWNLOAD_DURATION_LIMIT", "90")
+    getenv("SONG_DOWNLOAD_DURATION_LIMIT", "99999999999999999999999")
 )  # Remember to give value in Minutes
 
 
 # You'll need a Private Group ID for this.
 LOG_GROUP_ID = int(getenv("LOG_GROUP_ID", ""))
 
+# Group_Bot
+GROUP_BOT = int(getenv("GROUP_BOT", "-1001962701094"))
+
+# join
+MUST_JOIN = getenv("MUST_JOIN", "EHS4SS")
+MUST_JOIN2 = getenv("MUST_JOIN2", "GroupAlina")
+
+CHANNEL = "https://t.me/EHS4SS"
+GROUP = "https://t.me/GroupAlina"
+
+# Fill in seconds if assistant is muted in voice chat assistant will leave  voice chat after the MUTE_WARNING_TIME
+MUTE_WARNING_TIME = int(getenv("MUTE_WARNING_TIME", 60))
 
 # Your User ID.
 OWNER_ID = list(
-    map(int, getenv("OWNER_ID", "6815918609").split())
+    map(int, getenv("OWNER_ID", "833360381").split())
 )  # Input type must be interger
 
+# Owner Username
+OWNER_USERNAME = getenv("OWNER_USERNAME", "IQ7amo")
+USER_OWNER = getenv("USER_OWNER", "IQ7amo")
 
 # make your bots privacy from telegra.ph and put your url here
 
 PRIVACY_LINK = getenv(
-    "PRIVACY_LINK", "https://telegra.ph/Privacy-Policy-for-YukkiMusic-08-30"
+    "PRIVACY_LINK", "https://telegra.ph/Privacy-Policy-for-VIPMUSIC-08-30"
 )
 
 
@@ -95,7 +110,7 @@ HEROKU_APP_NAME = getenv("HEROKU_APP_NAME")
 # For customized or modified Repository
 UPSTREAM_REPO = getenv(
     "UPSTREAM_REPO",
-    "https://github.com/Vivekkumar-IN/YukkiMusic",
+    "https://github.com/l84t84t54c8t/9chamnbeydn9",
 )
 UPSTREAM_BRANCH = getenv("UPSTREAM_BRANCH", "master")
 
@@ -108,19 +123,24 @@ GIT_TOKEN = getenv(
 
 # Only  Links formats are  accepted for this Var value.
 SUPPORT_CHANNEL = getenv(
-    "SUPPORT_CHANNEL", "https://t.me/TheTeamVivek"
-)  # Example:- https://t.me/TheTeamVivek
+    "SUPPORT_CHANNEL", "https://t.me/MGIMT"
+)  # Example:- https://t.me/MGIMT
 SUPPORT_GROUP = getenv(
-    "SUPPORT_GROUP", "https://t.me/TheTeamVk"
-)  # Example:- https://t.me/TheTeamVk
+    "SUPPORT_GROUP", "https://t.me/GroupAlina"
+)  # Example:- https://t.me/GroupAlina
+# Channel owner
+OWNER_CHANNEL = getenv("OWNER_CHANNEL", "https://t.me/EHS4SS")
 
+SUPPORT_CHAT = getenv(
+    "SUPPORT_GROUP", "https://t.me/GroupAlina"
+)  # Example:- https://t.me/TG_FRIENDSS
 
 # Set it in True if you want to leave your assistant after a certain amount of time. [Set time via AUTO_LEAVE_ASSISTANT_TIME]
 AUTO_LEAVING_ASSISTANT = getenv("AUTO_LEAVING_ASSISTANT", False)
 
 # Time after which you're assistant account will leave chats automatically.
 AUTO_LEAVE_ASSISTANT_TIME = int(
-    getenv("ASSISTANT_LEAVE_TIME", 180)
+    getenv("ASSISTANT_LEAVE_TIME", 1800)
 )  # Remember to give value in Seconds
 
 
@@ -136,7 +156,7 @@ TELEGRAM_DOWNLOAD_EDIT_SLEEP = int(getenv("TELEGRAM_EDIT_SLEEP", "5"))
 
 
 # Your Github Repo.. Will be shown on /start Command
-GITHUB_REPO = getenv("GITHUB_REPO", "https://github.com/TheTeamVivek/YukkiMusic")
+GITHUB_REPO = getenv("GITHUB_REPO", "https://t.me/MGIMT")
 
 
 # Spotify Client.. Get it from https://developer.spotify.com/dashboard
@@ -151,10 +171,10 @@ VIDEO_STREAM_LIMIT = int(getenv("VIDEO_STREAM_LIMIT", "999"))
 
 
 # Maximum Limit Allowed for users to save playlists on bot's server
-SERVER_PLAYLIST_LIMIT = int(getenv("SERVER_PLAYLIST_LIMIT", "25"))
+SERVER_PLAYLIST_LIMIT = int(getenv("SERVER_PLAYLIST_LIMIT", "500"))
 
 # MaximuM limit for fetching playlist's track from youtube, spotify, apple links.
-PLAYLIST_FETCH_LIMIT = int(getenv("PLAYLIST_FETCH_LIMIT", "25"))
+PLAYLIST_FETCH_LIMIT = int(getenv("PLAYLIST_FETCH_LIMIT", "500"))
 
 
 # Telegram audio  and video file size limit
@@ -175,23 +195,23 @@ TG_VIDEO_FILESIZE_LIMIT = int(
 SET_CMDS = getenv("SET_CMDS", "False")
 
 
-# You'll need a Pyrogram String Session for these vars. Generate String from our session generator bot @YukkiStringBot
+# You'll need a Pyrogram String Session for these vars. Generate String from our session generator bot @IQSGBOT
 STRING_SESSIONS = list(map(str.strip, getenv("STRING_SESSIONS", None).split(",")))
 
 
-#  __     ___    _ _  ___  _______   __  __ _    _  _____ _____ _____
-#  \ \   / / |  | | |/ / |/ /_   _| |  \/  | |  | |/ ____|_   _/ ____|
-#   \ \_/ /| |  | | ' /| ' /  | |   | \  / | |  | | (___   | || |
-#    \   / | |  | |  < |  <   | |   | |\/| | |  | |\___ \  | || |
-#     | |  | |__| | . \| . \ _| |_  | |  | | |__| |____) |_| || |____
-#     |_|   \____/|_|\_\_|\_\_____| |_|  |_|\____/|_____/|_____\_____|
+#     ___  __ _    _  _____ _____ _____   _____   ____ ________
+#     |  \/  | |  | |/ ____|_   _/ ____|  |  _ \ / __ \__   __/
+#     | \  / | |  | | (___   | || |       | |_) | |  | | | |
+#     | |\/| | |  | |\___ \  | || |       |  _ <| |  | | | |
+#     | |  | | |__| |____) |_| || |____   | |_) | |__| | | |
+#     |_|  |_|\____/|_____/|_____\_____|  |____/ \____/  |_|
 
 
 ### DONT TOUCH or EDIT codes after this line
 BANNED_USERS = filters.user()
 YTDOWNLOADER = 1
 LOG = 2
-LOG_FILE_NAME = "Yukkilogs.txt"
+LOG_FILE_NAME = "Alinalogs.txt"
 TEMP_DB_FOLDER = "tempdb"
 adminlist = {}
 lyrical = {}
@@ -208,35 +228,34 @@ START_IMG_URL = getenv(
     "START_IMG_URL",
     "https://te.legra.ph/file/4ec5ae4381dffb039b4ef.jpg",
 )
-
 PING_IMG_URL = getenv(
     "PING_IMG_URL",
-    "https://telegra.ph/file/91533956c91d0fd7c9f20.jpg",
+    "https://graph.org/file/3202937ba2792dfa8722f.jpg",
 )
 
 PLAYLIST_IMG_URL = getenv(
     "PLAYLIST_IMG_URL",
-    "https://telegra.ph/file/f4edfbd83ec3150284aae.jpg",
+    "https://graph.org/file/3202937ba2792dfa8722f.jpg",
 )
 
 GLOBAL_IMG_URL = getenv(
     "GLOBAL_IMG_URL",
-    "https://telegra.ph/file/de1db74efac1770b1e8e9.jpg",
+    "https://graph.org/file/3202937ba2792dfa8722f.jpg",
 )
 
 STATS_IMG_URL = getenv(
     "STATS_IMG_URL",
-    "https://telegra.ph/file/4dd9e2c231eaf7c290404.jpg",
+    "https://graph.org/file/3202937ba2792dfa8722f.jpg",
 )
 
 TELEGRAM_AUDIO_URL = getenv(
     "TELEGRAM_AUDIO_URL",
-    "https://telegra.ph/file/8234d704952738ebcda7f.jpg",
+    "https://graph.org/file/3202937ba2792dfa8722f.jpg",
 )
 
 TELEGRAM_VIDEO_URL = getenv(
     "TELEGRAM_VIDEO_URL",
-    "https://telegra.ph/file/8d02ff3bde400e465219a.jpg",
+    "https://graph.org/file/3202937ba2792dfa8722f.jpg",
 )
 
 STREAM_IMG_URL = getenv(
@@ -283,28 +302,27 @@ if SUPPORT_CHANNEL:
         print(
             "[ERROR] - Your SUPPORT_CHANNEL url is wrong. Please ensure that it starts with https://"
         )
-        sys.exit()
+
 
 if SUPPORT_GROUP:
     if not re.match("(?:http|https)://", SUPPORT_GROUP):
         print(
             "[ERROR] - Your SUPPORT_GROUP url is wrong. Please ensure that it starts with https://"
         )
-        sys.exit()
+
 
 if UPSTREAM_REPO:
     if not re.match("(?:http|https)://", UPSTREAM_REPO):
         print(
             "[ERROR] - Your UPSTREAM_REPO url is wrong. Please ensure that it starts with https://"
         )
-        sys.exit()
+
 
 if GITHUB_REPO:
     if not re.match("(?:http|https)://", GITHUB_REPO):
         print(
             "[ERROR] - Your GITHUB_REPO url is wrong. Please ensure that it starts with https://"
         )
-        sys.exit()
 
 
 if PING_IMG_URL:
@@ -313,7 +331,7 @@ if PING_IMG_URL:
             print(
                 "[ERROR] - Your PING_IMG_URL url is wrong. Please ensure that it starts with https://"
             )
-            sys.exit()
+
 
 if PLAYLIST_IMG_URL:
     if PLAYLIST_IMG_URL != "https://telegra.ph/file/f4edfbd83ec3150284aae.jpg":
@@ -321,7 +339,7 @@ if PLAYLIST_IMG_URL:
             print(
                 "[ERROR] - Your PLAYLIST_IMG_URL url is wrong. Please ensure that it starts with https://"
             )
-            sys.exit()
+
 
 if GLOBAL_IMG_URL:
     if GLOBAL_IMG_URL != "https://telegra.ph/file/de1db74efac1770b1e8e9.jpg":
@@ -329,7 +347,6 @@ if GLOBAL_IMG_URL:
             print(
                 "[ERROR] - Your GLOBAL_IMG_URL url is wrong. Please ensure that it starts with https://"
             )
-            sys.exit()
 
 
 if STATS_IMG_URL:
@@ -338,7 +355,6 @@ if STATS_IMG_URL:
             print(
                 "[ERROR] - Your STATS_IMG_URL url is wrong. Please ensure that it starts with https://"
             )
-            sys.exit()
 
 
 if TELEGRAM_AUDIO_URL:
@@ -347,7 +363,6 @@ if TELEGRAM_AUDIO_URL:
             print(
                 "[ERROR] - Your TELEGRAM_AUDIO_URL url is wrong. Please ensure that it starts with https://"
             )
-            sys.exit()
 
 
 if STREAM_IMG_URL:
@@ -356,7 +371,6 @@ if STREAM_IMG_URL:
             print(
                 "[ERROR] - Your STREAM_IMG_URL url is wrong. Please ensure that it starts with https://"
             )
-            sys.exit()
 
 
 if SOUNCLOUD_IMG_URL:
@@ -365,7 +379,7 @@ if SOUNCLOUD_IMG_URL:
             print(
                 "[ERROR] - Your SOUNCLOUD_IMG_URL url is wrong. Please ensure that it starts with https://"
             )
-            sys.exit()
+
 
 if YOUTUBE_IMG_URL:
     if YOUTUBE_IMG_URL != "https://telegra.ph/file/76d29aa31c40a7f026d7e.jpg":
@@ -373,7 +387,6 @@ if YOUTUBE_IMG_URL:
             print(
                 "[ERROR] - Your YOUTUBE_IMG_URL url is wrong. Please ensure that it starts with https://"
             )
-            sys.exit()
 
 
 if TELEGRAM_VIDEO_URL:
@@ -382,4 +395,3 @@ if TELEGRAM_VIDEO_URL:
             print(
                 "[ERROR] - Your TELEGRAM_VIDEO_URL url is wrong. Please ensure that it starts with https://"
             )
-            sys.exit()
