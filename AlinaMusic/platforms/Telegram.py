@@ -16,7 +16,7 @@ from typing import Union
 
 import httpx
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Voice
-from YukkiMusic import app
+from AlinaMusic import app
 
 import config
 from config import lyrical
