@@ -64,7 +64,7 @@ class AlinaBot(Client):
         try:
             await self.send_message(
                 config.LOG_GROUP_ID,
-                text="╔═══❰𝐖𝐄𝐋𝐂𝐎𝐌𝐄❱═══❍⊱❁۪۪\n║\n║┣⪼🥀𝐁𝐨𝐭 𝐒𝐭𝐚𝐫𝐭𝐞𝐝 𝐁𝐚𝐛𝐲🎉\n║\n║◈ {self.mention}\n║\n║┣⪼🎈𝐈𝐃:- `{self.id}` \n║\n║┣⪼🎄@{self.username} \n║ \n║┣⪼💖𝐓𝐡𝐚𝐧𝐤𝐬 𝐅𝐨𝐫 𝐔𝐬𝐢𝐧𝐠😍\n║\n╚══════════════❍⊱❁",
+                text=f"**╔═══❰𝐖𝐄𝐋𝐂𝐎𝐌𝐄❱═══❍⊱❁۪۪\n║\n║┣⪼🥀𝐁𝐨𝐭 𝐒𝐭𝐚𝐫𝐭𝐞𝐝 𝐁𝐚𝐛𝐲🎉\n║\n║◈ {self.mention}\n║\n║┣⪼🎈𝐈𝐃:- `{self.id}` \n║\n║┣⪼🎄@{self.username} \n║ \n║┣⪼💖𝐓𝐡𝐚𝐧𝐤𝐬 𝐅𝐨𝐫 𝐔𝐬𝐢𝐧𝐠😍\n║\n╚══════════════❍⊱❁**",
                 reply_markup=button,
             )
         except:
@@ -176,10 +176,6 @@ class AlinaBot(Client):
                         BotCommand("warn", "• ئاگادارکردنەوەی کەسێک"),
                         BotCommand("promote", "• زیادکردنی ئەدمین"),
                         BotCommand("demote", "• لادانی ئەدمین"),
-                        BotCommand("unbanall", "• لادانی هەموو باندکراوەکانی گرووپ"),
-                        BotCommand(
-                            "unmuteall", "• لادانی هەموو بەکارهێنەرە کپکراوەکان"
-                        ),
                         BotCommand("purge", "• سڕینەوەی چاتی گرووپ بە ڕیپلەی"),
                         BotCommand("open", "• کردنەوەی تێلی گرووپ"),
                         BotCommand("close", "• داخستنی تێلی گرووپ"),
