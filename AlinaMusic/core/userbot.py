@@ -28,10 +28,11 @@ class Userbot(Client):
         for i, session in enumerate(session_strings, start=1):
 
             client = Client(
-                f"YukkiString{i}",
+                f"AlinaMusic{i}",
                 api_id=config.API_ID,
                 api_hash=config.API_HASH,
                 in_memory=True,
+                plugins=dict(root="AlinaMusic.plugins.USERBOT"),
                 session_string=session.strip(),
             )
             self.clients.append(client)
@@ -41,9 +42,12 @@ class Userbot(Client):
         try:
             await client.start()
             try:
-                await client.join_chat("TheYukki")
-                await client.join_chat("YukkiSupport")
-                await client.join_chat("TheTeamVivek")
+                await client.join_chat("GroupAlina")
+                await client.join_chat("MGIMT")
+                await client.join_chat("EHS4SS")
+                await client.join_chat("XV7AMO")
+                await client.join_chat("IQMUC")
+                await client.join_chat("IQQUR")
             except:
                 pass
 
