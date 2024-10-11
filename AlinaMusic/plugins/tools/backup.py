@@ -8,9 +8,9 @@ from motor.motor_asyncio import AsyncIOMotorClient
 from pymongo.errors import OperationFailure
 from pyrogram import filters
 from pyrogram.errors import FloodWait
-from YukkiMusic import app
-from YukkiMusic.core.mongo import DB_NAME
 
+from AlinaMusic import app
+from AlinaMusic.core.mongo import DB_NAME
 from config import BANNED_USERS, MONGO_DB_URI, OWNER_ID
 
 
