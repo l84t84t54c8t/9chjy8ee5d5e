@@ -12,10 +12,10 @@ import sys
 
 from pyrogram import idle
 from pytgcalls.exceptions import NoActiveGroupCall
-from YukkiMusic import HELPABLE, LOGGER, app, userbot
-from YukkiMusic.core.call import Yukki
-from YukkiMusic.plugins import ALL_MODULES
-from YukkiMusic.utils.database import get_banned_users, get_gbanned
+from AlinaMusic import HELPABLE, LOGGER, app, userbot
+from AlinaMusic.core.call import Alina
+from AlinaMusic.plugins import ALL_MODULES
+from AlinaMusic.utils.database import get_banned_users, get_gbanned
 
 import config
 from config import BANNED_USERS
@@ -23,12 +23,12 @@ from config import BANNED_USERS
 
 async def init():
     if len(config.STRING_SESSIONS) == 0:
-        LOGGER("YukkiMusic").error(
+        LOGGER("AlinaMusic").error(
             "No Assistant Clients Vars Defined!.. Exiting Process."
         )
         return
     if not config.SPOTIFY_CLIENT_ID and not config.SPOTIFY_CLIENT_SECRET:
-        LOGGER("YukkiMusic").warning(
+        LOGGER("AlinaMusic").warning(
             "No Spotify Vars defined. Your bot won't be able to play spotify queries."
         )
     try:
@@ -47,22 +47,22 @@ async def init():
         if hasattr(imported_module, "__MODULE__") and imported_module.__MODULE__:
             if hasattr(imported_module, "__HELP__") and imported_module.__HELP__:
                 HELPABLE[imported_module.__MODULE__.lower()] = imported_module
-    LOGGER("YukkiMusic.plugins").info("Successfully Imported All Modules ")
+    LOGGER("AlinaMusic.plugins").info("Successfully Imported All Modules ")
     await userbot.start()
-    await Yukki.start()
-    LOGGER("YukkiMusic").info("Assistant Started Sucessfully")
+    await Alina.start()
+    LOGGER("AlinaMusic").info("Assistant Started Sucessfully")
     try:
-        await Yukki.stream_call(
+        await Alina.stream_call(
             "http://docs.evostream.com/sample_content/assets/sintel1m720p.mp4"
         )
     except NoActiveGroupCall:
-        LOGGER("YukkiMusic").error(
+        LOGGER("AlinaMusic").error(
             "Please ensure the voice call in your log group is active."
         )
         sys.exit()
 
-    await Yukki.decorators()
-    LOGGER("YukkiMusic").info("YukkiMusic Started Successfully")
+    await Alina.decorators()
+    LOGGER("AlinaMusic").info("AlinaMusic Started Successfully")
     await idle()
     await app.stop()
     await userbot.stop()
@@ -70,4 +70,4 @@ async def init():
 
 if __name__ == "__main__":
     asyncio.get_event_loop_policy().get_event_loop().run_until_complete(init())
-    LOGGER("YukkiMusic").info("Stopping YukkiMusic! GoodBye")
+    LOGGER("AlinaMusic").info("Stopping AlinaMusic! GoodBye")
