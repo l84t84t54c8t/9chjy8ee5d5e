@@ -22,15 +22,15 @@ from git import Repo
 from git.exc import GitCommandError, InvalidGitRepositoryError
 from pyrogram import filters
 from strings import get_command
-from YukkiMusic import app
-from YukkiMusic.misc import HAPP, SUDOERS, XCB
-from YukkiMusic.utils.database import (
+from AlinaMusic import app
+from AlinaMusic.misc import HAPP, SUDOERS, XCB
+from AlinaMusic.utils.database import (
     get_active_chats,
     remove_active_chat,
     remove_active_video_chat,
 )
-from YukkiMusic.utils.decorators.language import language
-from YukkiMusic.utils.pastebin import Yukkibin
+from AlinaMusic.utils.decorators.language import language
+from AlinaMusic.utils.pastebin import Alinabin
 
 import config
 
@@ -51,7 +51,7 @@ async def is_heroku():
 
 
 async def paste_neko(code: str):
-    return await Yukkibin(code)
+    return await Alinabin(code)
 
 
 @app.on_message(filters.command(GETLOG_COMMAND) & SUDOERS)
