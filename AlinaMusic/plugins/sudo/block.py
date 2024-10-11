@@ -10,13 +10,13 @@
 
 from pyrogram import filters
 from pyrogram.types import Message
-from strings import get_command
 
 from AlinaMusic import app
 from AlinaMusic.misc import SUDOERS
 from AlinaMusic.utils.database import add_gban_user, remove_gban_user
 from AlinaMusic.utils.decorators.language import language
 from config import BANNED_USERS
+from strings import get_command
 
 # Command
 BLOCK_COMMAND = get_command("BLOCK_COMMAND")

@@ -9,7 +9,6 @@
 #
 from pyrogram import filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
-from strings import get_string
 
 from AlinaMusic import app
 from AlinaMusic.core.call import Alina
@@ -27,6 +26,7 @@ from AlinaMusic.utils.database import (
 )
 from AlinaMusic.utils.inline import close_markup
 from config import BANNED_USERS, adminlist
+from strings import get_string
 
 
 @app.on_message(

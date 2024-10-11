@@ -13,7 +13,6 @@ import asyncio
 from pyrogram import filters
 from pyrogram.errors import FloodWait
 from pyrogram.types import CallbackQuery, InputMediaPhoto, Message
-from strings import get_command
 
 import config
 from AlinaMusic import app
@@ -23,6 +22,7 @@ from AlinaMusic.utils.database import get_cmode, is_active_chat, is_music_playin
 from AlinaMusic.utils.decorators.language import language, languageCB
 from AlinaMusic.utils.inline import queue_back_markup, queue_markup
 from config import BANNED_USERS
+from strings import get_command
 
 ###Commands
 QUEUE_COMMAND = get_command("QUEUE_COMMAND")

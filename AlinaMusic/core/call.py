@@ -24,7 +24,6 @@ from pytgcalls.types import (
     StreamVideoEnded,
     Update,
 )
-from strings import get_string
 
 import config
 from AlinaMusic import LOGGER, YouTube, app, userbot
@@ -47,6 +46,7 @@ from AlinaMusic.utils.formatters import check_duration, seconds_to_min, speed_co
 from AlinaMusic.utils.inline.play import stream_markup, telegram_markup
 from AlinaMusic.utils.stream.autoclear import auto_clean
 from AlinaMusic.utils.thumbnails import gen_thumb
+from strings import get_string
 
 
 async def _clear_(chat_id):

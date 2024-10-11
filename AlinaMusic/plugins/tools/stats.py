@@ -18,7 +18,6 @@ from pyrogram import filters
 from pyrogram.errors import FloodWait, MessageIdInvalid
 from pyrogram.types import CallbackQuery, InputMediaPhoto, Message
 from pytgcalls.__version__ import __version__ as pytgver
-from strings import get_command
 
 import config
 from AlinaMusic import YouTube, app
@@ -45,6 +44,7 @@ from AlinaMusic.utils.inline.stats import (
     top_ten_stats_markup,
 )
 from config import BANNED_USERS
+from strings import get_command
 
 loop = asyncio.get_running_loop()
 

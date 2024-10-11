@@ -17,7 +17,6 @@ from pyrogram.errors import (
     UserNotParticipant,
 )
 from pyrogram.types import InlineKeyboardMarkup
-from strings import get_string
 
 from AlinaMusic import YouTube, app
 from AlinaMusic.core.call import Alina
@@ -37,6 +36,7 @@ from AlinaMusic.utils.inline import botplaylist_markup
 from config import PLAYLIST_IMG_URL, PRIVATE_BOT_MODE
 from config import SUPPORT_GROUP as SUPPORT_CHAT
 from config import adminlist
+from strings import get_string
 
 links = {}
 

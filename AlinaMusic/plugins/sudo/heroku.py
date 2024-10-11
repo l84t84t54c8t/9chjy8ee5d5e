@@ -21,7 +21,6 @@ import urllib3
 from git import Repo
 from git.exc import GitCommandError, InvalidGitRepositoryError
 from pyrogram import filters
-from strings import get_command
 
 import config
 from AlinaMusic import app
@@ -33,6 +32,7 @@ from AlinaMusic.utils.database import (
 )
 from AlinaMusic.utils.decorators.language import language
 from AlinaMusic.utils.pastebin import Alinabin
+from strings import get_command
 
 # Commands
 GETLOG_COMMAND = get_command("GETLOG_COMMAND")

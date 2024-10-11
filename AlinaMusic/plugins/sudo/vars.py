@@ -10,13 +10,13 @@
 import asyncio
 
 from pyrogram import filters
-from strings import get_command
 
 import config
 from AlinaMusic import app
 from AlinaMusic.misc import SUDOERS
 from AlinaMusic.utils.database.memorydatabase import get_video_limit
 from AlinaMusic.utils.formatters import convert_bytes
+from strings import get_command
 
 VARS_COMMAND = get_command("VARS_COMMAND")
 

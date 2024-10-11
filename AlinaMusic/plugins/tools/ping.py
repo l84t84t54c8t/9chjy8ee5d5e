@@ -11,7 +11,6 @@ from datetime import datetime
 
 from pyrogram import filters
 from pyrogram.types import Message
-from strings import get_command
 
 from AlinaMusic import app
 from AlinaMusic.core.call import Alina
@@ -19,6 +18,7 @@ from AlinaMusic.utils import bot_sys_stats
 from AlinaMusic.utils.decorators.language import language
 from AlinaMusic.utils.inline import support_group_markup
 from config import BANNED_USERS, PING_IMG_URL
+from strings import get_command
 
 PING_COMMAND = get_command("PING_COMMAND")
 

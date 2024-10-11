@@ -10,13 +10,13 @@
 
 from pyrogram import filters
 from pyrogram.types import Message
-from strings import get_command
 
 import config
 from AlinaMusic import app
 from AlinaMusic.misc import SUDOERS
 from AlinaMusic.utils.database import add_off, add_on
 from AlinaMusic.utils.decorators.language import language
+from strings import get_command
 
 # Commands
 VIDEOMODE_COMMAND = get_command("VIDEOMODE_COMMAND")

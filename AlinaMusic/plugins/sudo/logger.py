@@ -9,13 +9,13 @@
 #
 
 from pyrogram import filters
-from strings import get_command
 
 import config
 from AlinaMusic import app
 from AlinaMusic.misc import SUDOERS
 from AlinaMusic.utils.database import add_off, add_on
 from AlinaMusic.utils.decorators.language import language
+from strings import get_command
 
 # Commands
 LOGGER_COMMAND = get_command("LOGGER_COMMAND")

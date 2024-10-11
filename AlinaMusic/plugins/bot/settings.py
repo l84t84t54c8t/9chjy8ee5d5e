@@ -16,7 +16,6 @@ from pyrogram.types import (
     InlineKeyboardMarkup,
     Message,
 )
-from strings import get_command
 from YukkiMusic import app
 from YukkiMusic.utils.database import (
     add_nonadmin_chat,
@@ -52,6 +51,7 @@ from YukkiMusic.utils.inline.settings import (
 from YukkiMusic.utils.inline.start import private_panel
 
 from config import BANNED_USERS, CLEANMODE_DELETE_MINS, OWNER_ID
+from strings import get_command
 
 ### Command
 SETTINGS_COMMAND = get_command("SETTINGS_COMMAND")

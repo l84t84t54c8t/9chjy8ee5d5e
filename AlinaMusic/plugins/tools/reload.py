@@ -14,7 +14,6 @@ import logging
 from pyrogram import filters
 from pyrogram.enums import ChatMembersFilter
 from pyrogram.types import CallbackQuery, Message
-from strings import get_command
 
 from AlinaMusic import app
 from AlinaMusic.core.call import Alina
@@ -23,6 +22,7 @@ from AlinaMusic.utils.database import get_authuser_names, get_cmode
 from AlinaMusic.utils.decorators import ActualAdminCB, AdminActual, language
 from AlinaMusic.utils.formatters import alpha_to_int
 from config import BANNED_USERS, adminlist, lyrical
+from strings import get_command
 
 ### Multi-Lang Commands
 RELOAD_COMMAND = get_command("RELOAD_COMMAND")
