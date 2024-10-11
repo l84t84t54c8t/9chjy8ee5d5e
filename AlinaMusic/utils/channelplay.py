@@ -9,8 +9,8 @@
 #
 
 
-from YukkiMusic import app
-from YukkiMusic.utils.database import get_cmode
+from AlinaMusic import app
+from AlinaMusic.utils.database import get_cmode
 
 
 async def get_channeplayCB(_, command, CallbackQuery):
