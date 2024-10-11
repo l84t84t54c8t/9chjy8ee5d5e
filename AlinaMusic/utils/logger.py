@@ -7,8 +7,8 @@
 #
 # All rights reserved.
 
-from YukkiMusic import app
-from YukkiMusic.utils.database import is_on_off
+from AlinaMusic import app
+from AlinaMusic.utils.database import is_on_off
 
 from config import LOG, LOG_GROUP_ID
 
@@ -18,21 +18,21 @@ async def play_logs(message, streamtype):
         if message.chat.username:
             chatusername = f"@{message.chat.username}"
         else:
-            chatusername = "ᴘʀɪᴠᴀᴛᴇ ɢʀᴏᴜᴘ"
+            chatusername = "گرووپی تایبەت"
 
         logger_text = f"""
-**{app.mention} ᴘʟᴀʏ ʟᴏɢ**
+**پەخشی گرووپەکانی {app.mention} **
 
-**ᴄʜᴀᴛ ɪᴅ :** `{message.chat.id}`
-**ᴄʜᴀᴛ ɴᴀᴍᴇ :** {message.chat.title}
-**ᴄʜᴀᴛ ᴜsᴇʀɴᴀᴍᴇ :** {chatusername}
+**ئایدی گرووپ :** `{message.chat.id}`
+**ناوی گرووپ : {message.chat.title} **
+**یوزەری گرووپ : {chatusername} **
 
-**ᴜsᴇʀ ɪᴅ :** `{message.from_user.id}`
-**ɴᴀᴍᴇ :** {message.from_user.mention}
-**ᴜsᴇʀɴᴀᴍᴇ :** @{message.from_user.username}
+**ئایدی بەکارهێنەر :** `{message.from_user.id}`
+**ناو : {message.from_user.mention} **
+**یوزەر : @{message.from_user.username}**
 
-**ǫᴜᴇʀʏ :** {message.text.split(None, 1)[1]}
-**sᴛʀᴇᴀᴍᴛʏᴘᴇ :** {streamtype}"""
+**ناوی گۆرانی : {message.text.split(None, 1)[1]} **
+**جۆری پەخش : {streamtype}**"""
         if message.chat.id != LOG_GROUP_ID:
             try:
                 await app.send_message(
