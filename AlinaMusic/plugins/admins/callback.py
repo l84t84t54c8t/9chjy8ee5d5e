@@ -10,17 +10,7 @@
 import random
 
 from pyrogram import filters
-from pyrogram.types import InlineKeyboardMarkup, CallbackQuery
-
-from config import (
-    BANNED_USERS,
-    SOUNCLOUD_IMG_URL,
-    STREAM_IMG_URL,
-    SUPPORT_GROUP,
-    TELEGRAM_AUDIO_URL,
-    TELEGRAM_VIDEO_URL,
-    adminlist,
-)
+from pyrogram.types import CallbackQuery, InlineKeyboardMarkup
 from YukkiMusic import YouTube, app
 from YukkiMusic.core.call import Yukki
 from YukkiMusic.misc import SUDOERS, db
@@ -43,11 +33,19 @@ from YukkiMusic.utils.inline.play import (
     panel_markup_3,
     stream_markup,
     telegram_markup,
-    stream_markup,
 )
-
 from YukkiMusic.utils.stream.autoclear import auto_clean
 from YukkiMusic.utils.thumbnails import gen_thumb
+
+from config import (
+    BANNED_USERS,
+    SOUNCLOUD_IMG_URL,
+    STREAM_IMG_URL,
+    SUPPORT_GROUP,
+    TELEGRAM_AUDIO_URL,
+    TELEGRAM_VIDEO_URL,
+    adminlist,
+)
 
 wrong = {}
 downvote = {}
