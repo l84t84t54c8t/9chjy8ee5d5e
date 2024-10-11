@@ -16,8 +16,8 @@ from pyrogram.types import (
     InlineKeyboardMarkup,
     Message,
 )
-from YukkiMusic import app
-from YukkiMusic.utils.database import (
+from AlinaMusic import app
+from AlinaMusic.utils.database import (
     add_nonadmin_chat,
     cleanmode_off,
     cleanmode_on,
@@ -38,9 +38,9 @@ from YukkiMusic.utils.database import (
     set_playmode,
     set_playtype,
 )
-from YukkiMusic.utils.decorators.admins import ActualAdminCB
-from YukkiMusic.utils.decorators.language import language, languageCB
-from YukkiMusic.utils.inline.settings import (
+from AlinaMusic.utils.decorators.admins import ActualAdminCB
+from AlinaMusic.utils.decorators.language import language, languageCB
+from AlinaMusic.utils.inline.settings import (
     audio_quality_markup,
     auth_users_markup,
     cleanmode_settings_markup,
@@ -48,7 +48,7 @@ from YukkiMusic.utils.inline.settings import (
     setting_markup,
     video_quality_markup,
 )
-from YukkiMusic.utils.inline.start import private_panel
+from AlinaMusic.utils.inline.start import private_panel
 
 from config import BANNED_USERS, CLEANMODE_DELETE_MINS, OWNER_ID
 from strings import get_command
