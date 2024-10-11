@@ -13,6 +13,8 @@ from random import randint
 from typing import Union
 
 from pyrogram.types import InlineKeyboardMarkup
+
+import config
 from AlinaMusic import Carbon, YouTube, app
 from AlinaMusic.core.call import Alina
 from AlinaMusic.misc import db
@@ -24,11 +26,8 @@ from AlinaMusic.utils.database import (
 from AlinaMusic.utils.exceptions import AssistantErr
 from AlinaMusic.utils.inline.play import queue_markup, stream_markup, telegram_markup
 from AlinaMusic.utils.inline.playlist import close_markup
-from AlinaMusic.utils.pastebin import Yukkibin
 from AlinaMusic.utils.stream.queue import put_queue, put_queue_index
 from AlinaMusic.utils.thumbnails import gen_qthumb, gen_thumb
-
-import config
 
 
 async def stream(
