@@ -16,8 +16,9 @@ from pyrogram.errors import (
     UserAlreadyParticipant,
     UserNotParticipant,
 )
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+from pyrogram.types import InlineKeyboardMarkup
 from strings import get_string
+
 from AlinaMusic import YouTube, app
 from AlinaMusic.core.call import Alina
 from AlinaMusic.misc import SUDOERS
@@ -33,7 +34,6 @@ from AlinaMusic.utils.database import (
     is_served_private_chat,
 )
 from AlinaMusic.utils.inline import botplaylist_markup
-
 from config import PLAYLIST_IMG_URL, PRIVATE_BOT_MODE
 from config import SUPPORT_GROUP as SUPPORT_CHAT
 from config import adminlist
@@ -100,8 +100,7 @@ def PlayWrapper(command):
         try:
             is_call_active = (await app.get_chat(chat_id)).is_call_active
             if not is_call_active:
-                return await message.reply_text(_["call_9"]
-                )
+                return await message.reply_text(_["call_9"])
         except Exception:
             pass
 
