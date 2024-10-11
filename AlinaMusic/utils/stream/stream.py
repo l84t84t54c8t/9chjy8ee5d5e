@@ -13,20 +13,20 @@ from random import randint
 from typing import Union
 
 from pyrogram.types import InlineKeyboardMarkup
-from YukkiMusic import Carbon, YouTube, app
-from YukkiMusic.core.call import Yukki
-from YukkiMusic.misc import db
-from YukkiMusic.utils.database import (
+from AlinaMusic import Carbon, YouTube, app
+from AlinaMusic.core.call import Alina
+from AlinaMusic.misc import db
+from AlinaMusic.utils.database import (
     add_active_video_chat,
     is_active_chat,
     is_video_allowed,
 )
-from YukkiMusic.utils.exceptions import AssistantErr
-from YukkiMusic.utils.inline.play import queue_markup, stream_markup, telegram_markup
-from YukkiMusic.utils.inline.playlist import close_markup
-from YukkiMusic.utils.pastebin import Yukkibin
-from YukkiMusic.utils.stream.queue import put_queue, put_queue_index
-from YukkiMusic.utils.thumbnails import gen_qthumb, gen_thumb
+from AlinaMusic.utils.exceptions import AssistantErr
+from AlinaMusic.utils.inline.play import queue_markup, stream_markup, telegram_markup
+from AlinaMusic.utils.inline.playlist import close_markup
+from AlinaMusic.utils.pastebin import Yukkibin
+from AlinaMusic.utils.stream.queue import put_queue, put_queue_index
+from AlinaMusic.utils.thumbnails import gen_qthumb, gen_thumb
 
 import config
 
@@ -50,7 +50,7 @@ async def stream(
         if not await is_video_allowed(chat_id):
             raise AssistantErr(_["play_7"])
     if forceplay:
-        await Yukki.force_stop_stream(chat_id)
+        await Alina.force_stop_stream(chat_id)
     if streamtype == "playlist":
         msg = f"{_['playlist_16']}\n\n"
         count = 0
@@ -97,7 +97,7 @@ async def stream(
                     )
                 except:
                     raise AssistantErr(_["play_16"])
-                await Yukki.join_call(
+                await Alina.join_call(
                     chat_id, original_chat_id, file_path, video=status, image=thumbnail
                 )
                 await put_queue(
@@ -118,7 +118,7 @@ async def stream(
                     original_chat_id,
                     photo=img,
                     caption=_["stream_1"].format(
-                        title[:27],
+                        title[:23],
                         f"https://t.me/{app.username}?start=info_{vidid}",
                         duration_min,
                         user_name,
@@ -130,7 +130,7 @@ async def stream(
         if count == 0:
             return
         else:
-            link = await Yukkibin(msg)
+            link = await Alinabin(msg)
             lines = msg.count("\n")
             if lines >= 17:
                 car = os.linesep.join(msg.split(os.linesep)[:17])
@@ -176,14 +176,14 @@ async def stream(
                 original_chat_id,
                 photo=qimg,
                 caption=_["queue_4"].format(
-                    position, title[:27], duration_min, user_name
+                    position, title[:23], duration_min, user_name
                 ),
                 reply_markup=InlineKeyboardMarkup(button),
             )
         else:
             if not forceplay:
                 db[chat_id] = []
-            await Yukki.join_call(
+            await Alina.join_call(
                 chat_id, original_chat_id, file_path, video=status, image=thumbnail
             )
             await put_queue(
@@ -205,7 +205,7 @@ async def stream(
                     original_chat_id,
                     photo=img,
                     caption=_["stream_1"].format(
-                        title[:27],
+                        title[:23],
                         f"https://t.me/{app.username}?start=info_{vidid}",
                         duration_min,
                         user_name,
@@ -235,12 +235,12 @@ async def stream(
             position = len(db.get(chat_id)) - 1
             await app.send_message(
                 original_chat_id,
-                _["queue_4"].format(position, title[:30], duration_min, user_name),
+                _["queue_4"].format(position, title[:23], duration_min, user_name),
             )
         else:
             if not forceplay:
                 db[chat_id] = []
-            await Yukki.join_call(chat_id, original_chat_id, file_path, video=None)
+            await Alina.join_call(chat_id, original_chat_id, file_path, video=None)
             await put_queue(
                 chat_id,
                 original_chat_id,
@@ -285,12 +285,12 @@ async def stream(
             position = len(db.get(chat_id)) - 1
             await app.send_message(
                 original_chat_id,
-                _["queue_4"].format(position, title[:30], duration_min, user_name),
+                _["queue_4"].format(position, title[:23], duration_min, user_name),
             )
         else:
             if not forceplay:
                 db[chat_id] = []
-            await Yukki.join_call(chat_id, original_chat_id, file_path, video=status)
+            await Alina.join_call(chat_id, original_chat_id, file_path, video=status)
             await put_queue(
                 chat_id,
                 original_chat_id,
@@ -336,7 +336,7 @@ async def stream(
             position = len(db.get(chat_id)) - 1
             await app.send_message(
                 original_chat_id,
-                _["queue_4"].format(position, title[:30], duration_min, user_name),
+                _["queue_4"].format(position, title[:23], duration_min, user_name),
             )
         else:
             if not forceplay:
@@ -344,7 +344,7 @@ async def stream(
             n, file_path = await YouTube.video(link)
             if n == 0:
                 raise AssistantErr(_["str_3"])
-            await Yukki.join_call(
+            await Alina.join_call(
                 chat_id,
                 original_chat_id,
                 file_path,
@@ -369,7 +369,7 @@ async def stream(
                 original_chat_id,
                 photo=img,
                 caption=_["stream_1"].format(
-                    title[:27],
+                    title[:23],
                     f"https://t.me/{app.username}?start=info_{vidid}",
                     duration_min,
                     user_name,
@@ -395,12 +395,12 @@ async def stream(
             )
             position = len(db.get(chat_id)) - 1
             await mystic.edit_text(
-                _["queue_4"].format(position, title[:30], duration_min, user_name)
+                _["queue_4"].format(position, title[:23], duration_min, user_name)
             )
         else:
             if not forceplay:
                 db[chat_id] = []
-            await Yukki.join_call(
+            await Alina.join_call(
                 chat_id,
                 original_chat_id,
                 link,
