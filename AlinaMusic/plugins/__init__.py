@@ -17,7 +17,7 @@ import subprocess
 import sys
 from os.path import abspath, dirname, isfile, join
 
-from YukkiMusic import LOGGER
+from AlinaMusic import LOGGER
 
 from config import EXTRA_PLUGINS, EXTRA_PLUGINS_FOLDER, EXTRA_PLUGINS_REPO
 
@@ -99,7 +99,7 @@ def __list_all_modules():
         modules = [
             (
                 (
-                    (f.replace(main_repo_plugins_dir, "YukkiMusic.plugins")).replace(
+                    (f.replace(main_repo_plugins_dir, "AlinaMusic.plugins")).replace(
                         EXTERNAL_REPO_PATH, EXTRA_PLUGINS_FOLDER
                     )
                 ).replace(os.sep, ".")
