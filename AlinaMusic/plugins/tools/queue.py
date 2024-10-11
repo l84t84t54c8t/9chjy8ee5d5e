@@ -14,14 +14,14 @@ from pyrogram import filters
 from pyrogram.errors import FloodWait
 from pyrogram.types import CallbackQuery, InputMediaPhoto, Message
 from strings import get_command
+
+import config
 from AlinaMusic import app
 from AlinaMusic.misc import db
 from AlinaMusic.utils import Alinabin, get_channeplayCB, seconds_to_min
 from AlinaMusic.utils.database import get_cmode, is_active_chat, is_music_playing
 from AlinaMusic.utils.decorators.language import language, languageCB
 from AlinaMusic.utils.inline import queue_back_markup, queue_markup
-
-import config
 from config import BANNED_USERS
 
 ###Commands
