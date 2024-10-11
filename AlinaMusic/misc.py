@@ -13,7 +13,7 @@ import time
 
 import heroku3
 from pyrogram import filters
-from YukkiMusic.core.mongo import pymongodb
+from AlinaMusic.core.mongo import pymongodb
 
 import config
 
