@@ -143,6 +143,7 @@ async def get_filter(chat_id: int, name: str) -> Union[bool, dict]:
         return _filters[name]
     return False
 
+
 async def save_filter(chat_id: int, name: str, _filter: dict):
     name = name.lower().strip()
     _filters = await _get_filters(chat_id)
