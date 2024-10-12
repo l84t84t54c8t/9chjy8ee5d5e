@@ -2,11 +2,10 @@ from pyrogram import filters
 from pyrogram.enums import ChatMemberStatus
 from pyrogram.errors import UserNotParticipant
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
+
 from AlinaMusic import app
-from AlinaMusic.utils.database import get_ass
 from AlinaMusic.utils.logger import play_logs
 from AlinaMusic.utils.stream.stream import stream
-
 from config import BANNED_USERS
 from strings import get_string
 
