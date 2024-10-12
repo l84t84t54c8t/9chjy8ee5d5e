@@ -4,7 +4,7 @@ from pyrogram.errors import UserNotParticipant
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 
 from AlinaMusic import app
-from AlinaMusic.utils.database import get_assistant
+from AlinaMusic.utils.database import get_assistant, get_lang
 from AlinaMusic.utils.logger import play_logs
 from AlinaMusic.utils.stream.stream import stream
 from config import BANNED_USERS
