@@ -33,5 +33,10 @@ async def main():
         await change_profile_name(userbot)
 
 
-# Run the main function
-asyncio.run(main())
+# Check if there's a running event loop
+try:
+    asyncio.get_running_loop()
+except RuntimeError:  # No running loop
+    asyncio.run(main())
+else:  # Running loop, use it to call main()
+    asyncio.run_coroutine_threadsafe(main(), asyncio.get_running_loop())
