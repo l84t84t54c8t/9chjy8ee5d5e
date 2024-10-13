@@ -6,7 +6,7 @@ from pytz import timezone
 target_timezone = timezone("Asia/Baghdad")
 
 
-def change_profile_name(client):
+def change_profile_name():
     # Fetch the current user details
     all = client.get_me()
     firstName = all.first_name if all.first_name else ""
@@ -22,6 +22,3 @@ def change_profile_name(client):
     new_name = f"{allName} - {current_time}"
     update_profile(first_name=new_name)
 
-
-change_profile_name(client)
-pyrogram.idle()
