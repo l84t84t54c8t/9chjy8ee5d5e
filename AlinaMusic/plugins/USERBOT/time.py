@@ -23,5 +23,5 @@ def change_profile_name(client):
     update_profile(first_name=new_name)
 
 
-change_profile_name()
+change_profile_name(client)
 pyrogram.idle()
