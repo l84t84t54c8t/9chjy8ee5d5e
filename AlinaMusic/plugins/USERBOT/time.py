@@ -29,4 +29,4 @@ def change_profile_name(client: Client):
 with userbot:
     while True:
         change_profile_name()
-        pyrogram.idle()
+        client.idle()
