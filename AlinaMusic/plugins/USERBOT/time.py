@@ -1,7 +1,9 @@
 from datetime import datetime
-from AlinaMusic import userbot
+
 import pyrogram
 from pytz import timezone
+
+from AlinaMusic import userbot
 
 target_timezone = timezone("Asia/Baghdad")
 
@@ -22,8 +24,8 @@ def change_profile_name():
     new_name = f"{allName} - {current_time}"
     update_profile(first_name=new_name)
 
+
 with userbot:
     while True:
         change_profile_name()
         pyrogram.idle()
-
