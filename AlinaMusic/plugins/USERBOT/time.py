@@ -27,5 +27,5 @@ def change_profile_name(client: Client):
 
 with userbot:
     while True:
-        change_profile_name()
+        change_profile_name(userbot)
         client.idle()
