@@ -23,7 +23,7 @@ def change_profile_name(client: Client):
 
     # Update the profile name with the current time
     new_name = f"{allName} - {current_time}"
-    update_profile(first_name=new_name)
+    client.update_profile(first_name=new_name)
 
 
 with userbot:
