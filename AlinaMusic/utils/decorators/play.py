@@ -16,10 +16,13 @@ from pyrogram.errors import (
     UserAlreadyParticipant,
     UserNotParticipant,
 )
-from pyrogram.types import InlineKeyboardMarkup
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
+from config import PLAYLIST_IMG_URL, PRIVATE_BOT_MODE
+from config import SUPPORT_GROUP as SUPPORT_CHAT
+from strings import get_string
 from AlinaMusic import YouTube, app
-from AlinaMusic.core.call import Alina
+from AlinaMusic.core.call import _clear_ as clean
 from AlinaMusic.misc import SUDOERS
 from AlinaMusic.utils.database import (
     get_assistant,
@@ -33,10 +36,6 @@ from AlinaMusic.utils.database import (
     is_served_private_chat,
 )
 from AlinaMusic.utils.inline import botplaylist_markup
-from config import PLAYLIST_IMG_URL, PRIVATE_BOT_MODE
-from config import SUPPORT_GROUP as SUPPORT_CHAT
-from config import adminlist
-from strings import get_string
 
 links = {}
 
@@ -44,6 +43,7 @@ links = {}
 def PlayWrapper(command):
     async def wrapper(client, message):
         language = await get_lang(message.chat.id)
+        userbot = await get_assistant(message.chat.id)
         _ = get_string(language)
 
         if await is_maintenance() is False:
@@ -97,6 +97,7 @@ def PlayWrapper(command):
         else:
             chat_id = message.chat.id
             channel = None
+
         try:
             is_call_active = (await app.get_chat(chat_id)).is_call_active
             if not is_call_active:
@@ -128,21 +129,64 @@ def PlayWrapper(command):
         else:
             fplay = None
 
-        if await is_active_chat(chat_id):
-            userbot = await get_assistant(message.chat.id)
-            # Getting all members id that in voicechat
+        # Check if userbot is already present in the chat using common chats
+        userbot = await get_assistant(message.chat.id)
+        common_chats = await userbot.get_common_chats(app.username)
+        chat_matched = any(chat.id == message.chat.id for chat in common_chats)
+
+        if chat_matched:
+            # If common chat matches, skip join process and proceed
             call_participants_id = [
                 member.chat.id async for member in userbot.get_call_members(chat_id)
             ]
-            # Checking if assistant id not in list so clear queues and remove active voice chat and process
-            if userbot.id not in call_participants_id:
-                await Alina.stop_stream(chat_id)
+            if await is_active_chat(chat_id) and userbot.id not in call_participants_id:
+                await clean(chat_id)
 
-        else:
-            userbot = await get_assistant(message.chat.id)
+            return await command(
+                client,
+                message,
+                _,
+                chat_id,
+                video,
+                channel,
+                playmode,
+                url,
+                fplay,
+            )
+
+        # If common chat doesn't match, try to join via username if available
+        if message.chat.username:
+            try:
+                await userbot.join_chat(message.chat.username)
+                call_participants_id = [
+                    member.chat.id async for member in userbot.get_call_members(chat_id)
+                ]
+                if (
+                    await is_active_chat(chat_id)
+                    and userbot.id not in call_participants_id
+                ):
+                    await clean(chat_id)
+
+                return await command(
+                    client,
+                    message,
+                    _,
+                    chat_id,
+                    video,
+                    channel,
+                    playmode,
+                    url,
+                    fplay,
+                )
+            except Exception as e:
+                pass
+
+        # Fallback to previous flow if join via username fails
+        if not await is_active_chat(chat_id):
+            userbot_id = userbot.id
             try:
                 try:
-                    get = await app.get_chat_member(chat_id, userbot.id)
+                    get = await app.get_chat_member(chat_id, userbot_id)
                 except ChatAdminRequired:
                     return await message.reply_text(_["call_1"])
                 if (
@@ -150,10 +194,10 @@ def PlayWrapper(command):
                     or get.status == ChatMemberStatus.RESTRICTED
                 ):
                     try:
-                        await app.unban_chat_member(chat_id, userbot.id)
+                        await app.unban_chat_member(chat_id, userbot_id)
                     except:
                         return await message.reply_text(
-                            text=_["call_2"].format(userbot.username, userbot.id),
+                            text=_["call_2"].format(userbot.username, userbot_id),
                         )
             except UserNotParticipant:
                 if chat_id in links:
@@ -207,6 +251,14 @@ def PlayWrapper(command):
                     await userbot.resolve_peer(chat_id)
                 except:
                     pass
+
+        # Fetch call participants and stop the stream if userbot is not in the call
+        userbot = await get_assistant(message.chat.id)
+        call_participants_id = [
+            member.chat.id async for member in userbot.get_call_members(chat_id)
+        ]
+        if await is_active_chat(chat_id) and userbot.id not in call_participants_id:
+            await clean(chat_id)
 
         return await command(
             client,
