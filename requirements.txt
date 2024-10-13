@@ -15,6 +15,7 @@ wget
 pillow==9.5.0
 psutil
 pytube
+pytz
 pykeyboard
 py-tgcalls==2.0.4
 python-dotenv
