@@ -1,5 +1,5 @@
 from datetime import datetime
-
+from pyrogram import Client
 import pyrogram
 from pytz import timezone
 
@@ -8,7 +8,7 @@ from AlinaMusic import userbot
 target_timezone = timezone("Asia/Baghdad")
 
 
-def change_profile_name():
+def change_profile_name(client: Client):
     # Fetch the current user details
     all = client.get_me()
     firstName = all.first_name if all.first_name else ""
