@@ -1,6 +1,5 @@
 from datetime import datetime
 
-import pyrogram
 from pytz import timezone
 
 target_timezone = timezone("Asia/Baghdad")
@@ -21,4 +20,3 @@ def change_profile_name():
     # Update the profile name with the current time
     new_name = f"{allName} - {current_time}"
     update_profile(first_name=new_name)
-
