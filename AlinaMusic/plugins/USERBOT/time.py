@@ -1,5 +1,5 @@
-import asyncio
 from datetime import datetime
+
 import pyrogram
 from pytz import timezone
 
@@ -17,7 +17,6 @@ async def change_profile_name():
     current_time = datetime.now(target_timezone).strftime("%I:%M %p")
     new_name = f"{allName} - {current_time}"
     await client.update_profile(first_name=new_name)
-
 
 
 with userbot:
