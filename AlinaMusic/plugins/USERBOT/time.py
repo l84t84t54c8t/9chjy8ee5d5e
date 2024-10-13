@@ -1,6 +1,5 @@
 from datetime import datetime
 
-import pyrogram
 from pyrogram import Client
 from pytz import timezone
 
