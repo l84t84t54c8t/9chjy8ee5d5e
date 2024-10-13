@@ -16,11 +16,8 @@ from pyrogram.errors import (
     UserAlreadyParticipant,
     UserNotParticipant,
 )
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+from pyrogram.types import InlineKeyboardMarkup
 
-from config import PLAYLIST_IMG_URL, PRIVATE_BOT_MODE
-from config import SUPPORT_GROUP as SUPPORT_CHAT
-from strings import get_string
 from AlinaMusic import YouTube, app
 from AlinaMusic.core.call import _clear_ as clean
 from AlinaMusic.misc import SUDOERS
@@ -36,6 +33,9 @@ from AlinaMusic.utils.database import (
     is_served_private_chat,
 )
 from AlinaMusic.utils.inline import botplaylist_markup
+from config import PLAYLIST_IMG_URL, PRIVATE_BOT_MODE
+from config import SUPPORT_GROUP as SUPPORT_CHAT
+from strings import get_string
 
 links = {}
 
