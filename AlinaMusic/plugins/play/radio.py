@@ -3,12 +3,13 @@ from pyrogram.enums import ChatMemberStatus
 from pyrogram.errors import UserNotParticipant
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 
-from AlinaMusic import app
-from AlinaMusic.utils.database import get_assistant, get_lang
-from AlinaMusic.utils.logger import play_logs
-from AlinaMusic.utils.stream.stream import stream
 from config import BANNED_USERS
 from strings import get_string
+from AlinaMusic import app
+from AlinaMusic.utils.database import get_assistant, get_lang
+from AlinaMusic.utils.decorators.radio import RadioWrapper
+from AlinaMusic.utils.logger import play_logs
+from AlinaMusic.utils.stream.stream import stream
 
 # Radio Station List
 RADIO_STATION = {
@@ -22,7 +23,7 @@ RADIO_STATION = {
     "sᴀᴅʜɴᴀ ᴛᴠ": "https://6n3yow8pl9ok-hls-live.5centscdn.com/sadhanalivetv/live.stream/playlist.m3u8",
     "ᴘᴛᴄ ᴍᴜsɪᴄ": "https://streaming.ptcplay.com/ptcMusicINOne/smil:Live.smil/playlist.m3u8",
     "𝟿xᴍ ᴍᴜsɪᴄ": "https://d2q8p4pe5spbak.cloudfront.net/bpk-tv/9XM/9XM.isml/index.m3u8",
-    "ɴᴇᴡs ʙɪʜᴀʀ ᴊʜᴀʀᴋʜᴀɴᴅ": "https://ythls.armelin.one/channel/UC531MlZA5LUbeGwEN_zcppw.m3u8",
+    "ɴʀᴊ ʜɪᴛs": "http://cdn.nrjaudio.fm/audio1/fr/30001/mp3_128.mp3",
 }
 
 
@@ -52,7 +53,10 @@ def create_triangular_buttons():
     & filters.group
     & ~BANNED_USERS
 )
-async def radio(client, message: Message):
+@RadioWrapper
+async def radio(
+    client, message: Message, _, chat_id, video, channel, playmode, url, fplay
+):
     msg = await message.reply_text("ᴘʟᴇᴀsᴇ ᴡᴀɪᴛ ᴀ ᴍᴏᴍᴇɴᴛ...")
 
     try:
