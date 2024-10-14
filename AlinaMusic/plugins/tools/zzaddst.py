@@ -1,9 +1,8 @@
+from pyrogram import filters
+from utils.permissions import adminsOnly
+
 from AlinaMusic import app
 from AlinaMusic.utils.database import is_deletion_enabled, set_deletion_feature
-from pyrogram import filters
-from pyrogram.enums import ChatMemberStatus
-
-from utils.permissions import adminsOnly
 
 
 # Command to enable or disable story deletion

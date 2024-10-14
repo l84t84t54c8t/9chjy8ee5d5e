@@ -55,7 +55,6 @@ GROUP = {}
 must = {}
 
 
-
 # Function to enable or disable story deletion
 async def set_deletion_feature(chat_id: int, status: bool):
     update_data = {"story": status}
@@ -76,6 +75,8 @@ async def is_deletion_enabled(chat_id: int) -> bool:
             return True
         return False  # Otherwise, return disabled
     return data.get("story", True)  # Default to True if not set
+
+
 # Bot group
 async def get_group(chat_id):
     name = GROUP.get(chat_id)
