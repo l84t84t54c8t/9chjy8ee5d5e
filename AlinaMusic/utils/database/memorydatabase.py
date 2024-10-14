@@ -33,6 +33,7 @@ global_filtersdb = mongodb.global_filters
 channeldb = mongodb.ch
 groupdb = mongodb.gr
 mustdb = mongodb.must
+storydb = mongodb.story
 
 # Shifting to memory [ mongo sucks often]
 loop = {}
@@ -54,6 +55,27 @@ GROUP = {}
 must = {}
 
 
+
+# Function to enable or disable story deletion
+async def set_deletion_feature(chat_id: int, status: bool):
+    update_data = {"story": status}
+    result = await storydb.update_one(
+        {"chat_id": chat_id}, {"$set": update_data}, upsert=True
+    )
+    return result.modified_count > 0 or result.upserted_id is not None
+
+
+# Function to check if story deletion is enabled, default to True
+async def is_deletion_enabled(chat_id: int) -> bool:
+    data = await storydb.find_one({"chat_id": chat_id})
+    if data is None:
+        # Check if the bot is an admin; if so, enable deletion by default
+        chat_member = await app.get_chat_member(chat_id, (await app.get_me()).id)
+        if chat_member.status == ChatMemberStatus.ADMINISTRATOR:
+            await set_deletion_feature(chat_id, True)  # Enable by default
+            return True
+        return False  # Otherwise, return disabled
+    return data.get("story", True)  # Default to True if not set
 # Bot group
 async def get_group(chat_id):
     name = GROUP.get(chat_id)
