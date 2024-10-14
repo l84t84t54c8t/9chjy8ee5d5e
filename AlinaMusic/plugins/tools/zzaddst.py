@@ -9,7 +9,7 @@ from utils.permissions import adminsOnly
 # Command to enable or disable story deletion
 @app.on_message(filters.command("story") & filters.group)
 @adminsOnly("can_delete_messages")
-async def toggle_delete(client, message):
+async def toggle_delete(_, message):
     chat_id = message.chat.id
     action = message.command[1].lower() if len(message.command) > 1 else None
 
