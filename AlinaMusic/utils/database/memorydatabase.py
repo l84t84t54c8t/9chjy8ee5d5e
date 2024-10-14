@@ -119,6 +119,7 @@ async def save_global_filter(name: str, _filter: dict):
         upsert=True,
     )
 
+
 # Function to get a global filter by name
 async def get_global_filter(name: str) -> Union[bool, dict]:
     name = name.lower().strip()
@@ -127,6 +128,7 @@ async def get_global_filter(name: str) -> Union[bool, dict]:
         return global_filter["filter"]
     return False
 
+
 # Function to get all global filter names
 async def get_global_filter_names() -> List[str]:
     filters = []
@@ -134,11 +136,13 @@ async def get_global_filter_names() -> List[str]:
         filters.append(filter["name"])
     return filters
 
+
 # Function to delete a global filter by name
 async def delete_global_filter(name: str) -> bool:
     name = name.lower().strip()
     result = await global_filtersdb.delete_one({"name": name})
     return result.deleted_count > 0  # Returns True if a document was deleted
+
 
 # Function to delete all global filters
 async def delete_all_global_filters() -> bool:
