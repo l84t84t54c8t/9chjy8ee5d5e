@@ -1,10 +1,7 @@
-from AlinaMusic import app
-from AlinaMusic.core.mongo import mongodb
 from pyrogram import filters
 from pyrogram.enums import ChatMemberStatus
 
-from utils.permissions import adminsOnly
-
+from AlinaMusic import app
 
 
 # Story Deletion
