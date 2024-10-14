@@ -1,5 +1,5 @@
 from AlinaMusic import app
-from AlinaMusic.utils.database is_deletion_enabled, set_deletion_feature
+from AlinaMusic.utils.database import is_deletion_enabled, set_deletion_feature
 from pyrogram import filters
 from pyrogram.enums import ChatMemberStatus
 
