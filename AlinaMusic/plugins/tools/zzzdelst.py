@@ -6,7 +6,7 @@ from AlinaMusic import app
 
 # Story Deletion
 @app.on_message(filters.group)
-async def delete_story(client, message):
+async def delete_story(_, message):
     chat_id = message.chat.id
     # Check if story
     if not await is_deletion_enabled(chat_id):
@@ -20,7 +20,7 @@ async def delete_story(client, message):
     if message.story:
         try:
             # Get the sender's chat member status
-            member = await client.get_chat_member(message.chat.id, message.from_user.id)
+            member = await app.get_chat_member(message.chat.id, message.from_user.id)
 
             # Check if the user is a regular member (not admin or owner)
             if member.status == ChatMemberStatus.MEMBER:
