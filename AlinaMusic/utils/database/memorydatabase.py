@@ -29,6 +29,7 @@ onoffdb = mongodb.onoffper
 autoenddb = mongodb.autoend
 notesdb = mongodb.notes
 filtersdb = mongodb.filters
+global_filtersdb = mongodb.global_filters
 channeldb = mongodb.ch
 groupdb = mongodb.gr
 mustdb = mongodb.must
@@ -107,6 +108,42 @@ async def set_must(chat_id: str, m: str):
         ii = "on"
     must[chat_id] = ii
     mustdb.update_one({"chat_id": chat_id}, {"$set": {"getmust": ii}}, upsert=True)
+
+
+# Function to save global filters
+async def save_global_filter(name: str, _filter: dict):
+    name = name.lower().strip()
+    await global_filtersdb.update_one(
+        {"name": name},
+        {"$set": {"filter": _filter}},
+        upsert=True,
+    )
+
+# Function to get a global filter by name
+async def get_global_filter(name: str) -> Union[bool, dict]:
+    name = name.lower().strip()
+    global_filter = await global_filtersdb.find_one({"name": name})
+    if global_filter:
+        return global_filter["filter"]
+    return False
+
+# Function to get all global filter names
+async def get_global_filter_names() -> List[str]:
+    filters = []
+    async for filter in global_filtersdb.find():
+        filters.append(filter["name"])
+    return filters
+
+# Function to delete a global filter by name
+async def delete_global_filter(name: str) -> bool:
+    name = name.lower().strip()
+    result = await global_filtersdb.delete_one({"name": name})
+    return result.deleted_count > 0  # Returns True if a document was deleted
+
+# Function to delete all global filters
+async def delete_all_global_filters() -> bool:
+    result = await global_filtersdb.delete_many({})
+    return result.deleted_count > 0  # Returns True if any documents were deleted
 
 
 async def get_filters_count() -> dict:
