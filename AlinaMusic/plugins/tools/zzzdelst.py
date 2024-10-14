@@ -1,6 +1,6 @@
 from pyrogram import filters
 from pyrogram.enums import ChatMemberStatus
-
+from AlinaMusic.utils.database import is_deletion_enabled
 from AlinaMusic import app
 
 
