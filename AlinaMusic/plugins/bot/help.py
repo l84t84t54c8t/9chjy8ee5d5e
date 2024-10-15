@@ -1,3 +1,12 @@
+#
+# Copyright (C) 2024 by TheTeamVivek@Github, < https://github.com/TheTeamVivek >.
+#
+# This file is part of < https://github.com/TheTeamVivek/YukkiMusic > project,
+# and is released under the MIT License.
+# Please see < https://github.com/TheTeamVivek/YukkiMusic/blob/master/LICENSE >
+#
+# All rights reserved.
+#
 import re
 from math import ceil
 from typing import Union
@@ -5,12 +14,12 @@ from typing import Union
 from pyrogram import filters, types
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 
+from config import BANNED_USERS, START_IMG_URL
+from strings import get_command, get_string
 from AlinaMusic import HELPABLE, app
 from AlinaMusic.utils.database import get_lang, is_commanddelete_on
 from AlinaMusic.utils.decorators.language import LanguageStart
 from AlinaMusic.utils.inline.help import private_help_panel
-from config import BANNED_USERS, START_IMG_URL
-from strings import get_command, get_string
 
 ### Command
 HELP_COMMAND = get_command("HELP_COMMAND")
@@ -72,7 +81,7 @@ def paginate_modules(page_n, module_dict, prefix, chat=None, close: bool = False
                     ),
                 ),
                 EqInlineKeyboardButton(
-                    "ᴄʟᴏsᴇ" if close else "Bᴀᴄᴋ",
+                    "close" if close else "Back",
                     callback_data="close" if close else "settingsback_helper",
                 ),
                 EqInlineKeyboardButton(
@@ -85,7 +94,7 @@ def paginate_modules(page_n, module_dict, prefix, chat=None, close: bool = False
         pairs.append(
             [
                 EqInlineKeyboardButton(
-                    "ᴄʟᴏsᴇ" if close else "Bᴀᴄᴋ",
+                    "close" if close else "Back",
                     callback_data="close" if close else "settingsback_helper",
                 ),
             ]
@@ -105,12 +114,10 @@ async def helper_private(
             await update.answer()
         except:
             pass
-
         chat_id = update.message.chat.id
         language = await get_lang(chat_id)
         _ = get_string(language)
         keyboard = InlineKeyboardMarkup(paginate_modules(0, HELPABLE, "help"))
-
         await update.edit_message_text(_["help_1"], reply_markup=keyboard)
     else:
         chat_id = update.chat.id
@@ -125,7 +132,6 @@ async def helper_private(
             paginate_modules(0, HELPABLE, "help", close=True)
         )
         if START_IMG_URL:
-
             await update.reply_photo(
                 photo=START_IMG_URL,
                 caption=_["help_1"],
@@ -133,7 +139,6 @@ async def helper_private(
             )
 
         else:
-
             await update.reply_text(
                 text=_["help_1"],
                 reply_markup=keyboard,
@@ -161,8 +166,11 @@ async def help_button(client, query):
     next_match = re.match(r"help_next\((.+?)\)", query.data)
     back_match = re.match(r"help_back\((\d+)\)", query.data)
     create_match = re.match(r"help_create", query.data)
-    language = await get_lang(query.message.chat.id)
-    _ = get_string(language)
+    try:
+        language = await get_lang(query.message.chat.id)
+        _ = get_string(language)
+    except:
+        _ = get_string("en")
     top_text = _["help_1"]
 
     if mod_match:
@@ -177,9 +185,9 @@ async def help_button(client, query):
             [
                 [
                     InlineKeyboardButton(
-                        text="↪️ گەڕانەوە", callback_data=f"help_back({prev_page_num})"
+                        text= _["BACK_BUTTON"], callback_data=f"help_back({prev_page_num})"
                     ),
-                    InlineKeyboardButton(text="🔄 داخستن", callback_data="close"),
+                    InlineKeyboardButton(text=_["CLOSE_BUTTON"], callback_data="close"),
                 ],
             ]
         )
