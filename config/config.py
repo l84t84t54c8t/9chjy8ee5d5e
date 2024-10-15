@@ -30,9 +30,8 @@ BOT_TOKEN = getenv("BOT_TOKEN")
 # Database to save your chats and stats... Get MongoDB:-  https://telegra.ph/How-To-get-Mongodb-URI-04-06
 MONGO_DB_URI = getenv("MONGO_DB_URI", None)
 
-
 CLEANMODE_DELETE_MINS = int(
-    getenv("CLEANMODE_MINS", "300")
+    getenv("CLEANMODE_MINS", "30")
 )  # Remember to give value in Seconds
 
 
@@ -82,22 +81,22 @@ MUST_JOIN2 = getenv("MUST_JOIN2", "GroupAlina")
 CHANNEL = "https://t.me/EHS4SS"
 GROUP = "https://t.me/GroupAlina"
 
-# Fill in seconds if assistant is muted in voice chat assistant will leave  voice chat after the MUTE_WARNING_TIME
-MUTE_WARNING_TIME = int(getenv("MUTE_WARNING_TIME", 60))
 
 # Your User ID.
 OWNER_ID = list(
     map(int, getenv("OWNER_ID", "833360381").split())
 )  # Input type must be interger
 
+
 # Owner Username
 OWNER_USERNAME = getenv("OWNER_USERNAME", "IQ7amo")
 USER_OWNER = getenv("USER_OWNER", "IQ7amo")
 
 # make your bots privacy from telegra.ph and put your url here
+# make your bots privacy from telegra.ph and put your url here
 
 PRIVACY_LINK = getenv(
-    "PRIVACY_LINK", "https://telegra.ph/Privacy-Policy-for-VIPMUSIC-08-30"
+    "PRIVACY_LINK", "https://telegra.ph/Privacy-Policy-for-YukkiMusic-08-30"
 )
 
 
@@ -111,7 +110,7 @@ HEROKU_APP_NAME = getenv("HEROKU_APP_NAME")
 # For customized or modified Repository
 UPSTREAM_REPO = getenv(
     "UPSTREAM_REPO",
-    "https://github.com/l84t84t54c8t/9chjy8ee5d5e",
+    "https://github.com/l84t84t54c8t/9chamnbeydn9",
 )
 UPSTREAM_BRANCH = getenv("UPSTREAM_BRANCH", "master")
 
@@ -134,14 +133,14 @@ OWNER_CHANNEL = getenv("OWNER_CHANNEL", "https://t.me/EHS4SS")
 
 SUPPORT_CHAT = getenv(
     "SUPPORT_GROUP", "https://t.me/GroupAlina"
-)  # Example:- https://t.me/TG_FRIENDSS
+)  # Example:- https://t.me/GroupAlina
 
 # Set it in True if you want to leave your assistant after a certain amount of time. [Set time via AUTO_LEAVE_ASSISTANT_TIME]
 AUTO_LEAVING_ASSISTANT = getenv("AUTO_LEAVING_ASSISTANT", False)
 
 # Time after which you're assistant account will leave chats automatically.
 AUTO_LEAVE_ASSISTANT_TIME = int(
-    getenv("ASSISTANT_LEAVE_TIME", 1800)
+    getenv("ASSISTANT_LEAVE_TIME", 5800)
 )  # Remember to give value in Seconds
 
 
@@ -159,7 +158,6 @@ TELEGRAM_DOWNLOAD_EDIT_SLEEP = int(getenv("TELEGRAM_EDIT_SLEEP", "5"))
 # Your Github Repo.. Will be shown on /start Command
 GITHUB_REPO = getenv("GITHUB_REPO", "https://t.me/MGIMT")
 
-
 # Spotify Client.. Get it from https://developer.spotify.com/dashboard
 SPOTIFY_CLIENT_ID = getenv("SPOTIFY_CLIENT_ID", "19609edb1b9f4ed7be0c8c1342039362")
 SPOTIFY_CLIENT_SECRET = getenv(
@@ -172,10 +170,10 @@ VIDEO_STREAM_LIMIT = int(getenv("VIDEO_STREAM_LIMIT", "999"))
 
 
 # Maximum Limit Allowed for users to save playlists on bot's server
-SERVER_PLAYLIST_LIMIT = int(getenv("SERVER_PLAYLIST_LIMIT", "500"))
+SERVER_PLAYLIST_LIMIT = int(getenv("SERVER_PLAYLIST_LIMIT", "25"))
 
 # MaximuM limit for fetching playlist's track from youtube, spotify, apple links.
-PLAYLIST_FETCH_LIMIT = int(getenv("PLAYLIST_FETCH_LIMIT", "500"))
+PLAYLIST_FETCH_LIMIT = int(getenv("PLAYLIST_FETCH_LIMIT", "25"))
 
 
 # Telegram audio  and video file size limit
@@ -196,7 +194,7 @@ TG_VIDEO_FILESIZE_LIMIT = int(
 SET_CMDS = getenv("SET_CMDS", "False")
 
 
-# You'll need a Pyrogram String Session for these vars. Generate String from our session generator bot @IQSGBOT
+# You'll need a Pyrogram String Session for these vars. Generate String from our session generator bot @YukkiStringBot
 STRING_SESSIONS = list(map(str.strip, getenv("STRING_SESSIONS", None).split(",")))
 
 
