@@ -24,6 +24,8 @@ call_8 : "ᴅᴏᴡɴʟᴏᴀᴅɪɴɢ ɴᴇxᴛ ᴛʀᴀᴄᴋ ꜰʀᴏᴍ ᴘ�
 call_9 : "**ɴᴏ ᴀᴄᴛɪᴠᴇ ᴠɪᴅᴇᴏ ᴄʜᴀᴛ ғᴏᴜɴᴅ**\n\nᴩʟᴇᴀsᴇ ᴍᴀᴋᴇ sᴜʀᴇ ʏᴏᴜ sᴛᴀʀᴛᴇᴅ ᴛʜᴇ ᴠɪᴅᴇᴏᴄʜᴀᴛ."
 call_10 : "**ᴀssɪsᴛᴀɴᴛ ᴀʟʀᴇᴀᴅʏ ɪɴ ᴠɪᴅᴇᴏᴄʜᴀᴛ**\n\nᴍᴜsɪᴄ ʙᴏᴛ sʏsᴛᴇᴍs ᴅᴇᴛᴇᴄᴛᴇᴅ ᴛʜᴀᴛ ᴀssɪᴛᴀɴᴛ ɪs ᴀʟʀᴇᴀᴅʏ ɪɴ ᴛʜᴇ ᴠɪᴅᴇᴏᴄʜᴀᴛ, ɪғ ᴛʜɪs ᴩʀᴏʙʟᴇᴍ ᴄᴏɴᴛɪɴᴜᴇs ʀᴇsᴛᴀʀᴛ ᴛʜᴇ ᴠɪᴅᴇᴏᴄʜᴀᴛ ᴀɴᴅ ᴛʀʏ ᴀɢᴀɪɴ."
 call_11 : "**ᴛᴇʟᴇɢʀᴀᴍ sᴇʀᴠᴇʀ ᴇʀʀᴏʀ**\n\nᴩʟᴇᴀsᴇ ᴛᴜʀɴ ᴏғғ ᴀɴᴅ ʀᴇsᴛᴀʀᴛ ᴛʜᴇ ᴠɪᴅᴇᴏᴄʜᴀᴛ ᴀɢᴀɪɴ."
+call_12 : "📉 Assistant is joined too many chats, therefore assistant can't join here\nContact [Support Group]({0}) to fix and inform this problem."
+call_13 : "⏳ Assistant is on FloodWait due to join/leave please wait {0} seconds."
 
 
 # PLUGINS - Auth.py
@@ -180,27 +182,34 @@ play_15 : "**ʟɪᴠᴇ sᴛʀᴇᴀᴍ ᴅᴇᴛᴇᴄᴛᴇᴅ**\n\nsʏsᴛᴇ
 play_16 : "ꜰᴀɪʟᴇᴅ ᴛᴏ ꜰᴇᴛᴄʜ ᴛʀᴀᴄᴋ ᴅᴇᴛᴀɪʟs, ᴍᴀʏʙᴇ ᴛʜᴀᴛ ᴛʀᴀᴄᴋ ɪs ᴀɢᴇ ʀᴇsᴛʀɪᴄᴛᴇᴅ ᴏɴ ʏᴏᴜᴛᴜʙᴇ. ᴛʀʏ ᴘʟᴀʏɪɴɢ ᴀɴʏ ᴏᴛʜᴇʀ."
 play_17 : "ᴜɴᴀʙʟᴇ ᴛᴏ ᴩʟᴀʏ ᴛʜɪs ᴛʏᴩᴇ ᴏғ sᴩᴏᴛɪғʏ ǫᴜᴇʀʏ !\n\n ɪ ᴄᴀɴ ᴏɴʟʏ ᴩʟᴀʏ sᴩᴏᴛɪғʏ ᴛʀᴀᴄᴋs, ᴀʟʙᴜᴍs, ᴀʀᴛɪsᴛs ᴀɴᴅ ᴩʟᴀʏʟɪsᴛs"
 play_18 : "**ɴᴏ ᴀᴄᴛɪᴠᴇ ᴠᴏɪᴄᴇ ᴄʜᴀᴛ**\n\nᴛᴏ ᴜsᴇ ғᴏʀᴄᴇ ᴩʟᴀʏ, ᴛʜᴇʀᴇ ᴍᴜsᴛ ʙᴇ ᴀɴ ᴀᴄᴛɪᴠᴇ ᴠᴏɪᴄᴇᴄʜᴀᴛ."
+play_19: "I don't think that it is a streamable URL. If you believe that it is a streamable URL, please use /stream <url>."
 
-#Playlist
-playlist_1 : "**ᴜsᴀɢᴇ:** /play [ᴍᴜsɪᴄ ɴᴀᴍᴇ ᴏʀ ʏᴏᴜᴛᴜʙᴇ ʟɪɴᴋ ᴏʀ ʀᴇᴘʟʏ ᴛᴏ ᴀᴜᴅɪᴏ]\n\nɪꜰ ʏᴏᴜ ᴡᴀɴᴛ ᴛᴏ ᴘʟᴀʏ ʙᴏᴛ's sᴇʀᴠᴇʀ ᴘʟᴀʏʟɪsᴛ ! ᴘʀᴇss ᴛʜᴇ ʙᴜᴛᴛᴏɴ ʙᴇʟᴏᴡ."
-playlist_2 : "ɢᴇᴛᴛɪɴɢ ʏᴏᴜʀ ᴘʟᴀʏʟɪsᴛ... ᴘʟᴇᴀsᴇ ᴡᴀɪᴛ !"
-playlist_3 : "ʏᴏᴜ ʜᴀᴠᴇ ɴᴏ ᴘʟᴀʏʟɪsᴛ ᴏɴ ʙᴏᴛ's sᴇʀᴠᴇʀ."
-playlist_4 : "ꜰᴇᴛᴄʜᴇᴅ ᴘʟᴀʏʟɪsᴛ:\n\n"
-playlist_5 :  "ᴅᴜʀᴀᴛɪᴏɴ- {0} ᴍɪɴs"
-playlist_6 : "ᴄᴏɴᴛᴀᴄᴛ ᴍᴇ ɪɴ ᴘᴍ ꜰᴏʀ ᴅᴇʟᴇᴛɪᴏɴ ᴏꜰ ᴘʟᴀʏʟɪsᴛs."
-playlist_7 : "ᴛʀᴀᴄᴋs ɪɴsɪᴅᴇ ᴘʟᴀʏʟɪsᴛ: {0}\n\nᴘʀᴇss ᴛʜᴇ ʙᴜᴛᴛᴏɴs ᴛᴏ ᴅᴇʟᴇᴛᴇ ᴀ ᴘᴀʀᴛɪᴄᴜʟᴀʀ ᴛʀᴀᴄᴋ ɪɴ ʏᴏᴜʀ ᴘʟᴀʏʟɪsᴛ.\n\nᴛᴏ ᴅᴇʟᴇᴛᴇ ᴡʜᴏʟᴇ ᴘʟᴀʏʟɪsᴛ: ᴘʀᴇss ᴅᴇʟ ᴡʜᴏʟᴇ ᴘʟᴀʏʟɪsᴛ ʙᴜᴛᴛᴏɴ."
-playlist_8 : "ᴀʟʀᴇᴀᴅʏ ᴇxɪsᴛs\n\nᴛʜɪs ᴛʀᴀᴄᴋ ᴇxɪsᴛs ɪɴ ʏᴏᴜʀ ᴘʟᴀʏʟɪsᴛ."
-playlist_9 : "sᴏʀʀʏ ! ʏᴏᴜ ᴄᴀɴ ᴏɴʟʏ ʜᴀᴠᴇ {0} ᴍᴜsɪᴄ ɪɴ ᴀ ᴘʟᴀʏʟɪsᴛ."
-playlist_10 : "ᴘʟᴀʏʟɪsᴛ ᴀᴅᴅɪᴛɪᴏɴ\n\n{0}\nᴀᴅᴅᴇᴅ ᴛᴏ ʏᴏᴜʀ ᴘʟᴀʏʟɪsᴛ."
-playlist_11 : "sᴜᴄᴄᴇssꜰᴜʟʟʏ ᴅᴇʟᴇᴛᴇᴅ ʏᴏᴜʀ ᴛʀᴀᴄᴋ."
-playlist_12 : "ꜰᴀɪʟᴇᴅ ᴛᴏ ᴅᴇʟᴇᴛᴇᴅ ʏᴏᴜʀ ᴛʀᴀᴄᴋ."
-playlist_13 : "ᴅᴇʟᴇᴛᴇᴅ ʏᴏᴜʀ ᴡʜᴏʟᴇ ᴘʟᴀʏʟɪsᴛs ꜰʀᴏᴍ ᴛʜᴇ sᴇʀᴠᴇʀ. "
-playlist_14 : "**ᴀʀᴇ ʏᴏᴜ sᴜʀᴇ ʏᴏᴜ ᴡᴀɴᴛ ᴛᴏ ᴅᴇʟᴇᴛᴇ ʏᴏᴜʀ ᴡʜᴏʟᴇ ᴘʟᴀʏʟɪsᴛ ?**\n\nʏᴏᴜ'ʟʟ ʟᴏsᴛ ʏᴏᴜʀ ᴘʟᴀʏʟɪsᴛ ᴀɴᴅ ᴛʜɪs ᴄᴀɴ'ᴛ ʙᴇ ʀᴇᴄᴏᴠᴇʀᴇᴅ ʟᴀᴛᴇʀ."
-playlist_15 : "[ᴄʜᴇᴄᴋᴏᴜᴛ ᴡʜᴏʟᴇ ᴘʟᴀʏʟɪsᴛ]({0})"
-playlist_16 : "ǫᴜᴇᴜᴇᴅ ᴘʟᴀʏʟɪsᴛ :"
-playlist_17 : "Queued Position -"
-playlist_18 : "[ᴄʜᴇᴄᴋᴏᴜᴛ ᴡʜᴏʟᴇ ǫᴜᴇᴜᴇᴅ ᴘʟᴀʏʟɪsᴛ]({0})\n\nʟᴀsᴛ ǫᴜᴇᴜᴇᴅ ᴘᴏsɪᴛɪᴏɴ : **{1}**"
-playlist_19 : "ɢʀᴏᴜᴘ ʜᴀs ɴᴏ ᴘʟᴀʏʟɪsᴛ ᴏɴ ʙᴏᴛ's sᴇʀᴠᴇʀs"
+# Playlist
+playlist_1: "📋 **Usage:** /play [music name or YouTube link or reply to audio]\n\nIf you want to play the bot's server playlist! Press the button below."
+playlist_2: "🔄 Getting your playlist... please wait!"
+playlist_3: "🚫 You have no playlist on the bot's server."
+playlist_4: "📃 Fetched playlist:\n\n"
+playlist_5: "⏳ Duration- {0} Mins"
+playlist_6: "📩 Contact me in PM for deletion of playlists."
+playlist_7: "🎵 Tracks inside playlist: {0}\n\nPress the buttons to delete a particular track in your playlist.\n\nTo delete the whole playlist: press the del whole playlist button."
+playlist_8: "🚫 Already exists\n\nThis track exists in your playlist."
+playlist_9: "🚫 Sorry! You can only have {0} music in a playlist."
+playlist_10: "➕ Playlist addition\n\n{0}\nAdded to your playlist."
+playlist_11: "✅ Successfully deleted your track."
+playlist_12: "❌ Failed to delete your track."
+playlist_13: "🗑️ Deleted your whole playlists from the server."
+playlist_14: "⚠️ **Are you sure you want to delete your whole playlist?**\n\nYou'll lose your playlist and this can't be recovered later."
+playlist_15: "[🎶 Checkout whole playlist]({0})"
+playlist_16: "🔄 Queued playlist:"
+playlist_17: "📍 Queued Position -"
+playlist_18: "[🎶 Checkout whole queued playlist]({0})\n\nLast queued position: **{1}**"
+playlist_19: "🚫 Group has no playlist on bot's servers."
+playlist_20: "🎵 Song has been added to your playlist!"
+playlist_21: "⏳ Adding song to your playlist...."
+playlist_22: "🔗 Please provide a YouTube song/playlist URL or song name to add to your playlist."
+playlist_23: "🗑️ All songs have been deleted from your playlist."
+playlist_24: "🪄 The song has been deleted from your playlist."
+playlist_25: "⏱️ Please wait\n🗑️ Deleting your playlist...."
 
 #Playmode
 playmode_1 : "sᴇʟᴇᴄᴛ ᴛʜᴇ ᴍᴏᴅᴇ ɪɴ ᴡʜɪᴄʜ ʏᴏᴜ ᴡᴀɴᴛ ᴛᴏ ᴘʟᴀʏ ᴛʜᴇ ǫᴜᴇʀɪᴇs ɪɴsɪᴅᴇ ʏᴏᴜʀ ɢʀᴏᴜᴘ [{0}]."
@@ -256,6 +265,8 @@ V_C_3 : "ɴᴏ ᴘᴀʀᴛɪᴄɪᴘᴀɴᴛs ɪɴ ᴠᴏɪᴄᴇ ᴄʜᴀᴛ"
 V_C_4 : "[ʏᴏᴜ ᴄᴀɴ ᴄʜᴇᴄᴋ ᴀʟʟ ᴅᴇᴛᴀɪʟs ᴏғ ᴠᴏɪᴄᴇᴄʜᴀᴛ ᴘᴀʀᴛɪᴄɪᴘᴀɴᴛs ғʀᴏᴍ ʜᴇʀᴇ]({0})"
 V_C_5 : "ᴛʜᴇʀᴇ ɪs ɴᴏ ᴀᴄᴛɪᴠᴇ ᴄᴀʟʟ ɪɴ ᴛʜɪs ᴄʜᴀᴛ."
 
+# misc
+misc_1: "🤖 Bot automatically cleared the queue and left the voice chat because no one was listening to songs in the voice chat."
 # Inline Buttons
 
 #General Buttons
