@@ -16,6 +16,11 @@ import sys
 
 from pyrogram import Client
 from pyrogram.enums import ChatMemberStatus
+from pyrogram.errors import (
+    ChatSendPhotosForbidden,
+    ChatWriteForbidden,
+    FloodWait,
+)
 from pyrogram.types import (
     BotCommand,
     BotCommandScopeAllChatAdministrators,
@@ -41,6 +46,47 @@ class AlinaBot(Client):
             in_memory=True,
         )
 
+    async def edit_message_text(self, *args, **kwargs):
+        try:
+            return await super().edit_message_text(*args, **kwargs)
+        except FloodWait as e:
+            time = int(e.value)
+            await asyncio.sleep(time)
+            if time < 25:
+                return await self.edit_message_text(self, *args, **kwargs)
+
+    async def send_message(self, *args, **kwargs):
+        if kwargs.get("send_direct", False):
+            kwargs.pop("send_direct", None)
+            return await super().send_message(*args, **kwargs)
+
+        try:
+            return await super().send_message(*args, **kwargs)
+        except FloodWait as e:
+            time = int(e.value)
+            await asyncio.sleep(time)
+            if time < 25:
+                return await self.send_message(self, *args, **kwargs)
+        except ChatWriteForbidden:
+            chat_id = kwargs.get("chat_id") or args[0]
+            if chat_id:
+                await self.leave_chat(chat_id)
+                
+
+    async def send_photo(self, *args, **kwargs):
+        try:
+            return await super().send_photo(*args, **kwargs)
+        except FloodWait as e:
+            time = int(e.value)
+            await asyncio.sleep(time)
+            if time < 25:
+                return await self.send_photo(self, *args, **kwargs)
+        except ChatSendPhotosForbidden:
+            chat_id = kwargs.get("chat_id") or args[0]
+            if chat_id:
+                await self.send_message(chat_id, "I don't have the right to send photos in this chat, leaving now..")
+                await self.leave_chat(chat_id)
+
     async def start(self):
         await super().start()
         get_me = await self.get_me()
@@ -64,17 +110,16 @@ class AlinaBot(Client):
         try:
             await self.send_message(
                 config.LOG_GROUP_ID,
-                text=f"**╔═══❰𝐖𝐄𝐋𝐂𝐎𝐌𝐄❱═══❍⊱❁۪۪\n║\n║┣⪼🥀𝐁𝐨𝐭 𝐒𝐭𝐚𝐫𝐭𝐞𝐝 𝐁𝐚𝐛𝐲🎉\n║\n║◈ {self.mention}\n║\n║┣⪼🎈𝐈𝐃:- `{self.id}` \n║\n║┣⪼🎄@{self.username} \n║ \n║┣⪼💖𝐓𝐡𝐚𝐧𝐤𝐬 𝐅𝐨𝐫 𝐔𝐬𝐢𝐧𝐠😍\n║\n╚══════════════❍⊱❁**",
+                text="**╔═══❰𝐖𝐄𝐋𝐂𝐎𝐌𝐄❱═══❍⊱❁۪۪\n║\n║┣⪼🥀𝐁𝐨𝐭 𝐒𝐭𝐚𝐫𝐭𝐞𝐝 𝐁𝐚𝐛𝐲🎉\n║\n║◈ {self.mention}\n║\n║┣⪼🎈𝐈𝐃:- `{self.id}` \n║\n║┣⪼🎄@{self.username} \n║ \n║┣⪼💖𝐓𝐡𝐚𝐧𝐤𝐬 𝐅𝐨𝐫 𝐔𝐬𝐢𝐧𝐠😍\n║\n╚══════════════❍⊱❁**",
                 reply_markup=button,
             )
         except:
             LOGGER(__name__).error(
-                "Bot has failed to access the log Group. Make sure that you have added your bot to your log channel and promoted as admin!"
+                "Bot has failed to access the log group. Make sure that you have added your bot to your log channel and promoted as admin!"
             )
             # sys.exit()
         if config.SET_CMDS == str(True):
             try:
-
                 await self.set_bot_commands(
                     commands=[
                         BotCommand("start", "• دەستپێکردنی بۆت"),
@@ -85,7 +130,7 @@ class AlinaBot(Client):
                 )
                 await self.set_bot_commands(
                     commands=[
-                        BotCommand("start", "• دەستپێکردنی بۆت"),
+                         BotCommand("start", "• دەستپێکردنی بۆت"),
                         BotCommand("help", "• فەرمان و ڕوونکردنەوە"),
                         BotCommand("ping", "• پشکنینی بۆت"),
                         BotCommand("play", "• پەخشکردنی گۆرانی داواکراو"),
@@ -180,7 +225,8 @@ class AlinaBot(Client):
                         BotCommand("open", "• کردنەوەی تێلی گرووپ"),
                         BotCommand("close", "• داخستنی تێلی گرووپ"),
                         BotCommand("playmode", "• گۆڕینی پەخشکردن"),
-                        BotCommand("quran", "• پەخشکردنی قورئانی پیرۆز"),
+                        BotCommand("quran", "• پەخشکردنی قورئانی پیرۆز",
+                        ),
                     ],
                     scope=BotCommandScopeAllChatAdministrators(),
                 )
@@ -191,7 +237,7 @@ class AlinaBot(Client):
         try:
             a = await self.get_chat_member(config.LOG_GROUP_ID, self.id)
             if a.status != ChatMemberStatus.ADMINISTRATOR:
-                LOGGER(__name__).error("Please promote Bot as Admin in Logger Group")
+                LOGGER(__name__).error("Please promote bot as admin in logger group")
                 sys.exit()
         except Exception:
             pass
@@ -199,7 +245,7 @@ class AlinaBot(Client):
             self.name = get_me.first_name + " " + get_me.last_name
         else:
             self.name = get_me.first_name
-        LOGGER(__name__).info(f"MusicBot Started as {self.name}")
+        LOGGER(__name__).info(f"MusicBot started as {self.name}")
 
     async def stop(self):
         await super().stop()
