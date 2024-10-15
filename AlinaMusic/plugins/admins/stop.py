@@ -10,8 +10,6 @@
 from pyrogram import filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 
-from config import BANNED_USERS, adminlist
-from strings import get_string
 from AlinaMusic import app
 from AlinaMusic.core.call import Alina
 from AlinaMusic.misc import SUDOERS
@@ -27,6 +25,8 @@ from AlinaMusic.utils.database import (
     set_loop,
 )
 from AlinaMusic.utils.inline import close_markup
+from config import BANNED_USERS, adminlist
+from strings import get_string
 
 
 @app.on_message(
@@ -47,7 +47,9 @@ async def stop_music(cli, message: Message):
                 filter = " ".join(message.command[1:])
                 deleted = await delete_filter(message.chat.id, filter)
                 if deleted:
-                    return await message.reply_text(f"**چاتی زیادکراو: {filter} سڕدرایەوە**")
+                    return await message.reply_text(
+                        f"**چاتی زیادکراو: {filter} سڕدرایەوە**"
+                    )
                 else:
                     return await message.reply_text("**هیچ چاتێکی زیادکراو نییە**")
 
@@ -104,6 +106,6 @@ async def stop_music(cli, message: Message):
         pass
     await Alina.stop_stream(chat_id)
     await set_loop(chat_id, 0)
-    await message.reply_text(_["admin_9"].format(message.from_user.mention),
-    reply_markup=close_markup(_)
+    await message.reply_text(
+        _["admin_9"].format(message.from_user.mention), reply_markup=close_markup(_)
     )
