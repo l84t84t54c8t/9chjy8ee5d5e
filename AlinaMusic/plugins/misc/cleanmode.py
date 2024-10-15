@@ -82,12 +82,13 @@ async def braodcast_message(client, message, _):
         if len(message.command) < 2:
             return await message.reply_text(_["broad_5"])
         query = message.text.split(None, 1)[1]
-        if "-pin" in query:
-            query = query.replace("-pin", "")
+        
         if "-nobot" in query:
             query = query.replace("-nobot", "")
         if "-pinloud" in query:
             query = query.replace("-pinloud", "")
+        if "-pin" in query:
+            query = query.replace("-pin", "")
         if "-assistant" in query:
             query = query.replace("-assistant", "")
         if "-user" in query:
@@ -112,7 +113,7 @@ async def braodcast_message(client, message, _):
                 m = (
                     await app.forward_messages(i, y, x)
                     if message.reply_to_message
-                    else await app.send_message(i, text=query)
+                    else await app.send_message(i, text=query, send_direct=True)
                 )
                 sent += 1
                 if "-pin" in message.text:
@@ -120,13 +121,14 @@ async def braodcast_message(client, message, _):
                         await m.pin(disable_notification=True)
                         pin += 1
                     except Exception:
-                        pass
+                        continue
                 elif "-pinloud" in message.text:
                     try:
                         await m.pin(disable_notification=False)
                         pin += 1
                     except Exception:
-                        pass
+                        continue
+                sent += 1
             except FloodWait as e:
                 flood_time = int(e.value)
                 if flood_time > 200:
@@ -137,8 +139,7 @@ async def braodcast_message(client, message, _):
         try:
             await ok.delete()
             await message.reply_text(_["broad_1"].format(sent, pin))
-            await save_broadcast_stats(sent, 0)  # Save sent count, no users
-        except:
+        except Exception:
             pass
 
     # Bot broadcasting to users
@@ -178,8 +179,11 @@ async def braodcast_message(client, message, _):
         for num in assistants:
             sent = 0
             client = await get_client(num)
+            contacts = [user.id for user in await client.get_contacts()]
             async for dialog in client.get_dialogs():
                 if dialog.chat.id == config.LOG_GROUP_ID:
+                    continue
+                if dialog.chat.id in contacts:
                     continue
                 try:
                     (
