@@ -14,12 +14,12 @@ from typing import Union
 from pyrogram import filters, types
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 
-from config import BANNED_USERS, START_IMG_URL
-from strings import get_command, get_string
 from AlinaMusic import HELPABLE, app
 from AlinaMusic.utils.database import get_lang, is_commanddelete_on
 from AlinaMusic.utils.decorators.language import LanguageStart
 from AlinaMusic.utils.inline.help import private_help_panel
+from config import BANNED_USERS, START_IMG_URL
+from strings import get_command, get_string
 
 ### Command
 HELP_COMMAND = get_command("HELP_COMMAND")
@@ -185,7 +185,8 @@ async def help_button(client, query):
             [
                 [
                     InlineKeyboardButton(
-                        text= _["BACK_BUTTON"], callback_data=f"help_back({prev_page_num})"
+                        text=_["BACK_BUTTON"],
+                        callback_data=f"help_back({prev_page_num})",
                     ),
                     InlineKeyboardButton(text=_["CLOSE_BUTTON"], callback_data="close"),
                 ],

@@ -35,7 +35,7 @@ from AlinaMusic.utils.formatters import get_readable_time
 from AlinaMusic.utils.functions import MARKDOWN, WELCOMEHELP
 from AlinaMusic.utils.inline import alive_panel, private_panel, start_pannel
 from config import BANNED_USERS, START_IMG_URL
-from strings import command, get_command, get_string
+from strings import command, get_string
 
 from .help import paginate_modules
 
