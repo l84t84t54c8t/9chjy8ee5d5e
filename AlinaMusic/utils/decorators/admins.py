@@ -7,13 +7,10 @@
 #
 # All rights reserved.
 #
-import logging
 
 from pyrogram.enums import ChatMemberStatus, ChatType
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
-from config import adminlist
-from strings import get_string
 from AlinaMusic import app
 from AlinaMusic.misc import SUDOERS
 from AlinaMusic.utils.database import (
@@ -25,6 +22,8 @@ from AlinaMusic.utils.database import (
     is_maintenance,
     is_nonadmin_chat,
 )
+from config import adminlist
+from strings import get_string
 
 from ..formatters import int_to_alpha
 
@@ -120,7 +119,8 @@ def AdminActual(mystic):
                 )
 
                 if member.status != ChatMemberStatus.ADMINISTRATOR or (
-                    member.privileges is None or not member.privileges.can_manage_video_chats
+                    member.privileges is None
+                    or not member.privileges.can_manage_video_chats
                 ):
                     return await message.reply(_["general_5"])
 
