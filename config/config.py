@@ -236,7 +236,7 @@ PING_IMG_URL = getenv(
 
 PLAYLIST_IMG_URL = getenv(
     "PLAYLIST_IMG_URL",
-    "https://graph.org/file/3202937ba2792dfa8722f.jpg",
+    "https://envs.sh/W_z.jpg",
 )
 
 GLOBAL_IMG_URL = getenv(
@@ -251,7 +251,7 @@ STATS_IMG_URL = getenv(
 
 TELEGRAM_AUDIO_URL = getenv(
     "TELEGRAM_AUDIO_URL",
-    "https://graph.org/file/3202937ba2792dfa8722f.jpg",
+    "https://envs.sh/npk.jpg",
 )
 
 TELEGRAM_VIDEO_URL = getenv(
@@ -261,27 +261,27 @@ TELEGRAM_VIDEO_URL = getenv(
 
 STREAM_IMG_URL = getenv(
     "STREAM_IMG_URL",
-    "https://telegra.ph/file/e24f4a5f695ec5576a8f3.jpg",
+    "https://envs.sh/nAw.jpg",
 )
 
 SOUNCLOUD_IMG_URL = getenv(
     "SOUNCLOUD_IMG_URL",
-    "https://telegra.ph/file/7645d1e04021323c21db9.jpg",
+    "https://envs.sh/nAD.jpg",
 )
 
 YOUTUBE_IMG_URL = getenv(
     "YOUTUBE_IMG_URL",
-    "https://telegra.ph/file/76d29aa31c40a7f026d7e.jpg",
+    "https://envs.sh/npl.jpg",
 )
 
 SPOTIFY_ARTIST_IMG_URL = getenv(
     "SPOTIFY_ARTIST_IMG_URL",
-    "https://telegra.ph/file/b7758d4e1bc32aa9fb6ec.jpg",
+    "https://envs.sh/nA9.jpg",
 )
 
 SPOTIFY_ALBUM_IMG_URL = getenv(
     "SPOTIFY_ALBUM_IMG_URL",
-    "https://telegra.ph/file/60ed85638e00df10985db.jpg",
+    "https://envs.sh/nps.jpg",
 )
 
 SPOTIFY_PLAYLIST_IMG_URL = getenv(
@@ -293,6 +293,12 @@ SPOTIFY_PLAYLIST_IMG_URL = getenv(
 def time_to_seconds(time):
     stringt = str(time)
     return sum(int(x) * 60**i for i, x in enumerate(reversed(stringt.split(":"))))
+
+
+def seconds_to_time(seconds):
+    minutes = seconds // 60
+    remaining_seconds = seconds % 60
+    return f"{minutes:02d}:{remaining_seconds:02d}"
 
 
 DURATION_LIMIT = int(time_to_seconds(f"{DURATION_LIMIT_MIN}:00"))
