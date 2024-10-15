@@ -9,9 +9,9 @@
 #
 from pyrogram.enums import ChatType
 
-from strings import get_string
 from AlinaMusic.misc import SUDOERS
 from AlinaMusic.utils.database import get_lang, is_commanddelete_on, is_maintenance
+from strings import get_string
 
 
 def language(mystic):
