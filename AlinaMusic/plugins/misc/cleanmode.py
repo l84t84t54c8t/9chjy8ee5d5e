@@ -82,7 +82,7 @@ async def braodcast_message(client, message, _):
         if len(message.command) < 2:
             return await message.reply_text(_["broad_5"])
         query = message.text.split(None, 1)[1]
-        
+
         if "-nobot" in query:
             query = query.replace("-nobot", "")
         if "-pinloud" in query:
