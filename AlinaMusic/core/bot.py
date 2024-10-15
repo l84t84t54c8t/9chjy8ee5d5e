@@ -108,7 +108,7 @@ class AlinaBot(Client):
         try:
             await self.send_message(
                 config.LOG_GROUP_ID,
-                text="**╔═══❰𝐖𝐄𝐋𝐂𝐎𝐌𝐄❱═══❍⊱❁۪۪\n║\n║┣⪼🥀𝐁𝐨𝐭 𝐒𝐭𝐚𝐫𝐭𝐞𝐝 𝐁𝐚𝐛𝐲🎉\n║\n║◈ {self.mention}\n║\n║┣⪼🎈𝐈𝐃:- `{self.id}` \n║\n║┣⪼🎄@{self.username} \n║ \n║┣⪼💖𝐓𝐡𝐚𝐧𝐤𝐬 𝐅𝐨𝐫 𝐔𝐬𝐢𝐧𝐠😍\n║\n╚══════════════❍⊱❁**",
+                text=f"<u><b>{self.mention} Bot Started :</b><u>\n\nId : <code>{self.id}</code>\nName : {self.name}\nUsername : @{self.username}",
                 reply_markup=button,
             )
         except:
@@ -156,6 +156,7 @@ class AlinaBot(Client):
                         BotCommand("botcheck", "• پشکنینی بۆتەکانی تێلەگرام"),
                         BotCommand("gdata", "• زانیاری گرووپەکان"),
                         BotCommand("stats", "• ئاماری بۆتی ئەلینا"),
+                        BotCommand("story", "• کۆنتڕۆڵ کردنی ناردنی ستۆری"),
                         BotCommand("admin", "• بانگکردنی ئەدمینەکانی گرووپ"),
                         BotCommand("gpt", "• چات جیپیتی"),
                         BotCommand("gemini", "• زیرەکی دەستکردی گوگڵ"),
