@@ -1,9 +1,9 @@
 #
-# Copyright (C) 2024 by THE-VIP-BOY-OP@Github, < https://github.com/THE-VIP-BOY-OP >.
+# Copyright (C) 2024 by TheTeamVivek@Github, < https://github.com/TheTeamVivek >.
 #
-# This file is part of < https://github.com/THE-VIP-BOY-OP/VIP-MUSIC > project,
+# This file is part of < https://github.com/TheTeamVivek/YukkiMusic > project,
 # and is released under the MIT License.
-# Please see < https://github.com/THE-VIP-BOY-OP/VIP-MUSIC/blob/master/LICENSE >
+# Please see < https://github.com/TheTeamVivek/YukkiMusic/blob/master/LICENSE >
 #
 # All rights reserved.
 #
@@ -11,12 +11,12 @@
 from pyrogram import filters
 from pyrogram.types import Message
 
+from config import BANNED_USERS
+from strings import command, get_command
 from AlinaMusic import app
 from AlinaMusic.misc import SUDOERS
 from AlinaMusic.utils.database import add_gban_user, remove_gban_user
 from AlinaMusic.utils.decorators.language import language
-from config import BANNED_USERS
-from strings import get_command
 
 # Command
 BLOCK_COMMAND = get_command("BLOCK_COMMAND")
@@ -173,17 +173,17 @@ async def sudoers_list(client, message: Message, _):
         return await mystic.edit_text(msg)
 
 
-__MODULE__ = "B-ʟɪsᴛ"
-__HELP__ = """
-<b>✧ /blacklistchat</b> [ᴄʜᴀᴛ ɪᴅ] - Bʟᴀᴄᴋʟɪsᴛ ᴀɴʏ ᴄʜᴀᴛ ғʀᴏᴍ ᴜsɪɴɢ Mᴜsɪᴄ Bᴏᴛ
-<b>✧ /whitelistchat</b> [ᴄʜᴀᴛ ɪᴅ] - Wʜɪᴛᴇʟɪsᴛ ᴀɴʏ ʙʟᴀᴄᴋʟɪsᴛᴇᴅ ᴄʜᴀᴛ ғʀᴏᴍ ᴜsɪɴɢ Mᴜsɪᴄ Bᴏᴛ
-<b>✧ /blacklistedchat</b> - Cʜᴇᴄᴋ ᴀʟʟ ʙʟᴏᴄᴋᴇᴅ ᴄʜᴀᴛs.
+__MODULE__ = "B-list"
+__HELP__ = f"""
+<b>✧ {command("BLACKLISTCHAT_COMMAND")}</b> [chat ID] - Blacklist any chat from using the Music Bot.
+<b>✧ {command("WHITELISTCHAT_COMMAND")}</b> [chat ID] - Whitelist any blacklisted chat from using the Music Bot.
+<b>✧ {command("BLACKLISTEDCHAT_COMMAND")}</b> - Check all blocked chats.
 
-<b>✧ /block</b> [Usᴇʀɴᴀᴍᴇ ᴏʀ Rᴇᴘʟʏ ᴛᴏ ᴀ ᴜsᴇʀ] - Pʀᴇᴠᴇɴᴛs ᴀ ᴜsᴇʀ ғʀᴏᴍ ᴜsɪɴɢ ʙᴏᴛ ᴄᴏᴍᴍᴀɴᴅs.
-<b>✧ /unblock</b> [Usᴇʀɴᴀᴍᴇ ᴏʀ Rᴇᴘʟʏ ᴛᴏ ᴀ ᴜsᴇʀ] - Rᴇᴍᴏᴠᴇ ᴀ ᴜsᴇʀ ғʀᴏᴍ Bᴏᴛ's Bʟᴏᴄᴋᴇᴅ Lɪsᴛ.
-<b>✧ /blockedusers</b> - Cʜᴇᴄᴋ ʙʟᴏᴄᴋᴇᴅ Usᴇʀs Lɪsᴛs
+<b>✧ {command("BLOCK_COMMAND")}</b> [Username or reply to a user] - Prevents a user from using bot commands.
+<b>✧ {command("UNBLOCK_COMMAND")}</b> [Username or reply to a user] - Remove a user from the bot's blocked list.
+<b>✧ {command("BLOCKED_COMMAND")}</b> - Check the list of blocked users.
 
-<b>✧ /gban</b> [Usᴇʀɴᴀᴍᴇ ᴏʀ Rᴇᴘʟʏ ᴛᴏ ᴀ ᴜsᴇʀ] - Gʙᴀɴ ᴀ ᴜsᴇʀ ғʀᴏᴍ ʙᴏᴛ's sᴇʀᴠᴇᴅ ᴄʜᴀᴛ ᴀɴᴅ sᴛᴏᴘ ʜɪᴍ ғʀᴏᴍ ᴜsɪɴɢ ʏᴏᴜʀ ʙᴏᴛ.
-<b>✧ /ungban</b> [Usᴇʀɴᴀᴍᴇ ᴏʀ Rᴇᴘʟʏ ᴛᴏ ᴀ ᴜsᴇʀ] - Rᴇᴍᴏᴠᴇ ᴀ ᴜsᴇʀ ғʀᴏᴍ Bᴏᴛ's ɢʙᴀɴɴᴇᴅ Lɪsᴛ ᴀɴᴅ ᴀʟʟᴏᴡ ʜɪᴍ ғᴏʀ ᴜsɪɴɢ ʏᴏᴜʀ ʙᴏᴛ
-<b>✧ /gbannedusers</b> - Cʜᴇᴄᴋ Gʙᴀɴɴᴇᴅ Usᴇʀs Lɪsᴛs
+<b>✧ {command("GBAN_COMMAND")}</b> [Username or reply to a user] - Gban a user from all served chats and stop them from using your bot.
+<b>✧ {command("UNGBAN_COMMAND")}</b> [Username or reply to a user] - Remove a user from the bot's gban list and allow them to use your bot.
+<b>✧ {command("GBANNED_COMMAND")}</b> - Check the list of gban users.
 """
