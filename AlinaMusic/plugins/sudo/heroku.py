@@ -21,25 +21,24 @@ import urllib3
 from git import Repo
 from git.exc import GitCommandError, InvalidGitRepositoryError
 from pyrogram import filters
-from pyrogram.types import Message
 from pyrogram.enums import ChatType
+from pyrogram.types import Message
 
 import config
-from config import BANNED_USERS
-from strings import get_command, get_string
 from AlinaMusic import app
 from AlinaMusic.core.call import Alina
 from AlinaMusic.misc import HAPP, SUDOERS, XCB, db
 from AlinaMusic.utils.database import (
     get_active_chats,
     get_cmode,
-    get_lang,
     remove_active_chat,
     remove_active_video_chat,
 )
 from AlinaMusic.utils.decorators import AdminActual, language
 from AlinaMusic.utils.decorators.language import language
 from AlinaMusic.utils.pastebin import Alinabin
+from config import BANNED_USERS
+from strings import get_command
 
 # Commands
 GETLOG_COMMAND = get_command("GETLOG_COMMAND")
@@ -344,7 +343,9 @@ async def reboot(client, message: Message, _):
             await Alina.stop_stream(chat_id)
         except:
             pass
-    return await mystic.edit_text("**- بە سەرکەوتوویی دەستی پێکردەوە\n- گۆرانی لێبدە **")
+    return await mystic.edit_text(
+        "**- بە سەرکەوتوویی دەستی پێکردەوە\n- گۆرانی لێبدە **"
+    )
 
 
 @app.on_message(filters.command(RESTART_COMMAND) & ~BANNED_USERS)
