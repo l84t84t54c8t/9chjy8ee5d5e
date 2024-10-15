@@ -6,12 +6,12 @@ Config vars are basically the variables which configure or modify bot to functio
 
 ## Mandatory Vars
 
-- These are the minimum required vars need to setup to make Yukki Music Bot functional.
+- These are the minimum required vars need to setup to make Alina Music Bot functional.
 
 1. `API_ID` : Get it from my.telegram.org 
 2. `API_HASH`  : Get it from my.telegram.org 
 3. `BOT_TOKEN` : Get it from [@Botfather](http://t.me/BotFather) in Telegram
-4. `MONGO_DB_URI` : Get mongo db [from here.](https://notreallyshikhar.gitbook.io/yukkimusicbot/deployment/mongodb)
+4. `MONGO_DB_URI` : Get mongo db [from here.](https://t.me/IQ7amo)
 5. `LOG_GROUP_ID` : You'll need a Private Group ID for this. Supergroup Needed with id starting from -100 
 6. `OWNER_ID` : Your Owner ID for managing your bot., muktiple ids can be seperated by commas.
 7. `STRING_SESSIONS`: Pyrogram v2 session strings for multiple assistants, separated by commas.
@@ -86,7 +86,7 @@ Config vars are basically the variables which configure or modify bot to functio
 
 ## Images/Thumbnail Vars
 
-- You can change images which are used in Yukki Music Bot.
+- You can change images which are used in Alina Music Bot.
 - You can generate telegaph links from [@YukkiTelegraphBot](http://t.me/YukkiTelegraphBot) and use it here.
 
 1. `START_IMG_URL` : Image which comes on /start command in private messages of bot.
