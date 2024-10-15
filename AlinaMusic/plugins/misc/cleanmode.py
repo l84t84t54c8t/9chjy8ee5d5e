@@ -17,6 +17,7 @@ from pyrogram.errors import FloodWait
 from pyrogram.raw import types
 
 import config
+from strings import command, get_command
 from AlinaMusic import app
 from AlinaMusic.misc import SUDOERS
 from AlinaMusic.utils.cleanmode import protected_messages
@@ -289,12 +290,6 @@ async def auto_clean():
                     continue
                 for x in clean[chat_id]:
                     if datetime.now() > x["timer_after"]:
-                        # Skip deletion if the message is protected
-                        if (
-                            chat_id in protected_messages
-                            and x["msg_id"] in protected_messages[chat_id]
-                        ):
-                            continue
                         try:
                             await app.delete_messages(chat_id, x["msg_id"])
                         except FloodWait as e:
@@ -325,21 +320,20 @@ async def auto_clean():
 
 
 asyncio.create_task(auto_clean())
+__MODULE__ = "G cast"
+__HELP__ = f"""
+<b>{command("BROADCAST_COMMAND")} [Message or Reply to any message]</b> » Broadcast a message to served chats of bot
+<u>Broadcasting Modes:</u>
 
-__MODULE__ = "G-ᴄᴀsᴛ"
-__HELP__ = """
-<b>/broadcast [ᴍᴇssᴀɢᴇ ᴏʀ ʀᴇᴩʟʏ ᴛᴏ ᴀ ᴍᴇssᴀɢᴇ]</b> » ʙʀᴏᴀᴅᴄᴀsᴛ ᴀ ᴍᴇssᴀɢᴇ ᴛᴏ sᴇʀᴠᴇᴅ ᴄʜᴀᴛs ᴏғ ᴛʜᴇ ʙᴏᴛ.
-<u>ʙʀᴏᴀᴅᴄᴀsᴛɪɴɢ ᴍᴏᴅᴇs:</u>
+<b><code>-pin</code></b> » Pins your broadcasted message in served chats
 
-<b><code>-pin</code></b> » ᴩɪɴs ʏᴏᴜʀ ʙʀᴏᴀᴅᴄᴀsᴛᴇᴅ ᴍᴇssᴀɢᴇs ɪɴ sᴇʀᴠᴇᴅ ᴄʜᴀᴛs.
+<b><code>-pinloud</code></b> » Pins your broadcasted message in served chats and send notification to the memebers
 
-<b><code>-pinloud</code></b> » ᴩɪɴs ʏᴏᴜʀ ʙʀᴏᴀᴅᴄᴀsᴛᴇᴅ ᴍᴇssᴀɢᴇ ɪɴ sᴇʀᴠᴇᴅ ᴄʜᴀᴛs ᴀɴᴅ sᴇɴᴅ ɴᴏᴛɪғɪᴄᴀᴛɪᴏɴ ᴛᴏ ᴛʜᴇ ᴍᴇᴍʙᴇʀs.
+<b><code>-user</code></b> » Broadcast the message to who has Started your bot [ You can also pin message just use `pin` or `-pinloud`
 
-<b><code>-user</code></b> » ʙʀᴏᴀᴅᴄᴀsᴛs ᴛʜᴇ ᴍᴇssᴀɢᴇ ᴛᴏ ᴛʜᴇ ᴜsᴇʀs ᴡʜᴏ ʜᴀᴠᴇ sᴛᴀʀᴛᴇᴅ ʏᴏᴜʀ ʙᴏᴛ.
+<b><code>-assistant</code></b> » Broadcast Your message through all Assistant Of bot
 
-<b><code>-assistant</code></b> » ʙʀᴏᴀᴅᴄᴀsᴛ ʏᴏᴜʀ ᴍᴇssᴀɢᴇ ғʀᴏᴍ ᴛʜᴇ ᴀssɪᴛᴀɴᴛ ᴀᴄᴄᴏᴜɴᴛ ᴏғ ᴛʜᴇ ʙᴏᴛ.
+<b><code>-nobot</code></b> » Forces that **bot** don't broadcast the message [ Useful when you Don't want to broadcast the message to groups]
 
-<b><code>-nobot</code></b> » ғᴏʀᴄᴇs ᴛʜᴇ ʙᴏᴛ ᴛᴏ ɴᴏᴛ ʙʀᴏᴀᴅᴄᴀsᴛ ᴛʜᴇ ᴍᴇssᴀɢᴇ.
-
-> <b>ᴇxᴀᴍᴩʟᴇ:</b> <code>/broadcast -user -assistant -pin ᴛᴇsᴛɪɴɢ ʙʀᴏᴀᴅᴄᴀsᴛ</code>
+> <b>Example:</b> <code>/broadcast -user -assistant -pin Testing broadcast</code>
 """
