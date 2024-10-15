@@ -22,6 +22,7 @@ from AlinaMusic.misc import SUDOERS
 from AlinaMusic.utils.database import (
     get_active_chats,
     get_authuser_names,
+    get_client,
     get_particular_top,
     get_served_chats,
     get_served_users,
@@ -30,6 +31,7 @@ from AlinaMusic.utils.database import (
     set_queries,
     update_particular_top,
     update_user_top,
+)
 )
 from AlinaMusic.utils.decorators.language import language
 from AlinaMusic.utils.formatters import alpha_to_int
