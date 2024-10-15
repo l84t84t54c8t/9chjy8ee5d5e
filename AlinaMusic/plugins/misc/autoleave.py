@@ -14,11 +14,13 @@ from datetime import datetime
 from pyrogram.enums import ChatType
 
 import config
+from strings import get_string
 from AlinaMusic import app
 from AlinaMusic.core.call import Alina
 from AlinaMusic.utils.database import (
     get_assistant,
     get_client,
+    get_lang,
     is_active_chat,
     is_autoend,
 )
@@ -98,9 +100,14 @@ async def auto_end():
                         pass
 
                     try:
+                        language = await get_lang(message.chat.id)
+                        language = get_string(language)
+                    except:
+                        language = get_string("en")
+                    try:
                         await app.send_message(
                             chat_id,
-                            "**- بۆت خۆکارانە ڕیزکراوەکەی سڕیەوە و لە تێل دەرچوو\n- لەبەر ئەوەی کەس لە تێل نەبوو.**",
+                            language["misc_1"],
                         )
                     except Exception:
                         pass
@@ -108,5 +115,5 @@ async def auto_end():
                 del autoend[chat_id]
 
 
-asyncio.create_task(auto_leave())
-asyncio.create_task(auto_end())
+asyncio.create_task(auto_leave(), name="autoleave")
+asyncio.create_task(auto_end(), name="autoend")
