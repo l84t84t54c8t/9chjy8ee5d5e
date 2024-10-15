@@ -1,3 +1,4 @@
+
 #
 # Copyright (C) 2024 by TheTeamVivek@Github, < https://github.com/TheTeamVivek >.
 #
@@ -10,15 +11,16 @@
 from pyrogram import filters
 from pyrogram.types import Message
 
+from config import BANNED_USERS
+from strings import get_command
 from AlinaMusic import YouTube, app
 from AlinaMusic.core.call import Alina
 from AlinaMusic.misc import db
 from AlinaMusic.utils import AdminRightsCheck, seconds_to_min
-from config import BANNED_USERS
-from strings import get_command
 
 # Commands
 SEEK_COMMAND = get_command("SEEK_COMMAND")
+
 
 
 @app.on_message(filters.command(SEEK_COMMAND) & filters.group & ~BANNED_USERS)
