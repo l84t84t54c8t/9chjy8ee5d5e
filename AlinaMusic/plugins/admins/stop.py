@@ -10,6 +10,8 @@
 from pyrogram import filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 
+from config import BANNED_USERS, adminlist
+from strings import get_string
 from AlinaMusic import app
 from AlinaMusic.core.call import Alina
 from AlinaMusic.misc import SUDOERS
@@ -25,8 +27,6 @@ from AlinaMusic.utils.database import (
     set_loop,
 )
 from AlinaMusic.utils.inline import close_markup
-from config import BANNED_USERS, adminlist
-from strings import get_string
 
 
 @app.on_message(
@@ -40,18 +40,14 @@ from strings import get_string
 async def stop_music(cli, message: Message):
     if await is_maintenance() is False:
         if message.from_user.id not in SUDOERS:
-            return await message.reply_text(
-                "Bot is under maintenance. Please wait for some time..."
-            )
+            return
     if not len(message.command) < 2:
         if extra_plugins_enabled:
             if not message.command[0][0] == "c" and not message.command[0][0] == "e":
                 filter = " ".join(message.command[1:])
                 deleted = await delete_filter(message.chat.id, filter)
                 if deleted:
-                    return await message.reply_text(
-                        f"**چاتی زیادکراو: {filter} سڕدرایەوە**"
-                    )
+                    return await message.reply_text(f"**چاتی زیادکراو: {filter} سڕدرایەوە**")
                 else:
                     return await message.reply_text("**هیچ چاتێکی زیادکراو نییە**")
 
@@ -100,8 +96,14 @@ async def stop_music(cli, message: Message):
             else:
                 if message.from_user.id not in admins:
                     return await message.reply_text(_["admin_19"])
+    try:
+        check = db.get(chat_id)
+        if check[0].get("mystic"):
+            await check[0].get("mystic").delete()
+    except Exception:
+        pass
     await Alina.stop_stream(chat_id)
     await set_loop(chat_id, 0)
-    await message.reply_text(
-        _["admin_9"].format(message.from_user.mention), reply_markup=close_markup(_)
+    await message.reply_text(_["admin_9"].format(message.from_user.mention),
+    reply_markup=close_markup(_)
     )
