@@ -16,11 +16,7 @@ import sys
 
 from pyrogram import Client
 from pyrogram.enums import ChatMemberStatus
-from pyrogram.errors import (
-    ChatSendPhotosForbidden,
-    ChatWriteForbidden,
-    FloodWait,
-)
+from pyrogram.errors import ChatSendPhotosForbidden, ChatWriteForbidden, FloodWait
 from pyrogram.types import (
     BotCommand,
     BotCommandScopeAllChatAdministrators,
@@ -71,7 +67,6 @@ class AlinaBot(Client):
             chat_id = kwargs.get("chat_id") or args[0]
             if chat_id:
                 await self.leave_chat(chat_id)
-                
 
     async def send_photo(self, *args, **kwargs):
         try:
@@ -84,7 +79,10 @@ class AlinaBot(Client):
         except ChatSendPhotosForbidden:
             chat_id = kwargs.get("chat_id") or args[0]
             if chat_id:
-                await self.send_message(chat_id, "I don't have the right to send photos in this chat, leaving now..")
+                await self.send_message(
+                    chat_id,
+                    "I don't have the right to send photos in this chat, leaving now..",
+                )
                 await self.leave_chat(chat_id)
 
     async def start(self):
@@ -130,7 +128,7 @@ class AlinaBot(Client):
                 )
                 await self.set_bot_commands(
                     commands=[
-                         BotCommand("start", "• دەستپێکردنی بۆت"),
+                        BotCommand("start", "• دەستپێکردنی بۆت"),
                         BotCommand("help", "• فەرمان و ڕوونکردنەوە"),
                         BotCommand("ping", "• پشکنینی بۆت"),
                         BotCommand("play", "• پەخشکردنی گۆرانی داواکراو"),
@@ -225,7 +223,9 @@ class AlinaBot(Client):
                         BotCommand("open", "• کردنەوەی تێلی گرووپ"),
                         BotCommand("close", "• داخستنی تێلی گرووپ"),
                         BotCommand("playmode", "• گۆڕینی پەخشکردن"),
-                        BotCommand("quran", "• پەخشکردنی قورئانی پیرۆز",
+                        BotCommand(
+                            "quran",
+                            "• پەخشکردنی قورئانی پیرۆز",
                         ),
                     ],
                     scope=BotCommandScopeAllChatAdministrators(),
