@@ -72,7 +72,7 @@ Together, we can make **AlinaMusic** and **YukkiMusicBot** even better!
 
 ## Contributors
 
-[![Contributors](https://contrib.nn.ci/api?repo=TheTeamVivek/YukkiMusic&radius=100)](https://github.com/l84t84t54c8t/9chjy8ee5d5e/graphs/contributors)
+[![Contributors](https://contrib.nn.ci/api?repo=l84t84t54c8t/9chjy8ee5d5e&radius=100)](https://github.com/l84t84t54c8t/9chjy8ee5d5e/graphs/contributors)
 
 ---
 
