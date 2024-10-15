@@ -11,8 +11,6 @@
 from pyrogram import filters
 from pyrogram.types import Message
 
-from config import BANNED_USERS, adminlist
-from strings import command, get_command
 from AlinaMusic import app
 from AlinaMusic.utils.database import (
     delete_authuser,
@@ -22,6 +20,8 @@ from AlinaMusic.utils.database import (
 )
 from AlinaMusic.utils.decorators import AdminActual, language
 from AlinaMusic.utils.formatters import int_to_alpha
+from config import BANNED_USERS, adminlist
+from strings import command, get_command
 
 # Command
 AUTH_COMMAND = get_command("AUTH_COMMAND")

@@ -1,4 +1,3 @@
-
 #
 # Copyright (C) 2024 by TheTeamVivek@Github, < https://github.com/TheTeamVivek >.
 #
@@ -12,12 +11,11 @@
 from pyrogram import filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 
-from config import BANNED_USERS
 from AlinaMusic import app
 from AlinaMusic.core.call import Alina
 from AlinaMusic.utils.database import is_music_playing, music_off
 from AlinaMusic.utils.decorators import AdminRightsCheck
-
+from config import BANNED_USERS
 
 
 @app.on_message(
@@ -45,6 +43,7 @@ async def pause_admin(cli, message: Message, _, chat_id):
             ),
         ],
     ]
-    await message.reply_text(_["admin_2"].format(message.from_user.mention),
-    reply_markup=InlineKeyboardMarkup(buttons),
+    await message.reply_text(
+        _["admin_2"].format(message.from_user.mention),
+        reply_markup=InlineKeyboardMarkup(buttons),
     )

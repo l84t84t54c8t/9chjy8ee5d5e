@@ -1,4 +1,3 @@
-
 #
 # Copyright (C) 2024 by TheTeamVivek@Github, < https://github.com/TheTeamVivek >.
 #
@@ -14,7 +13,6 @@ from pyrogram import filters
 from pyrogram.types import InlineKeyboardMarkup, Message
 
 import config
-from config import BANNED_USERS
 from AlinaMusic import YouTube, app
 from AlinaMusic.core.call import Alina
 from AlinaMusic.misc import db
@@ -24,7 +22,7 @@ from AlinaMusic.utils.inline import close_markup
 from AlinaMusic.utils.inline.play import stream_markup, telegram_markup
 from AlinaMusic.utils.stream.autoclear import auto_clean
 from AlinaMusic.utils.thumbnails import gen_thumb
-
+from config import BANNED_USERS
 
 
 @app.on_message(
@@ -105,8 +103,8 @@ async def skip(cli, message: Message, _, chat_id):
         except:
             try:
                 await message.reply_text(
-                   _["admin_10"].format(message.from_user.mention),
-                   reply_markup=close_markup(_),
+                    _["admin_10"].format(message.from_user.mention),
+                    reply_markup=close_markup(_),
                 )
                 return await Alina.stop_stream(chat_id)
             except:

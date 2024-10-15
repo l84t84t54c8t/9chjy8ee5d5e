@@ -1,4 +1,3 @@
-
 #
 # Copyright (C) 2024 by TheTeamVivek@Github, < https://github.com/TheTeamVivek >.
 #
@@ -14,11 +13,11 @@ import random
 from pyrogram import filters
 from pyrogram.types import Message
 
-from config import BANNED_USERS
-from strings import get_command
 from AlinaMusic import app
 from AlinaMusic.misc import db
 from AlinaMusic.utils.decorators import AdminRightsCheck
+from config import BANNED_USERS
+from strings import get_command
 
 # Commands
 SHUFFLE_COMMAND = get_command("SHUFFLE_COMMAND")
