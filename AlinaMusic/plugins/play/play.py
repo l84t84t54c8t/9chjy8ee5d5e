@@ -12,17 +12,10 @@ import random
 import string
 
 from pyrogram import filters
-from pyrogram.errors import FloodWait, UserNotParticipant
-from pyrogram.types import (
-    InlineKeyboardButton,
-    InlineKeyboardMarkup,
-    InputMediaPhoto,
-    Message,
-)
+from pyrogram.errors import UserNotParticipant
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 
 import config
-from config import BANNED_USERS, lyrical, MUST_JOIN2
-from strings import get_command
 from AlinaMusic import (
     LOGGER,
     Apple,
@@ -47,6 +40,8 @@ from AlinaMusic.utils.inline.play import (
 from AlinaMusic.utils.inline.playlist import botplaylist_markup
 from AlinaMusic.utils.logger import play_logs
 from AlinaMusic.utils.stream.stream import stream
+from config import BANNED_USERS, MUST_JOIN2, lyrical
+
 
 async def joinch(message):
     if not MUST_JOIN2:
