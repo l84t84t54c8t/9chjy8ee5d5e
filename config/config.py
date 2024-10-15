@@ -31,7 +31,7 @@ BOT_TOKEN = getenv("BOT_TOKEN")
 MONGO_DB_URI = getenv("MONGO_DB_URI", None)
 
 CLEANMODE_DELETE_MINS = int(
-    getenv("CLEANMODE_MINS", "30")
+    getenv("CLEANMODE_MINS", "1112222239")
 )  # Remember to give value in Seconds
 
 
