@@ -19,8 +19,6 @@ from pyrogram.types import CallbackQuery, InputMediaPhoto, Message
 from pytgcalls.__version__ import __version__ as pytgver
 
 import config
-from config import BANNED_USERS
-from strings import get_command
 from AlinaMusic import YouTube, app
 from AlinaMusic.core.userbot import assistants
 from AlinaMusic.misc import SUDOERS, pymongodb
@@ -44,6 +42,8 @@ from AlinaMusic.utils.inline.stats import (
     stats_buttons,
     top_ten_stats_markup,
 )
+from config import BANNED_USERS
+from strings import get_command
 
 loop = asyncio.get_running_loop()
 
