@@ -10,20 +10,14 @@
 import random
 
 from pyrogram import filters
-from pyrogram.types import CallbackQuery, InlineKeyboardMarkup, InlineKeyboardButton, InputMediaPhoto
+from pyrogram.types import (
+    CallbackQuery,
+    InlineKeyboardButton,
+    InlineKeyboardMarkup,
+    InputMediaPhoto,
+)
 
 import config
-from config import (
-    BANNED_USERS,
-    SOUNCLOUD_IMG_URL,
-    STREAM_IMG_URL,
-    SUPPORT_GROUP,
-    TELEGRAM_AUDIO_URL,
-    TELEGRAM_VIDEO_URL,
-    adminlist,
-    lyrical,
-)
-from strings import command
 from AlinaMusic import Apple, Spotify, YouTube, app
 from AlinaMusic.core.call import Alina
 from AlinaMusic.misc import SUDOERS, db
@@ -55,6 +49,17 @@ from AlinaMusic.utils.inline.play import (
 from AlinaMusic.utils.stream.autoclear import auto_clean
 from AlinaMusic.utils.stream.stream import stream
 from AlinaMusic.utils.thumbnails import gen_thumb
+from config import (
+    BANNED_USERS,
+    SOUNCLOUD_IMG_URL,
+    STREAM_IMG_URL,
+    SUPPORT_GROUP,
+    TELEGRAM_AUDIO_URL,
+    TELEGRAM_VIDEO_URL,
+    adminlist,
+    lyrical,
+)
+from strings import command
 
 wrong = {}
 downvote = {}
@@ -77,6 +82,7 @@ async def unban_assistant(_, callback: CallbackQuery):
             f"⇜ شکستی هێنا لە لادانی باندی ئەکاونتی یاریدەدەر ڕۆڵم نییە\n\n⇜ ڕۆڵم پێبدە بۆ لادانی باندی ئەکاونتی یاریدەدەر ⎋",
             show_alert=True,
         )
+
 
 @app.on_callback_query(filters.regex("PanelMarkup") & ~BANNED_USERS)
 @languageCB
@@ -236,16 +242,14 @@ async def del_back_playlist(client, CallbackQuery, _):
         await CallbackQuery.answer()
         await mute_on(chat_id)
         await Alina.mute_stream(chat_id)
-        await CallbackQuery.message.reply_text(_["admin_6"].format(mention)
-        )
+        await CallbackQuery.message.reply_text(_["admin_6"].format(mention))
     elif command == "Unmute":
         if not await is_muted(chat_id):
             return await CallbackQuery.answer(_["admin_7"], show_alert=True)
         await CallbackQuery.answer()
         await mute_off(chat_id)
         await Alina.unmute_stream(chat_id)
-        await CallbackQuery.message.reply_text(_["admin_8"].format(mention)
-        )
+        await CallbackQuery.message.reply_text(_["admin_8"].format(mention))
     elif command == "Loop":
         await CallbackQuery.answer()
         await set_loop(chat_id, 3)
