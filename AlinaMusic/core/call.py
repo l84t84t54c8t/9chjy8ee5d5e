@@ -25,7 +25,6 @@ from pytgcalls.types import (
 )
 
 import config
-from strings import get_string
 from AlinaMusic import LOGGER, YouTube, app, userbot
 from AlinaMusic.misc import db
 from AlinaMusic.utils.database import (
@@ -46,6 +45,8 @@ from AlinaMusic.utils.formatters import check_duration, seconds_to_min, speed_co
 from AlinaMusic.utils.inline.play import stream_markup, telegram_markup
 from AlinaMusic.utils.stream.autoclear import auto_clean
 from AlinaMusic.utils.thumbnails import gen_thumb
+from strings import get_string
+
 
 async def _clear_(chat_id):
     popped = db.pop(chat_id, None)
@@ -55,6 +56,7 @@ async def _clear_(chat_id):
     await remove_active_video_chat(chat_id)
     await remove_active_chat(chat_id)
     await set_loop(chat_id, 0)
+
 
 class Call:
     def __init__(self):
