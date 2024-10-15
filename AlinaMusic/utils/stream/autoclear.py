@@ -9,7 +9,9 @@
 #
 
 import os
+
 from config import autoclean
+
 
 async def auto_clean(popped):
     async def _auto_clean(popped_item):
@@ -33,4 +35,3 @@ async def auto_clean(popped):
             await _auto_clean(pop)
     else:
         raise ValueError("Expected popped to be a dict or list.")
-        
