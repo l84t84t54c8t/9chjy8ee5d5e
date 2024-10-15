@@ -2,7 +2,7 @@
 # Copyright (C) 2024 by TheTeamVivek@Github, < https://github.com/TheTeamVivek >.
 #
 # This file is part of < https://github.com/TheTeamVivek/YukkiMusic > project,
-# and is released under the "GNU v3.0 License Agreement".
+# and is released under the MIT License.
 # Please see < https://github.com/TheTeamVivek/YukkiMusic/blob/master/LICENSE >
 #
 # All rights reserved.
@@ -35,7 +35,7 @@ from AlinaMusic.utils.formatters import get_readable_time
 from AlinaMusic.utils.functions import MARKDOWN, WELCOMEHELP
 from AlinaMusic.utils.inline import alive_panel, private_panel, start_pannel
 from config import BANNED_USERS, START_IMG_URL
-from strings import get_string
+from strings import command, get_command, get_string
 
 from .help import paginate_modules
 
@@ -388,27 +388,25 @@ async def welcome(client, message: Message):
             return
 
 
-__MODULE__ = "Boᴛ"
+__MODULE__ = "Bot"
 __HELP__ = f"""
-<b>✦ c sᴛᴀɴᴅs ғᴏʀ ᴄʜᴀɴɴᴇʟ ᴘʟᴀʏ.</b>
+<b>✦ c stands for channel play.</b>
 
-<b>★ /stats</b> - Gᴇᴛ Tᴏᴘ 𝟷𝟶 Tʀᴀᴄᴋs Gʟᴏʙᴀʟ Sᴛᴀᴛs, Tᴏᴘ 𝟷𝟶 Usᴇʀs ᴏғ ʙᴏᴛ, Tᴏᴘ 𝟷𝟶 Cʜᴀᴛs ᴏɴ ʙᴏᴛ, Tᴏᴘ 𝟷𝟶 Pʟᴀʏᴇᴅ ɪɴ ᴀ ᴄʜᴀᴛ ᴇᴛᴄ ᴇᴛᴄ.
+<b>★ {command("STATS_COMMAND")}</b> - Get Top 10 Tracks Global Stats, Top 10 Users of Bot, Top 10 Chats on Bot, Top 10 Played in a chat, etc.
 
-<b>★ /sudolist</b> - Cʜᴇᴄᴋ Sᴜᴅᴏ Usᴇʀs ᴏғ Bᴏᴛ
+<b>★ {command("SUDOUSERS_COMMAND")}</b> - Check Sudo users of the bot.
 
-<b>★ /lyrics [Mᴜsɪᴄ Nᴀᴍᴇ]</b> - Sᴇᴀʀᴄʜᴇs Lʏʀɪᴄs ғᴏʀ ᴛʜᴇ ᴘᴀʀᴛɪᴄᴜʟᴀʀ Mᴜsɪᴄ ᴏɴ ᴡᴇʙ.
+<b>★ {command("LYRICS_COMMAND")} [Music Name]</b> - Search lyrics for the particular music on the web.
 
-<b>★ /song [Tʀᴀᴄᴋ Nᴀᴍᴇ] ᴏʀ [YT Lɪɴᴋ]</b> - Dᴏᴡɴʟᴏᴀᴅ ᴀɴʏ ᴛʀᴀᴄᴋ ғʀᴏᴍ ʏᴏᴜᴛᴜʙᴇ ɪɴ ᴍᴘ𝟹 ᴏʀ ᴍᴘ𝟺 ғᴏʀᴍᴀᴛs.
+<b>★ {command("SONG_COMMAND")} [Track Name] or [YT Link]</b> - Download any track from YouTube in MP3 or MP4 formats.
 
-<b>★ /player</b> - Gᴇᴛ ᴀ ɪɴᴛᴇʀᴀᴄᴛɪᴠᴇ Pʟᴀʏɪɴɢ Pᴀɴᴇʟ.
+<b>★ {command("QUEUE_COMMAND")}</b> - Check the queue list of music.
 
-<b>★ /queue ᴏʀ /cqueue</b> - Cʜᴇᴄᴋ Qᴜᴇᴜᴇ Lɪsᴛ ᴏғ Mᴜsɪᴄ.
+    <u><b>⚡️Private Bot:</b></u>
+      
+<b>✧ {command("AUTHORIZE_COMMAND")} [CHAT_ID]</b> - Allow a chat to use your bot.
 
-    <u><b>⚡️Pʀɪᴠᴀᴛᴇ Bᴏᴛ:</b></u>
+<b>✧ {command("UNAUTHORIZE_COMMAND")} [CHAT_ID]</b> - Disallow a chat from using your bot.
 
-<b>✧ /authorize [CHAT_ID]</b> - Aʟʟᴏᴡ ᴀ ᴄʜᴀᴛ ғᴏʀ ᴜsɪɴɢ ʏᴏᴜʀ ʙᴏᴛ.
-
-<b>✧ /unauthorize[CHAT_ID]</b> - Dɪsᴀʟʟᴏᴡ ᴀ ᴄʜᴀᴛ ғʀᴏᴍ ᴜsɪɴɢ ʏᴏᴜʀ ʙᴏᴛ.
-
-<b>✧ /authorized</b> - Cʜᴇᴄᴋ ᴀʟʟ ᴀʟʟᴏᴡᴇᴅ ᴄʜᴀᴛs ᴏғ ʏᴏᴜʀ ʙᴏᴛ.
+<b>✧ {command("AUTHORIZED_COMMAND")}</b> - Check all allowed chats of your bot.
 """
