@@ -11,7 +11,6 @@ from pyrogram import filters
 from pyrogram.errors import ChannelInvalid
 from pyrogram.types import Message
 
-from strings import command, get_command
 from AlinaMusic import app
 from AlinaMusic.misc import SUDOERS, db
 from AlinaMusic.utils.database.memorydatabase import (
@@ -20,6 +19,7 @@ from AlinaMusic.utils.database.memorydatabase import (
     remove_active_chat,
     remove_active_video_chat,
 )
+from strings import command, get_command
 
 # Commands
 ACTIVEVC_COMMAND = get_command("ACTIVEVC_COMMAND")
