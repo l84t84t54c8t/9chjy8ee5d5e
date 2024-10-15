@@ -18,6 +18,7 @@ from pyrogram.raw import types
 
 import config
 from AlinaMusic import app
+from AlinaMusic.misc import SUDOERS
 from AlinaMusic.utils.database import (
     get_active_chats,
     get_authuser_names,
