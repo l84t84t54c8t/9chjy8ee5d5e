@@ -62,7 +62,7 @@ If you need help or have any questions, feel free to reach out through any of th
 If you'd like to say **thank you** or support the ongoing development of AlinaMusic and YukkiMusicBot, you can:
 
 - ⭐ [Star the YukkiMusicBot Project](https://github.com/TeamYukki/YukkiMusicBot) on GitHub.
-- 🍴 [Fork the YukkiMusic Repository](https://github.com/l84t84t54c8t/9chjy8ee5d5e) and contribute.
+- 🍴 [Fork the AlinaMusic Repository](https://github.com/l84t84t54c8t/9chjy8ee5d5e) and contribute.
 - 📝 Share your experience with tutorials or articles on [Dev.to](https://dev.to/), [Medium](https://medium.com/), or your personal blog.
 
 Together, we can make **AlinaMusic** and **YukkiMusicBot** even better!
