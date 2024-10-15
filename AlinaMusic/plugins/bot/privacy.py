@@ -3,8 +3,8 @@ from pyrogram.enums import ParseMode
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 
 import config
-from strings import get_command
 from AlinaMusic import app
+from strings import get_command
 
 PRIVACY_COMMAND = get_command("PRIVACY_COMMAND")
 
