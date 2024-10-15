@@ -11,6 +11,7 @@ from pyrogram import filters
 from pyrogram.errors import ChannelInvalid
 from pyrogram.types import Message
 
+from strings import command, get_command
 from AlinaMusic import app
 from AlinaMusic.misc import SUDOERS, db
 from AlinaMusic.utils.database.memorydatabase import (
@@ -19,11 +20,11 @@ from AlinaMusic.utils.database.memorydatabase import (
     remove_active_chat,
     remove_active_video_chat,
 )
-from strings import get_command
 
 # Commands
 ACTIVEVC_COMMAND = get_command("ACTIVEVC_COMMAND")
 ACTIVEVIDEO_COMMAND = get_command("ACTIVEVIDEO_COMMAND")
+AC_COMMAND = get_command("AC_COMMAND")
 
 
 # Function for removing the Active voice and video chat also clear the db dictionary for the chat
@@ -52,10 +53,10 @@ async def activevc(_, message: Message):
             await _clear_(x)
             continue
     if not text:
-        await mystic.edit_text("**- هیچ تێلێکی دەنگی چالاک نەدۆزرایەوە**")
+        await mystic.edit_text("**- هیچ تێلێکی ڤیدیۆی چالاک نەدۆزرایەوە**")
     else:
         await mystic.edit_text(
-            f"**- تێلی گرووپەکان :\n\n{text}**",
+            f"**- تێلی دەنگی گرووپەکان :\n\n{text}**",
             disable_web_page_preview=True,
         )
 
@@ -96,13 +97,13 @@ async def vc(client, message: Message):
     )
 
 
-__MODULE__ = "Acᴛɪᴠᴇ"
-__HELP__ = """
-<b>✧ /ac</b> - Cʜᴇᴄᴋ ᴀᴄᴛɪᴠᴇ ᴠᴏɪᴄᴇ ᴄʜᴀᴛs ᴏɴ ʙᴏᴛ.
+__MODULE__ = "Active"
+__HELP__ = f"""
+<b>✧ {command("AC_COMMAND")}</b> - Check active voice chats on the bot.
 
-<b>✧ /activevoice</b> - Cʜᴇᴄᴋ ᴀᴄᴛɪᴠᴇ ᴠᴏɪᴄᴇ ᴄʜᴀᴛs ᴀɴᴅ ᴠɪᴅᴇᴏ ᴄᴀʟʟs ᴏɴ ʙᴏᴛ.
+<b>✧ {command("ACTIVEVC_COMMAND")}</b> - Check active voice and video calls on the bot.
 
-<b>✧ /activevideo</b> - Cʜᴇᴄᴋ ᴀᴄᴛɪᴠᴇ ᴠɪᴅᴇᴏ ᴄᴀʟʟs ᴏɴ ʙᴏᴛ.
+<b>✧ {command("ACTIVEVIDEO_COMMAND")}</b> - Check active video calls on the bot.
 
-<b>✧ /stats</b> - Cʜᴇᴄᴋ Bᴏᴛs Sᴛᴀᴛs
+<b>✧ {command("STATS_COMMAND")}</b> - Check bot stats.
 """
