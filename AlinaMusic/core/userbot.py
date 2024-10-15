@@ -28,11 +28,10 @@ class Userbot(Client):
         for i, session in enumerate(session_strings, start=1):
 
             client = Client(
-                f"AlinaMusic{i}",
+                f"AlinaString{i}",
                 api_id=config.API_ID,
                 api_hash=config.API_HASH,
                 in_memory=True,
-                plugins=dict(root="AlinaMusic.plugins.USERBOT"),
                 session_string=session.strip(),
             )
             self.clients.append(client)
@@ -41,18 +40,7 @@ class Userbot(Client):
         LOGGER(__name__).info("Starting Assistant Clients")
         try:
             await client.start()
-            try:
-                await client.join_chat("GroupAlina")
-                await client.join_chat("MGIMT")
-                await client.join_chat("EHS4SS")
-                await client.join_chat("XV7AMO")
-                await client.join_chat("IQMUC")
-                await client.join_chat("IQQUR")
-            except:
-                pass
-
-            assistants.append(index)  # Mark the assistant as active
-
+            assistants.append(index)
             await client.send_message(config.LOG_GROUP_ID, "Assistant Started")
 
             get_me = await client.get_me()
@@ -77,7 +65,5 @@ class Userbot(Client):
 
     async def stop(self):
         """Gracefully stop all clients."""
-        LOGGER(__name__).info("Stopping all assistant clients...")
         tasks = [client.stop() for client in self.clients]
         await asyncio.gather(*tasks)
-        LOGGER(__name__).info("All assistant clients stopped.")
