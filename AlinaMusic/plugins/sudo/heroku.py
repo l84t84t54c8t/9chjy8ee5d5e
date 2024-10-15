@@ -21,18 +21,25 @@ import urllib3
 from git import Repo
 from git.exc import GitCommandError, InvalidGitRepositoryError
 from pyrogram import filters
+from pyrogram.types import Message
+from pyrogram.enums import ChatType
 
 import config
+from config import BANNED_USERS
+from strings import get_command, get_string
 from AlinaMusic import app
-from AlinaMusic.misc import HAPP, SUDOERS, XCB
+from AlinaMusic.core.call import Alina
+from AlinaMusic.misc import HAPP, SUDOERS, XCB, db
 from AlinaMusic.utils.database import (
     get_active_chats,
+    get_cmode,
+    get_lang,
     remove_active_chat,
     remove_active_video_chat,
 )
+from AlinaMusic.utils.decorators import AdminActual, language
 from AlinaMusic.utils.decorators.language import language
 from AlinaMusic.utils.pastebin import Alinabin
-from strings import get_command
 
 # Commands
 GETLOG_COMMAND = get_command("GETLOG_COMMAND")
@@ -42,6 +49,7 @@ SETVAR_COMMAND = get_command("SETVAR_COMMAND")
 USAGE_COMMAND = get_command("USAGE_COMMAND")
 UPDATE_COMMAND = get_command("UPDATE_COMMAND")
 RESTART_COMMAND = get_command("RESTART_COMMAND")
+REBOOT_COMMAND = get_command("REBOOT_COMMAND")
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
@@ -51,7 +59,7 @@ async def is_heroku():
 
 
 async def paste_neko(code: str):
-    return await Alinabin(code)
+    return await Yukkibin(code)
 
 
 @app.on_message(filters.command(GETLOG_COMMAND) & SUDOERS)
@@ -216,13 +224,13 @@ async def usage_dynos(client, message, _):
     AppMinutes = math.floor(AppQuotaUsed % 60)
     await asyncio.sleep(1.5)
     text = f"""
-**Dʏɴᴏ Usᴀɢᴇ**
+**Dyno usage**
 
-<u>Usᴀɢᴇ:</u>
-Tᴏᴛᴀʟ ᴜsᴇᴅ: `{AppHours}`**ʜ**  `{AppMinutes}`**ᴍ**  [`{AppPercentage}`**%**]
+<u>Usage:</u>
+Total used: `{AppHours}`**h**  `{AppMinutes}`**m**  [`{AppPercentage}`**%**]
 
-<u>Rᴇᴀᴍɪɴɪɴɢ ǫᴜᴏᴛᴀ:</u>
-Tᴏᴛᴀʟ ʟᴇғᴛ: `{hours}`**ʜ**  `{minutes}`**ᴍ**  [`{percentage}`**%**]"""
+<u>Remaining Quota</u>
+Total Left: `{hours}`**h**  `{minutes}`**m**  [`{percentage}`**%**]"""
     return await dyno.edit(text)
 
 
@@ -256,13 +264,13 @@ async def update_(client, message, _):
         f"<b>➣ #{info.count()}: <a href={REPO_}/commit/{info}>{info.summary}</a> لەلایەن -> @IQ7amo</b>\n\t\t\t\t<b>➥ لە بەرواری :</b> {ordinal(int(datetime.fromtimestamp(info.committed_date).strftime('%d')))} {datetime.fromtimestamp(info.committed_date).strftime('%b')}, {datetime.fromtimestamp(info.committed_date).strftime('%Y')}\n\n"
         for info in repo.iter_commits(f"HEAD..origin/{config.UPSTREAM_BRANCH}")
     )
-    _update_response_ = "<b>⇜ نوێترین گۆڕانکاری لە فایلەکانی بۆت !\n\n➣ دەستی کرد بە نوێکردنەوە\n\nنوێکارییەکان:</b>\n\n"
+    _update_response_ = "<b>⇜ نوێترین گۆڕانکاری لە فایلەکانی بۆت !\n\n➣ دەستی کرد بە نوێکردنەوە\n\nنوێکارییەکان :\n"
     _final_updates_ = f"{_update_response_} {updates}"
 
     if len(_final_updates_) > 4096:
-        url = await Yukkibin(updates)
+        url = await Alinabin(updates)
         nrs = await response.edit(
-            f"<b>⇜ نوێترین گۆڕانکاری لە فایلەکانی بۆت !\n\n➣ دەستی کرد بە نوێکردنەوە\n\nنوێکارییەکان :\n\n[ᴄʜᴇᴄᴋ ᴜᴩᴅᴀᴛᴇs]({url}) </b>",
+            f"<b>⇜ نوێترین گۆڕانکاری لە فایلەکانی بۆت !\n\n➣ دەستی کرد بە نوێکردنەوە\n\nنوێکارییەکان :\n\n[Check Upadtes]({url})",
             disable_web_page_preview=True,
         )
     else:
@@ -275,7 +283,7 @@ async def update_(client, message, _):
             try:
                 await app.send_message(
                     chat_id=int(x),
-                    text="**نوێ دەکرێتەوە {0}\n\nدەتوانی دوای 2 بۆ 4 خولەك گۆرانی لێبدەیتەوە**".format(
+                    text="{**نوێ دەکرێتەوە {0}\n\nدەتوانی دوای 2 بۆ 4 خولەك گۆرانی لێبدەیتەوە**".format(
                         app.mention
                     ),
                 )
@@ -299,11 +307,11 @@ async def update_(client, message, _):
             return
         except Exception as err:
             await response.edit(
-                f"{nrs.text}\n\nsᴏᴍᴇᴛʜɪɴɢ ᴡᴇɴᴛ ᴡʀᴏɴɢ, ᴩʟᴇᴀsᴇ ᴄʜᴇᴄᴋ ʟᴏɢs."
+                f"{nrs.text}\n\nSomething went wrong, Please check logs"
             )
             return await app.send_message(
                 chat_id=config.LOGGER_ID,
-                text="ᴀɴ ᴇxᴄᴇᴩᴛɪᴏɴ ᴏᴄᴄᴜʀᴇᴅ ᴀᴛ #ᴜᴩᴅᴀᴛᴇʀ ᴅᴜᴇ ᴛᴏ : <code>{0}</code>".format(
+                text="An exception occurred #updater due to : <code>{0}</code>".format(
                     err
                 ),
             )
@@ -313,8 +321,38 @@ async def update_(client, message, _):
         exit()
 
 
-@app.on_message(filters.command(RESTART_COMMAND) & SUDOERS)
-async def restart_(_, message):
+@app.on_message(filters.command(REBOOT_COMMAND) & filters.group & ~BANNED_USERS)
+@AdminActual
+async def reboot(client, message: Message, _):
+    mystic = await message.reply_text(
+        f"**- کەمێک چاوەڕێ بکە . .\n- دەستپێدەکاتەوە {app.mention} بۆ گرووپت **"
+    )
+    await asyncio.sleep(1)
+    try:
+        db[message.chat.id] = []
+        await Alina.stop_stream(message.chat.id)
+    except:
+        pass
+    chat_id = await get_cmode(message.chat.id)
+    if chat_id:
+        try:
+            await app.get_chat(chat_id)
+        except:
+            pass
+        try:
+            db[chat_id] = []
+            await Alina.stop_stream(chat_id)
+        except:
+            pass
+    return await mystic.edit_text("**- بە سەرکەوتوویی دەستی پێکردەوە\n- گۆرانی لێبدە **")
+
+
+@app.on_message(filters.command(RESTART_COMMAND) & ~BANNED_USERS)
+async def restart_(client, message):
+    if message.from_user and not message.from_user.id in SUDOERS:
+        if message.chat.type not in [ChatType.GROUP, ChatType.SUPERGROUP]:
+            return
+        return await reboot(client, message)
     response = await message.reply_text("**دووبارە دەستپێدەکاتەوە . . .**")
     ac_chats = await get_active_chats()
     for x in ac_chats:
