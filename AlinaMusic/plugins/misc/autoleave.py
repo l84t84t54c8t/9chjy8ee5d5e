@@ -14,7 +14,6 @@ from datetime import datetime
 from pyrogram.enums import ChatType
 
 import config
-from strings import get_string
 from AlinaMusic import app
 from AlinaMusic.core.call import Alina
 from AlinaMusic.utils.database import (
@@ -24,6 +23,7 @@ from AlinaMusic.utils.database import (
     is_active_chat,
     is_autoend,
 )
+from strings import get_string
 
 autoend = {}
 
