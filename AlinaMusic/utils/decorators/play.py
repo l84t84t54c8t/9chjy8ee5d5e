@@ -11,15 +11,22 @@ import asyncio
 
 from pyrogram.enums import ChatMemberStatus
 from pyrogram.errors import (
+    ChannelsTooMuch,
     ChatAdminRequired,
+    FloodWait,
     InviteRequestSent,
     UserAlreadyParticipant,
     UserNotParticipant,
 )
-from pyrogram.types import InlineKeyboardMarkup
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
+from config import PLAYLIST_IMG_URL, PRIVATE_BOT_MODE
+from config import SUPPORT_GROUP as SUPPORT_CHAT
+from config import adminlist
+from strings import get_string
 from AlinaMusic import YouTube, app
-from AlinaMusic.core.call import _clear_ as clean
+from AlinaMusic.core.call import Alina
+from AlinaMusic.core.userbot import assistants
 from AlinaMusic.misc import SUDOERS
 from AlinaMusic.utils.database import (
     get_assistant,
@@ -31,31 +38,89 @@ from AlinaMusic.utils.database import (
     is_commanddelete_on,
     is_maintenance,
     is_served_private_chat,
+    set_assistant,
 )
 from AlinaMusic.utils.inline import botplaylist_markup
-from config import PLAYLIST_IMG_URL, PRIVATE_BOT_MODE
-from config import SUPPORT_GROUP as SUPPORT_CHAT
-from strings import get_string
 
 links = {}
+
+
+async def join_chat(message, chat_id, _, myu, attempts=1):
+    max_attempts = len(assistants) - 1  # Set the maximum number of attempts
+    userbot = await get_assistant(chat_id)
+
+    if chat_id in links:
+        invitelink = links[chat_id]
+    else:
+        if message.chat.username:
+            invitelink = message.chat.username
+            try:
+                await userbot.resolve_peer(invitelink)
+            except:
+                pass
+        else:
+            try:
+                invitelink = await app.export_chat_invite_link(message.chat.id)
+            except ChatAdminRequired:
+                return await myu.edit(_["call_1"])
+            except Exception as e:
+                return await myu.edit(_["call_3"].format(app.mention, type(e).__name__))
+
+        if invitelink.startswith("https://t.me/+"):
+            invitelink = invitelink.replace("https://t.me/+", "https://t.me/joinchat/")
+        links[chat_id] = invitelink
+
+    try:
+        await asyncio.sleep(1)
+        await userbot.join_chat(invitelink)
+    except InviteRequestSent:
+        try:
+            await app.approve_chat_join_request(chat_id, userbot.id)
+        except Exception as e:
+            return await myu.edit(_["call_3"].format(type(e).__name__))
+        await asyncio.sleep(1)
+        await myu.edit(_["call_6"].format(app.mention))
+    except UserAlreadyParticipant:
+        pass
+    except ChannelsTooMuch:
+        if attempts <= max_attempts:
+            userbot = await set_assistant(chat_id)
+            return await join_chat(message, chat_id, _, myu, attempts + 1)
+        else:
+            return await myu.edit(_["call_12"].format(SUPPORT_CHAT))
+    except FloodWait as e:
+        time = e.value
+        if time < 20:
+            await asyncio.sleep(time)
+            return await join_chat(message, chat_id, _, myu, attempts + 1)
+        else:
+            if attempts <= max_attempts:
+                userbot = await set_assistant(chat_id)
+                return await join_chat(message, chat_id, _, myu, attempts + 1)
+
+            return await myu.edit(_["call_13"].format(time))
+    except Exception as e:
+        return await myu.edit(_["call_3"].format(type(e).__name__))
+
+    try:
+        await myu.delete()
+    except:
+        pass
 
 
 def PlayWrapper(command):
     async def wrapper(client, message):
         language = await get_lang(message.chat.id)
-        userbot = await get_assistant(message.chat.id)
         _ = get_string(language)
 
         if await is_maintenance() is False:
             if message.from_user.id not in SUDOERS:
-                return await message.reply_text(
-                    text=f"{app.mention} ɪs ᴜɴᴅᴇʀ ᴍᴀɪɴᴛᴇɴᴀɴᴄᴇ, ᴠɪsɪᴛ <a href={SUPPORT_CHAT}>sᴜᴘᴘᴏʀᴛ ᴄʜᴀᴛ</a> ғᴏʀ ᴋɴᴏᴡɪɴɢ ᴛʜᴇ ʀᴇᴀsᴏɴ.",
-                    disable_web_page_preview=True,
-                )
+                return
+
         if PRIVATE_BOT_MODE == str(True):
             if not await is_served_private_chat(message.chat.id):
                 await message.reply_text(
-                    "**ᴘʀɪᴠᴀᴛᴇ ᴍᴜsɪᴄ ʙᴏᴛ**\n\nᴏɴʟʏ ғᴏʀ ᴀᴜᴛʜᴏʀɪᴢᴇᴅ ᴄʜᴀᴛs ғʀᴏᴍ ᴛʜᴇ ᴏᴡɴᴇʀ. ᴀsᴋ ᴍʏ ᴏᴡɴᴇʀ ᴛᴏ ᴀʟʟᴏᴡ ʏᴏᴜʀ ᴄʜᴀᴛ ғɪʀsᴛ."
+                    "**PRIVATE MUSIC BOT**\n\nOnly For Authorized chats from the owner ask my owner to allow your chat first."
                 )
                 return await app.leave_chat(message.chat.id)
         if await is_commanddelete_on(message.chat.id):
@@ -97,7 +162,6 @@ def PlayWrapper(command):
         else:
             chat_id = message.chat.id
             channel = None
-
         try:
             is_call_active = (await app.get_chat(chat_id)).is_call_active
             if not is_call_active:
@@ -129,64 +193,21 @@ def PlayWrapper(command):
         else:
             fplay = None
 
-        # Check if userbot is already present in the chat using common chats
-        userbot = await get_assistant(message.chat.id)
-        common_chats = await userbot.get_common_chats(app.username)
-        chat_matched = any(chat.id == message.chat.id for chat in common_chats)
-
-        if chat_matched:
-            # If common chat matches, skip join process and proceed
+        if await is_active_chat(chat_id):
+            userbot = await get_assistant(message.chat.id)
+            # Getting all members id that in voicechat
             call_participants_id = [
                 member.chat.id async for member in userbot.get_call_members(chat_id)
             ]
-            if await is_active_chat(chat_id) and userbot.id not in call_participants_id:
-                await clean(chat_id)
+            # Checking if assistant id not in list so clear queues and remove active voice chat and process
+            if userbot.id not in call_participants_id:
+                await Alina.stop_stream(chat_id)
 
-            return await command(
-                client,
-                message,
-                _,
-                chat_id,
-                video,
-                channel,
-                playmode,
-                url,
-                fplay,
-            )
-
-        # If common chat doesn't match, try to join via username if available
-        if message.chat.username:
-            try:
-                await userbot.join_chat(message.chat.username)
-                call_participants_id = [
-                    member.chat.id async for member in userbot.get_call_members(chat_id)
-                ]
-                if (
-                    await is_active_chat(chat_id)
-                    and userbot.id not in call_participants_id
-                ):
-                    await clean(chat_id)
-
-                return await command(
-                    client,
-                    message,
-                    _,
-                    chat_id,
-                    video,
-                    channel,
-                    playmode,
-                    url,
-                    fplay,
-                )
-            except Exception as e:
-                pass
-
-        # Fallback to previous flow if join via username fails
-        if not await is_active_chat(chat_id):
-            userbot_id = userbot.id
+        else:
+            userbot = await get_assistant(message.chat.id)
             try:
                 try:
-                    get = await app.get_chat_member(chat_id, userbot_id)
+                    get = await app.get_chat_member(chat_id, userbot.id)
                 except ChatAdminRequired:
                     return await message.reply_text(_["call_1"])
                 if (
@@ -194,71 +215,14 @@ def PlayWrapper(command):
                     or get.status == ChatMemberStatus.RESTRICTED
                 ):
                     try:
-                        await app.unban_chat_member(chat_id, userbot_id)
+                        await app.unban_chat_member(chat_id, userbot.id)
                     except:
                         return await message.reply_text(
-                            text=_["call_2"].format(userbot.username, userbot_id),
+                            text=_["call_2"].format(userbot.username, userbot.id),
                         )
             except UserNotParticipant:
-                if chat_id in links:
-                    invitelink = links[chat_id]
-                else:
-                    if message.chat.username:
-                        invitelink = message.chat.username
-                        try:
-                            await userbot.resolve_peer(invitelink)
-                        except:
-                            pass
-                    else:
-                        try:
-                            invitelink = await client.export_chat_invite_link(
-                                message.chat.id
-                            )
-                        except ChatAdminRequired:
-                            return await message.reply_text(_["call_1"])
-                        except Exception as e:
-                            return await message.reply_text(
-                                _["call_3"].format(app.mention, type(e).__name__)
-                            )
-
-                if invitelink.startswith("https://t.me/+"):
-                    invitelink = invitelink.replace(
-                        "https://t.me/+", "https://t.me/joinchat/"
-                    )
                 myu = await message.reply_text(_["call_5"])
-                try:
-                    await asyncio.sleep(1)
-                    await userbot.join_chat(invitelink)
-                except InviteRequestSent:
-                    try:
-                        await app.approve_chat_join_request(chat_id, userbot.id)
-                    except Exception as e:
-                        return await myu.edit(_["call_3"].format(type(e).__name__))
-                    await asyncio.sleep(1)
-                    await myu.edit(_["call_6"].format(app.mention))
-                except UserAlreadyParticipant:
-                    pass
-                except Exception as e:
-                    return await myu.edit(_["call_3"].format(type(e).__name__))
-
-                links[chat_id] = invitelink
-                try:
-                    await myu.delete()
-                except Exception:
-                    pass
-
-                try:
-                    await userbot.resolve_peer(chat_id)
-                except:
-                    pass
-
-        # Fetch call participants and stop the stream if userbot is not in the call
-        userbot = await get_assistant(message.chat.id)
-        call_participants_id = [
-            member.chat.id async for member in userbot.get_call_members(chat_id)
-        ]
-        if await is_active_chat(chat_id) and userbot.id not in call_participants_id:
-            await clean(chat_id)
+                await join_chat(message, chat_id, _, myu)
 
         return await command(
             client,
