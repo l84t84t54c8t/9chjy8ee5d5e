@@ -1,3 +1,4 @@
+
 #
 # Copyright (C) 2024 by TheTeamVivek@Github, < https://github.com/TheTeamVivek >.
 #
@@ -13,6 +14,7 @@ from pyrogram import filters
 from pyrogram.types import InlineKeyboardMarkup, Message
 
 import config
+from config import BANNED_USERS
 from AlinaMusic import YouTube, app
 from AlinaMusic.core.call import Alina
 from AlinaMusic.misc import db
@@ -22,7 +24,7 @@ from AlinaMusic.utils.inline import close_markup
 from AlinaMusic.utils.inline.play import stream_markup, telegram_markup
 from AlinaMusic.utils.stream.autoclear import auto_clean
 from AlinaMusic.utils.thumbnails import gen_thumb
-from config import BANNED_USERS
+
 
 
 @app.on_message(
@@ -52,6 +54,11 @@ async def skip(cli, message: Message, _, chat_id):
                             popped = None
                             try:
                                 popped = check.pop(0)
+                                if popped.get("mystic"):
+                                    try:
+                                        await popped.get("mystic").delete()
+                                    except Exception:
+                                        pass
                             except:
                                 return await message.reply_text(_["admin_16"])
                             if popped:
@@ -81,6 +88,11 @@ async def skip(cli, message: Message, _, chat_id):
             popped = check.pop(0)
             if popped:
                 await auto_clean(popped)
+                if popped.get("mystic"):
+                    try:
+                        await popped.get("mystic").delete()
+                    except Exception:
+                        pass
             if not check:
                 await message.reply_text(
                     _["admin_10"].format(message.from_user.mention),
@@ -93,8 +105,8 @@ async def skip(cli, message: Message, _, chat_id):
         except:
             try:
                 await message.reply_text(
-                    _["admin_10"].format(message.from_user.mention),
-                    reply_markup=close_markup(_),
+                   _["admin_10"].format(message.from_user.mention),
+                   reply_markup=close_markup(_),
                 )
                 return await Alina.stop_stream(chat_id)
             except:
@@ -198,6 +210,17 @@ async def skip(cli, message: Message, _, chat_id):
                     if str(streamtype) == "audio"
                     else config.TELEGRAM_VIDEO_URL
                 ),
+                caption=_["stream_1"].format(
+                    title, config.SUPPORT_GROUP, check[0]["dur"], user
+                ),
+                reply_markup=InlineKeyboardMarkup(button),
+            )
+            db[chat_id][0]["mystic"] = run
+            db[chat_id][0]["markup"] = "tg"
+        elif "saavn" in videoid:
+            button = telegram_markup(_, chat_id)
+            run = await message.reply_photo(
+                photo=check[0]["thumb"],
                 caption=_["stream_1"].format(
                     title, config.SUPPORT_GROUP, check[0]["dur"], user
                 ),
