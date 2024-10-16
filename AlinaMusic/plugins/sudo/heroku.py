@@ -58,7 +58,7 @@ async def is_heroku():
 
 
 async def paste_neko(code: str):
-    return await Yukkibin(code)
+    return await Alinabin(code)
 
 
 @app.on_message(
