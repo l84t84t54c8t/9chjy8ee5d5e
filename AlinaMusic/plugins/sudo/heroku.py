@@ -61,7 +61,10 @@ async def paste_neko(code: str):
     return await Yukkibin(code)
 
 
-@app.on_message(filters.command(GETLOG_COMMAND) & SUDOERS)
+@app.on_message(
+    filters.command(["log", "logs", "get_log", "getlog", "get_logs", "getlogs"])
+    & SUDOERS
+)
 @language
 async def log_(client, message, _):
     try:
@@ -89,7 +92,6 @@ async def log_(client, message, _):
     except Exception as e:
         print(e)
         await message.reply_text(_["heroku_2"])
-
 
 @app.on_message(filters.command(GETVAR_COMMAND) & SUDOERS)
 @language
