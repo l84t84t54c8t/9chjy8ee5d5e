@@ -236,6 +236,8 @@ async def del_back_playlist(client, CallbackQuery, _):
         buttons_stop = [
             [
                 InlineKeyboardButton(text=_["CLOSE_BUTTON"], callback_data="close"),
+            ],
+            [
                 InlineKeyboardButton(text=_["S_B_4"], url=config.SUPPORT_CHANNEL),
             ],
         ]
@@ -285,6 +287,8 @@ async def del_back_playlist(client, CallbackQuery, _):
         buttons_skip = [
             [
                 InlineKeyboardButton(text=_["CLOSE_BUTTON"], callback_data="close"),
+            ],
+            [
                 InlineKeyboardButton(text=_["S_B_4"], url=config.SUPPORT_CHANNEL),
             ],
         ]
