@@ -235,16 +235,13 @@ async def del_back_playlist(client, CallbackQuery, _):
         await set_loop(chat_id, 0)
         buttons_stop = [
             [
-                InlineKeyboardButton(
-                    text=_["CLOSE_BUTTON"], callback_data="close"
-                ),
-                InlineKeyboardButton(
-                    text=_["S_B_4"], url=config.SUPPORT_CHANNEL
-                ),
+                InlineKeyboardButton(text=_["CLOSE_BUTTON"], callback_data="close"),
+                InlineKeyboardButton(text=_["S_B_4"], url=config.SUPPORT_CHANNEL),
             ],
         ]
         await CallbackQuery.message.reply_text(
-            _["admin_9"].format(mention), reply_markup=InlineKeyboardMarkup(buttons_stop)
+            _["admin_9"].format(mention),
+            reply_markup=InlineKeyboardMarkup(buttons_stop),
         )
     elif command == "Mute":
         if await is_muted(chat_id):
@@ -287,12 +284,8 @@ async def del_back_playlist(client, CallbackQuery, _):
         check = db.get(chat_id)
         buttons_skip = [
             [
-                InlineKeyboardButton(
-                    text=_["CLOSE_BUTTON"], callback_data="close"
-                ),
-                InlineKeyboardButton(
-                    text=_["S_B_4"], url=config.SUPPORT_CHANNEL
-                ),
+                InlineKeyboardButton(text=_["CLOSE_BUTTON"], callback_data="close"),
+                InlineKeyboardButton(text=_["S_B_4"], url=config.SUPPORT_CHANNEL),
             ],
         ]
         if command == "Skip":
