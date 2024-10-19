@@ -233,8 +233,18 @@ async def del_back_playlist(client, CallbackQuery, _):
         await CallbackQuery.answer()
         await Alina.stop_stream(chat_id)
         await set_loop(chat_id, 0)
+        buttons_stop = [
+            [
+                InlineKeyboardButton(
+                    text=_["CLOSE_BUTTON"], callback_data="close"
+                ),
+                InlineKeyboardButton(
+                    text=_["S_B_4"], url=url=config.SUPPORT_CHANNEL
+                ),
+            ],
+        ]
         await CallbackQuery.message.reply_text(
-            _["admin_9"].format(mention), reply_markup=close_markup(_)
+            _["admin_9"].format(mention), reply_markup=InlineKeyboardMarkup(buttons_stop)
         )
     elif command == "Mute":
         if await is_muted(chat_id):
@@ -275,6 +285,16 @@ async def del_back_playlist(client, CallbackQuery, _):
         )
     elif command == "Skip" or command == "Replay":
         check = db.get(chat_id)
+        buttons_skip = [
+            [
+                InlineKeyboardButton(
+                    text=_["CLOSE_BUTTON"], callback_data="close"
+                ),
+                InlineKeyboardButton(
+                    text=_["S_B_4"], url=url=config.SUPPORT_CHANNEL
+                ),
+            ],
+        ]
         if command == "Skip":
             txt = f"<b>●꒐ پەخشکردن تێپەڕێندرا♥•\n●꒐ لەلایەن : {mention} ⎋</b>"
             popped = None
@@ -290,7 +310,7 @@ async def del_back_playlist(client, CallbackQuery, _):
                         text=_["admin_10"].format(
                             mention, CallbackQuery.message.chat.title
                         ),
-                        reply_markup=close_markup(_),
+                        reply_markup=InlineKeyboardMarkup(buttons_skip),
                     )
                     try:
                         return await Alina.stop_stream(chat_id)
@@ -305,7 +325,7 @@ async def del_back_playlist(client, CallbackQuery, _):
                         text=_["admin_6"].format(
                             mention, CallbackQuery.message.chat.title
                         ),
-                        reply_markup=close_markup(_),
+                        reply_markup=InlineKeyboardMarkup(buttons_skip),
                     )
                     return await Alina.st_stream(chat_id)
                 except:
