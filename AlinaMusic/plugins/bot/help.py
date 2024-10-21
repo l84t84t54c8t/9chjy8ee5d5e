@@ -14,12 +14,12 @@ from typing import Union
 from pyrogram import filters, types
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 
-from config import BANNED_USERS, START_IMG_URL
-from strings import get_command, get_string
 from AlinaMusic import HELPABLE, app
 from AlinaMusic.utils.database import get_lang, is_commanddelete_on
 from AlinaMusic.utils.decorators.language import LanguageStart
 from AlinaMusic.utils.inline.help import private_help_panel
+from config import BANNED_USERS, START_IMG_URL
+from strings import get_command, get_string
 
 ### Command
 HELP_COMMAND = get_command("HELP_COMMAND")
@@ -65,7 +65,7 @@ def paginate_modules(page_n, module_dict, chat=None, close: bool = False):
             ]
         )
 
-    pairs = [modules[i: i + NUM_COLUMNS] for i in range(0, len(modules), NUM_COLUMNS)]
+    pairs = [modules[i : i + NUM_COLUMNS] for i in range(0, len(modules), NUM_COLUMNS)]
     max_num_pages = ceil(len(pairs) / COLUMN_SIZE) if len(pairs) > 0 else 1
     modulo_page = page_n % max_num_pages
 
@@ -73,7 +73,8 @@ def paginate_modules(page_n, module_dict, chat=None, close: bool = False):
         EqInlineKeyboardButton(
             "❮",
             callback_data="help_prev({},{})".format(
-                modulo_page - 1 if modulo_page > 0 else max_num_pages - 1, int(close),
+                modulo_page - 1 if modulo_page > 0 else max_num_pages - 1,
+                int(close),
             ),
         ),
         EqInlineKeyboardButton(
@@ -87,16 +88,17 @@ def paginate_modules(page_n, module_dict, chat=None, close: bool = False):
     ]
 
     if len(pairs) > COLUMN_SIZE:
-        pairs = (
-            pairs[modulo_page * COLUMN_SIZE: COLUMN_SIZE * (modulo_page + 1)]
-            + [navigation_buttons]
-        )
+        pairs = pairs[modulo_page * COLUMN_SIZE : COLUMN_SIZE * (modulo_page + 1)] + [
+            navigation_buttons
+        ]
     else:
         pairs.append(
-            [EqInlineKeyboardButton(
-                "close" if close else "Back",
-                callback_data="close" if close else "settingsback_helper",
-            )]
+            [
+                EqInlineKeyboardButton(
+                    "close" if close else "Back",
+                    callback_data="close" if close else "settingsback_helper",
+                )
+            ]
         )
 
     return pairs
@@ -185,7 +187,10 @@ async def help_button(client, query):
         key = InlineKeyboardMarkup(
             [
                 [
-                    InlineKeyboardButton(text=_["BACK_BUTTON"], callback_data=f"help_back({prev_page_num},{int(close)})"),
+                    InlineKeyboardButton(
+                        text=_["BACK_BUTTON"],
+                        callback_data=f"help_back({prev_page_num},{int(close)})",
+                    ),
                 ],
                 [
                     InlineKeyboardButton(text=_["CLOSE_BUTTON"], callback_data="close"),
@@ -209,7 +214,10 @@ async def help_button(client, query):
         key = InlineKeyboardMarkup(
             [
                 [
-                    InlineKeyboardButton(text=_["BACK_BUTTON"], callback_data=f"help_back({prev_page_num},{int(close)})"),
+                    InlineKeyboardButton(
+                        text=_["BACK_BUTTON"],
+                        callback_data=f"help_back({prev_page_num},{int(close)})",
+                    ),
                 ],
                 [
                     InlineKeyboardButton(text=_["CLOSE_BUTTON"], callback_data="close"),
