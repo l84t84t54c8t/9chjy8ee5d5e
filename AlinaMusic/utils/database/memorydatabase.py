@@ -20,6 +20,7 @@ from AlinaMusic.core.mongo import mongodb
 from config import CHANNEL as CHANNELOWNER
 from config import GROUP as GROUPOWNER
 
+afkdb = mongodb.afk
 channeldb = mongodb.cplaymode
 commanddb = mongodb.commands
 cleandb = mongodb.cleanmode
@@ -37,6 +38,8 @@ channeldb = mongodb.ch
 groupdb = mongodb.gr
 mustdb = mongodb.must
 storydb = mongodb.story
+nightdb = mongodb.night
+
 
 # Shifting to memory [ mongo sucks often]
 loop = {}
@@ -58,6 +61,54 @@ GROUP = {}
 must = {}
 
 
+
+
+async def is_afk(user_id: int) -> bool:
+    user = await afkdb.find_one({"user_id": user_id})
+    if not user:
+        return False, {}
+    return True, user["reason"]
+
+
+async def add_afk(user_id: int, mode):
+    await afkdb.update_one(
+        {"user_id": user_id}, {"$set": {"reason": mode}}, upsert=True
+    )
+
+
+async def remove_afk(user_id: int):
+    user = await afkdb.find_one({"user_id": user_id})
+    if user:
+        return await afkdb.delete_one({"user_id": user_id})
+
+
+async def get_afk_users() -> list:
+    users = afkdb.find({"user_id": {"$gt": 0}})
+    if not users:
+        return []
+    users_list = []
+    for user in await users.to_list(length=1000000000):
+        users_list.append(user)
+    return users_list
+
+
+
+async def nightmode_on(chat_id: int):
+    return nightdb.insert_one({"chat_id": chat_id})
+
+
+async def nightmode_off(chat_id: int):
+    return nightdb.delete_one({"chat_id": chat_id})
+
+
+async def get_nightchats() -> list:
+    chats = nightdb.find({"chat_id": {"$lt": 0}})
+    if not chats:
+        return []
+    chats_list = []
+    for chat in await chats.to_list(length=1000000000):
+        chats_list.append(chat)
+    return chats_list
 # Function to enable or disable story deletion
 async def set_deletion_feature(chat_id: int, status: bool):
     update_data = {"story": status}
