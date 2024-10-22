@@ -208,7 +208,7 @@ async def help_button(client, query):
         prev_page_num = int(mod_match.group(2))
         close = int(mod_match.group(3)) == 1
         text = (
-            f"<b><u>Here is the help for {HELPABLE[module].__MODULE__}:</u></b>\n"
+            f"<b>ڕوونکردنەو و شێوازی بەکارهێنانی فەرمانی {HELPABLE[module].__MODULE__} :</b>\n"
             + HELPABLE[module].__HELP__
         )
         key = InlineKeyboardMarkup(
