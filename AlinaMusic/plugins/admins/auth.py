@@ -151,5 +151,5 @@ async def authusers(client, message: Message, _):
         await message.reply_text(text)
 
 
-__MODULE__ = _["Auth"]
-__HELP__ = _["Authcmd"]
+__MODULE__ = ["Auth"]
+__HELP__ = ["Authcmd"]
