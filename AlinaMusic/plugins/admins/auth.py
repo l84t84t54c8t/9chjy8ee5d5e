@@ -21,7 +21,7 @@ from AlinaMusic.utils.database import (
 from AlinaMusic.utils.decorators import AdminActual, language
 from AlinaMusic.utils.formatters import int_to_alpha
 from config import BANNED_USERS, adminlist
-from strings import get_command
+from strings import command, get_command
 
 # Command
 AUTH_COMMAND = get_command("AUTH_COMMAND")
