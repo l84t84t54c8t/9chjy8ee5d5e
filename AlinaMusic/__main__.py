@@ -22,6 +22,10 @@ from config import BANNED_USERS
 
 
 async def init():
+    if sys.version_info < (3, 9):
+        LOGGER("AlinaMusic").error("AlinaMusic is optimized for Python 3.9 or higher. Exiting...")
+        sys.exit(1)
+
     if len(config.STRING_SESSIONS) == 0:
         LOGGER("AlinaMusic").error(
             "No Assistant Clients Vars Defined!.. Exiting Process."
