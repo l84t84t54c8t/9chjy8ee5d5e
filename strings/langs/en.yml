@@ -1,3 +1,4 @@
+from strings import command
 name : 🧑🏻‍💻 کوردی
 
 # General Strings
@@ -577,4 +578,11 @@ Castcmd : f"""
 <b><code>-nobot</code></b> » بۆتەکەت وادەکات کە نامەکە بڵاونەکاتەوە [بە سوودە بۆ کاتێک ناتەوێت نامەکە بڵاوبکرێتەوە لە گرووپەکان]
 
 > <b>نمونە:</b> <code>/broadcast -user -assistant -pin تاقیکردنەوەی بڵاوکردنەوە</code>
+"""
+
+Assistant : "یاریدەدەری بۆت"
+Assistantcmd : """
+/userbotjoin :- یاریدەدەری بۆتەکە زیادەکرێت بۆ گرووپ.
+/userbotleave :- یاریدەدەری بۆتەکە دەردەچێت لە گرووپ.
+/leaveall@IQMCBOT :- یاریدەدەری بۆتەکە دەردەچێت لە هەموو گرووپەکان (تەنها بۆ گەشەپێدەر).
 """
