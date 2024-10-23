@@ -502,20 +502,79 @@ Authcmd : """
 
 Admin : ""
 Admincmd : """
-<b>c stands for channel play</b>
+<b>c کورتکراوەی پەخشکردن</b>
 
-<b>✧ {command("PAUSE_COMMAND")}</b> - Pause the playing music.
-<b>✧ {command("RESUME_COMMAND")}</b> - Resume the paused music.
-<b>✧ {command("MUTE_COMMAND")}</b> - Mute the playing music.
-<b>✧ {command("UNMUTE_COMMAND")}</b> - Unmute the muted music.
-<b>✧ {command("SKIP_COMMAND")}</b> - Skip the current playing music.
-<b>✧ {command("STOP_COMMAND")}</b> - Stop the playing music.
-<b>✧ {command("SHUFFLE_COMMAND")}</b> - Randomly shuffle the queued playlist/songs.
-<b>✧ {command("SEEK_COMMAND")}</b> - Forward seek the music.
-<b>✧ {command("SEEK_COMMAND")}</b> - Backward seek the music to your duration.
-<b>✧ {command("REBOOT_COMMAND")}</b> - Reboot bot for your chat.
+<b>✧ {command("PAUSE_COMMAND")}</b> - وەستاندن بۆ ماوەیەکی کاتی.
+<b>✧ {command("RESUME_COMMAND")}</b> - دەستپێکردنەوەی گۆرانی.
+<b>✧ {command("MUTE_COMMAND")}</b> - کپکردن-بێدەنگکردنی گۆرانی.
+<b>✧ {command("UNMUTE_COMMAND")}</b> - لادانی کپکردن-بێدەنگی گۆرانی.
+<b>✧ {command("SKIP_COMMAND")}</b> - تێپەڕاندنی گۆرانی بۆ گۆرانی دواتر.
+<b>✧ {command("STOP_COMMAND")}</b> - وەستاندنی گۆرانی کۆتایی هێنان.
+<b>✧ {command("SHUFFLE_COMMAND")}</b> - تێکەڵکردنی گۆرانییە ڕیزکراوەکان.
+<b>✧ {command("SEEK_COMMAND")}</b> - گۆرانی دەباتە پێش بۆ خولەکی ویستراو.
+<b>✧ {command("REBOOT_COMMAND")}</b> - بۆت دووبارە هەڵبکەرەوە بۆ گرووپ.
 
-<b>✧ {command("SKIP_COMMAND")}</b> [Number (Example: 3)] - Skip music to a specific number. Example: <b>/skip 3</b> will skip to the third queued music and will ignore 1 and 2 in the queue.
+<b>✧ {command("SKIP_COMMAND")}</b> [ژمارە (نموونە:- 3)] - گۆرانی تێپەڕێنە بۆ ژمارەیەکی دیاریکراو. نموونە:- <b>/skip 3</b> دەچێتە سەر گۆرانی سێیەمی ڕیزکراو و 1 و 2 لە ڕیزەکەدا پشتگوێ دەخات.
 
-<b>✧ {command("LOOP_COMMAND")}</b> [Enable/Disable] or [Number between 1-10] - When activated, the bot will loop the current music 1-10 times in voice chat. Default loop value is 10 times.
+<b>✧ {command("LOOP_COMMAND")}</b> [چالاک/ناچالاک] یان [ژمارە لە 1-10] - کاتێک بۆتەکە چالاک دەکرێت، 1-10 جار لە تێل گۆرانی دووبارە دەکاتەوە.
+"""
+
+Bot : "بۆت"
+Botcmd : f"""
+<b>✦ فەرمانی تری بۆت.</b>
+
+<b>★ {command("STATS_COMMAND")}</b> - هێنانی تەواوی ئاماری بۆت.
+
+<b>★ {command("SUDOUSERS_COMMAND")}</b> - پیشاندانی گەشەپێدەرانی بۆتی گۆرانی.
+
+<b>★ {command("SONG_COMMAND")} [ناوی گۆرانی] یان [لینکی یوتوب]</b> - داگرتنی گۆرانی بە شێوازی MP3 یان MP4.
+
+<b>★ {command("QUEUE_COMMAND")}</b> - پشکنین بۆ گۆرانییە ڕێزکراوەکان.
+
+    <u><b>⚡️شێوازی تایبەت :</b></u>
+      
+<b>✧ {command("AUTHORIZE_COMMAND")} [ئایدی گرووپ]</b> - بۆ ڕێگەپێدانی گرووپ بۆت بەکاربهێنێت.
+
+<b>✧ {command("UNAUTHORIZE_COMMAND")} [ئایدی گرووپ]</b> - بۆ ڕێگەپێنەدانی گرووپ بۆت بەکاربهێنێت.
+
+<b>✧ {command("AUTHORIZED_COMMAND")}</b> - پشکنین بۆ لیستی گرووپە ڕێگەپێدراوەکان.
+"""
+
+settings : "ڕێکخستن"
+settingscmd : """
+✅<u>ڕێکخستنەکانی بۆت لە گرووپ.</u>
+
+/settings - هێنانی ڕێکخستنەکانی گرووپ بە دووگمە.
+
+🔗 <u>بژاردەکانی ڕێکخستن :-</u>
+
+1 گۆڕینی کوالێتی دەنگ
+2 گۆڕینی کوالێتی ڤیدیۆ
+3 **بەکارهێنەری ڕێگەپێدراو**:- دەتوانیت جۆری فرمانی ئادمینەکان بگۆڕیت بۆ هەموو کەس یان تەنها ئادمینەکان.
+4 **دۆخی پاککردنەوە**:- بۆت دەتوانێت نامەکانی بۆتەکە لە ناو گرووپەکەتاندا دوای ٥ خولەک بسڕێتەوە.
+5 **پاککردنەوەی فرمان**:- کاتێک چالاک بێت، بۆت فرمانەکانیش پاك دەکات دوای ئەنجامدان.
+       <b><u>ڕێکخستنەکانی لە پەخشکردن:-</></b>
+/playmode - پشکنینی دۆخی پەخشکردن لە گرووپەکەت.
+      <b><u>هەڵبژاردنەکان لە پلەی مۆد:</u></b>
+1 **دۆخی گەڕان** [ڕاستەوخۆ یان بە دوگمە] - گۆڕینی دۆخی گەڕان /playmode.
+2 **فرمانەکانی ئادمین** [هەمووکەس یان ئادمینەکان] - ئەگەر هەمووکەس بێت، هەموو کەس لە گرووپەکەت دەتوانێت فرمانەکانی ئادمین بەکاربێنێت (وەک /skip، /stop هتد).
+3 **جۆری پەخشکردن کردن** [هەمووکەس یان ئادمینەکان] - ئەگەر ئادمینەکان بێت، تەنها ئادمینەکانی گرووپ دەتوانن گۆرانی لە تێلی گرووپ پەخشبکەن.
+"""
+
+Cast : "ڕێکلام"
+Castcmd : f"""
+<b>{command("BROADCAST_COMMAND")} [نامە یان وەڵامدانەوەی نامە]</b> » نامەیە بڵاوبکەوە بۆ هەموو گرووپی بۆتەکە
+<u>جۆرەکانی بڵاوکردنەوە:-</u>
+
+<b><code>-pin</code></b> » نامەکەت لە گرووپەکان پین بکە
+
+<b><code>-pinloud</code></b> » نامەکەت لە گرووپەکان پین بکە و ئاگاداری بنێرە بۆ ئەندامەکان
+
+<b><code>-user</code></b> » نامە بڵاوبکەوە بۆ ئەوانەی کە بۆتەکەیان لەلایە [دەتوانیت پەیامەکە پین بکەی، تەنها `pin` یان `-pinloud` بەکارببە]
+
+<b><code>-assistant</code></b> » نامەکەت بڵاوبکەوە لە ڕێگەی یاریدەدەری بۆتەکەوە
+
+<b><code>-nobot</code></b> » بۆتەکەت وادەکات کە نامەکە بڵاونەکاتەوە [بە سوودە بۆ کاتێک ناتەوێت نامەکە بڵاوبکرێتەوە لە گرووپەکان]
+
+> <b>نمونە:</b> <code>/broadcast -user -assistant -pin تاقیکردنەوەی بڵاوکردنەوە</code>
 """
