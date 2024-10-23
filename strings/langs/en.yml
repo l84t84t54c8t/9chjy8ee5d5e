@@ -486,3 +486,36 @@ gban_9 : "<b>⇜ لادانی دەرکردنی گشتی لە {0}.\n\n- لادر�
 gban_10 : "<b>⇜ کەس دەرنەکراوە لە هەموو گرووپەکانی بۆت ⎋</b>"
 gban_11 : "<b>⇜ بە دەستهێنانی لیستی دەرکراوەکان 🍻</b>"
 gban_12 : "<b>👾 لیستی دەرکراوەکان :\n\n</b>"
+
+#commandlang:
+
+Auth : "ڕێگەپێدان"
+Authcmd : """
+<b>بەکارهێنەرانی ڕێگەپێدرا دەتوانن فەرمانی ئەدمین بەکاربێنن لە گەووپ.</b>
+
+<b>✧ {command("AUTH_COMMAND")}</b> [یوزەر] - بەکارهێنەرێ زیاد بکە بۆ لیستی ڕێگەپێدراوی گرووپەکە.
+
+<b>✧ {command("UNAUTH_COMMAND")}</b> [یوزەر] - بەکارهێنەرێ لابدە  لە لیستی ڕێگەپێدراوی گرووپەکە.
+
+<b>✧ {command("AUTHUSERS_COMMAND")}</b> - لیستی بەکارهێنەری ڕێگەپێدراو گرووپەکە بپشکنە.
+"""
+
+Admin : ""
+Admincmd : """
+<b>c stands for channel play</b>
+
+<b>✧ {command("PAUSE_COMMAND")}</b> - Pause the playing music.
+<b>✧ {command("RESUME_COMMAND")}</b> - Resume the paused music.
+<b>✧ {command("MUTE_COMMAND")}</b> - Mute the playing music.
+<b>✧ {command("UNMUTE_COMMAND")}</b> - Unmute the muted music.
+<b>✧ {command("SKIP_COMMAND")}</b> - Skip the current playing music.
+<b>✧ {command("STOP_COMMAND")}</b> - Stop the playing music.
+<b>✧ {command("SHUFFLE_COMMAND")}</b> - Randomly shuffle the queued playlist/songs.
+<b>✧ {command("SEEK_COMMAND")}</b> - Forward seek the music.
+<b>✧ {command("SEEK_COMMAND")}</b> - Backward seek the music to your duration.
+<b>✧ {command("REBOOT_COMMAND")}</b> - Reboot bot for your chat.
+
+<b>✧ {command("SKIP_COMMAND")}</b> [Number (Example: 3)] - Skip music to a specific number. Example: <b>/skip 3</b> will skip to the third queued music and will ignore 1 and 2 in the queue.
+
+<b>✧ {command("LOOP_COMMAND")}</b> [Enable/Disable] or [Number between 1-10] - When activated, the bot will loop the current music 1-10 times in voice chat. Default loop value is 10 times.
+"""
