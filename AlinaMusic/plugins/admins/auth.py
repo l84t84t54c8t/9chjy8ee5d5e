@@ -151,5 +151,13 @@ async def authusers(client, message: Message, _):
         await message.reply_text(text)
 
 
-__MODULE__ = ["Auth"]
-__HELP__ = ["Authcmd"]
+__MODULE__ = "Auth"
+__HELP__ = f"""
+<b>Auth Users can use Admin commands without admin rights in your chat.</b>
+
+<b>✧ {command("AUTH_COMMAND")}</b> [Username] - Add a user to AUTH LIST of the Group.
+
+<b>✧ {command("UNAUTH_COMMAND")}</b> [Username] - Remove a user from AUTH LIST of the group.
+
+<b>✧ {command("AUTHUSERS_COMMAND")}</b> - Check AUTH LIST of the Group.
+"""
