@@ -8,14 +8,14 @@
 # All rights reserved.
 #
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+
 from config import SUPPORT_CHANNEL
+
 
 def botplaylist_markup(_):
     buttons = [
         [
-            InlineKeyboardButton(
-                text="˼ احساس ˹",
-                url="https://t.me/EHS4SS"),
+            InlineKeyboardButton(text="˼ احساس ˹", url="https://t.me/EHS4SS"),
         ],
         [
             InlineKeyboardButton(text=_["S_B_4"], url=f"{SUPPORT_CHANNEL}"),
