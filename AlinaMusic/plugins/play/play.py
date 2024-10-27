@@ -43,53 +43,58 @@ from AlinaMusic.utils.stream.stream import stream
 from config import BANNED_USERS, MUST_JOIN2, lyrical
 
 
-from config import BANNED_USERS, MUST_JOIN1, MUST_JOIN2, lyrical
+from pyrogram.errors import UserNotParticipant
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+from config import MUST_JOIN1, MUST_JOIN2
 
 async def joinch(message):
-    # Check for the first required channel
-    if MUST_JOIN1:
-        try:
-            await app.get_chat_member(MUST_JOIN1, message.from_user.id)
-        except UserNotParticipant:
-            # Generate the link for MUST_JOIN1
-            if MUST_JOIN1.isalpha():
-                link1 = "https://t.me/" + MUST_JOIN1
-            else:
-                chat_info1 = await app.get_chat(MUST_JOIN1)
-                link1 = chat_info1.invite_link
-            
-            await message.reply(
-                f"**• You must join the group\n• To be able to play songs\n• Bot Group : « @{MUST_JOIN1} »\n\n• پێویستە جۆینی گرووپ بکەیت\n• بۆ ئەوەی بتوانی گۆرانی پەخش بکەیت\n• گرووپی بۆت : « @{MUST_JOIN1} »**",
-                reply_markup=InlineKeyboardMarkup(
-                    [[InlineKeyboardButton("• جۆینی کەناڵ بکە •", url=link1)]]
-                ),
-                disable_web_page_preview=True,
-            )
-            return True  # Return after sending the prompt for MUST_JOIN1
+    try:
+        # Check for the first required channel (MUST_JOIN1)
+        if MUST_JOIN1:
+            try:
+                await app.get_chat_member(MUST_JOIN1, message.from_user.id)
+            except UserNotParticipant:
+                # Generate the link for MUST_JOIN1
+                if MUST_JOIN1.isalpha():
+                    link1 = "https://t.me/" + MUST_JOIN1
+                else:
+                    chat_info1 = await app.get_chat(MUST_JOIN1)
+                    link1 = chat_info1.invite_link
+                
+                await message.reply(
+                    f"**• You must join the group\n• To be able to play songs\n• Bot Group : « @{MUST_JOIN1} »\n\n"
+                    "• پێویستە جۆینی گرووپ بکەیت\n• بۆ ئەوەی بتوانی گۆرانی پەخش بکەیت\n• گرووپی بۆت : « @{MUST_JOIN1} »**",
+                    reply_markup=InlineKeyboardMarkup(
+                        [[InlineKeyboardButton("• جۆینی کەناڵ بکە •", url=link1)]]
+                    ),
+                    disable_web_page_preview=True,
+                )
+                return True  # Return after sending the prompt for MUST_JOIN1
 
-    # Check for the second required channel
-    if MUST_JOIN2:
-        try:
-            await app.get_chat_member(MUST_JOIN2, message.from_user.id)
-        except UserNotParticipant:
-            # Generate the link for MUST_JOIN2
-            if MUST_JOIN2.isalpha():
-                link2 = "https://t.me/" + MUST_JOIN2
-            else:
-                chat_info2 = await app.get_chat(MUST_JOIN2)
-                link2 = chat_info2.invite_link
-            
-            await message.reply(
-                f"**• You must join the group\n• To be able to play songs\n• Bot Group : « @{MUST_JOIN2} »\n\n• پێویستە جۆینی گرووپ بکەیت\n• بۆ ئەوەی بتوانی گۆرانی پەخش بکەیت\n• گرووپی بۆت : « @{MUST_JOIN2} »**",
-                reply_markup=InlineKeyboardMarkup(
-                    [[InlineKeyboardButton("• جۆینی کەناڵ بکە •", url=link2)]]
-                ),
-                disable_web_page_preview=True,
-            )
-            return True  # Return after sending the prompt for MUST_JOIN2
+        # Check for the second required channel (MUST_JOIN2)
+        if MUST_JOIN2:
+            try:
+                await app.get_chat_member(MUST_JOIN2, message.from_user.id)
+            except UserNotParticipant:
+                # Generate the link for MUST_JOIN2
+                if MUST_JOIN2.isalpha():
+                    link2 = "https://t.me/" + MUST_JOIN2
+                else:
+                    chat_info2 = await app.get_chat(MUST_JOIN2)
+                    link2 = chat_info2.invite_link
+                
+                await message.reply(
+                    f"**• You must join the group\n• To be able to play songs\n• Bot Group : « @{MUST_JOIN2} »\n\n"
+                    "• پێویستە جۆینی گرووپ بکەیت\n• بۆ ئەوەی بتوانی گۆرانی پەخش بکەیت\n• گرووپی بۆت : « @{MUST_JOIN2} »**",
+                    reply_markup=InlineKeyboardMarkup(
+                        [[InlineKeyboardButton("• جۆینی کەناڵ بکە •", url=link2)]]
+                    ),
+                    disable_web_page_preview=True,
+                )
+                return True  # Return after sending the prompt for MUST_JOIN2
+
     except Exception as e:
-        print(e)
-
+        print(f"An error occurred in joinch function: {e}")
 
 
 @app.on_message(
