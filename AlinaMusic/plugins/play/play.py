@@ -40,12 +40,8 @@ from AlinaMusic.utils.inline.play import (
 from AlinaMusic.utils.inline.playlist import botplaylist_markup
 from AlinaMusic.utils.logger import play_logs
 from AlinaMusic.utils.stream.stream import stream
-from config import BANNED_USERS, MUST_JOIN2, lyrical
+from config import BANNED_USERS, MUST_JOIN1, MUST_JOIN2, lyrical
 
-
-from pyrogram.errors import UserNotParticipant
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
-from config import MUST_JOIN1, MUST_JOIN2
 
 async def joinch(message):
     try:
@@ -60,7 +56,7 @@ async def joinch(message):
                 else:
                     chat_info1 = await app.get_chat(MUST_JOIN1)
                     link1 = chat_info1.invite_link
-                
+
                 await message.reply(
                     f"**• You must join the group\n• To be able to play songs\n• Bot Group : « @{MUST_JOIN1} »\n\n"
                     "• پێویستە جۆینی گرووپ بکەیت\n• بۆ ئەوەی بتوانی گۆرانی پەخش بکەیت\n• گرووپی بۆت : « @{MUST_JOIN1} »**",
@@ -82,7 +78,7 @@ async def joinch(message):
                 else:
                     chat_info2 = await app.get_chat(MUST_JOIN2)
                     link2 = chat_info2.invite_link
-                
+
                 await message.reply(
                     f"**• You must join the group\n• To be able to play songs\n• Bot Group : « @{MUST_JOIN2} »\n\n"
                     "• پێویستە جۆینی گرووپ بکەیت\n• بۆ ئەوەی بتوانی گۆرانی پەخش بکەیت\n• گرووپی بۆت : « @{MUST_JOIN2} »**",
