@@ -59,7 +59,7 @@ async def joinch(message):
 
                 await message.reply(
                     f"**• You must join the group\n• To be able to use command\n• Bot Group : « @{MUST_JOIN} »\n\n"
-                    + "• پێویستە جۆینی گرووپ بکەیت\n• بۆ ئەوەی بتوانی گۆرانی پەخش بکەیت\n• گرووپی بۆت : « @{MUST_JOIN} »**",
+                    + "• پێویستە جۆینی کەناڵ بکەیت\n• بۆ ئەوەی بتوانی فەرمان بەکاربھێنیت\n• گرووپی بۆت : « @{MUST_JOIN} »**",
                     reply_markup=InlineKeyboardMarkup(
                         [[InlineKeyboardButton("• جۆینی کەناڵ بکە •", url=link1)]]
                     ),
@@ -81,9 +81,9 @@ async def joinch(message):
 
                 await message.reply(
                     f"**• You must join the group\n• To be able to use command\n• Bot Group : « @{MUST_JOIN2} »\n\n"
-                    + "• پێویستە جۆینی گرووپ بکەیت\n• بۆ ئەوەی بتوانی گۆرانی پەخش بکەیت\n• گرووپی بۆت : « @{MUST_JOIN2} »**",
+                    + "• پێویستە جۆینی گرووپ بکەیت\n• بۆ ئەوەی بتوانی فەرمان بەکاربھێنیت\n• گرووپی بۆت : « @{MUST_JOIN2} »**",
                     reply_markup=InlineKeyboardMarkup(
-                        [[InlineKeyboardButton("• جۆینی کەناڵ بکە •", url=link2)]]
+                        [[InlineKeyboardButton("• جۆینی گرووپ بکە •", url=link2)]]
                     ),
                     disable_web_page_preview=True,
                 )
