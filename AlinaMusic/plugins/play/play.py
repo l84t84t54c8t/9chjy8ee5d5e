@@ -58,7 +58,7 @@ async def joinch(message):
                     link1 = chat_info1.invite_link
 
                 await message.reply(
-                    f"**• You must join the group\n• To be able to play songs\n• Bot Group : « @{MUST_JOIN} »\n\n"
+                    f"**• You must join the group\n• To be able to use command\n• Bot Group : « @{MUST_JOIN} »\n\n" +
                     "• پێویستە جۆینی گرووپ بکەیت\n• بۆ ئەوەی بتوانی گۆرانی پەخش بکەیت\n• گرووپی بۆت : « @{MUST_JOIN} »**",
                     reply_markup=InlineKeyboardMarkup(
                         [[InlineKeyboardButton("• جۆینی کەناڵ بکە •", url=link1)]]
@@ -80,7 +80,7 @@ async def joinch(message):
                     link2 = chat_info2.invite_link
 
                 await message.reply(
-                    f"**• You must join the group\n• To be able to play songs\n• Bot Group : « @{MUST_JOIN2} »\n\n"
+                    f"**• You must join the group\n• To be able to use command\n• Bot Group : « @{MUST_JOIN2} »\n\n" +
                     "• پێویستە جۆینی گرووپ بکەیت\n• بۆ ئەوەی بتوانی گۆرانی پەخش بکەیت\n• گرووپی بۆت : « @{MUST_JOIN2} »**",
                     reply_markup=InlineKeyboardMarkup(
                         [[InlineKeyboardButton("• جۆینی کەناڵ بکە •", url=link2)]]
