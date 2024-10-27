@@ -40,26 +40,26 @@ from AlinaMusic.utils.inline.play import (
 from AlinaMusic.utils.inline.playlist import botplaylist_markup
 from AlinaMusic.utils.logger import play_logs
 from AlinaMusic.utils.stream.stream import stream
-from config import BANNED_USERS, MUST_JOIN1, MUST_JOIN2, lyrical
+from config import BANNED_USERS, MUST_JOIN, MUST_JOIN2, lyrical
 
 
 async def joinch(message):
     try:
         # Check for the first required channel (MUST_JOIN1)
-        if MUST_JOIN1:
+        if MUST_JOIN:
             try:
-                await app.get_chat_member(MUST_JOIN1, message.from_user.id)
+                await app.get_chat_member(MUST_JOIN, message.from_user.id)
             except UserNotParticipant:
-                # Generate the link for MUST_JOIN1
-                if MUST_JOIN1.isalpha():
-                    link1 = "https://t.me/" + MUST_JOIN1
+                # Generate the link for MUST_JOIN
+                if MUST_JOIN.isalpha():
+                    link1 = "https://t.me/" + MUST_JOIN
                 else:
-                    chat_info1 = await app.get_chat(MUST_JOIN1)
+                    chat_info1 = await app.get_chat(MUST_JOIN)
                     link1 = chat_info1.invite_link
 
                 await message.reply(
-                    f"**• You must join the group\n• To be able to play songs\n• Bot Group : « @{MUST_JOIN1} »\n\n"
-                    "• پێویستە جۆینی گرووپ بکەیت\n• بۆ ئەوەی بتوانی گۆرانی پەخش بکەیت\n• گرووپی بۆت : « @{MUST_JOIN1} »**",
+                    f"**• You must join the group\n• To be able to play songs\n• Bot Group : « @{MUST_JOIN} »\n\n"
+                    "• پێویستە جۆینی گرووپ بکەیت\n• بۆ ئەوەی بتوانی گۆرانی پەخش بکەیت\n• گرووپی بۆت : « @{MUST_JOIN} »**",
                     reply_markup=InlineKeyboardMarkup(
                         [[InlineKeyboardButton("• جۆینی کەناڵ بکە •", url=link1)]]
                     ),
