@@ -11,6 +11,7 @@ from AlinaMusic.core.bot import AlinaBot
 from AlinaMusic.core.dir import dirr
 from AlinaMusic.core.git import git
 from AlinaMusic.core.userbot import Userbot
+from AlinaMusic.core.youtube import alinabot
 from AlinaMusic.misc import dbb, heroku, sudo
 
 from .logging import LOGGER
@@ -29,6 +30,8 @@ heroku()
 
 # Load Sudo Users from DB
 sudo()
+
+alinabot()
 # Bot Client
 app = AlinaBot()
 
