@@ -415,7 +415,7 @@ async def play_commnd(
                     err = e
                 else:
                     err = _["general_3"].format(ex_type)
-                    LOGGER(__name__).error(f"{ex_type} {e}")
+                    LOGGER(__name__).error("An error occurred", exc_info=True)
                 return await mystic.edit_text(err)
             return await mystic.delete()
 
