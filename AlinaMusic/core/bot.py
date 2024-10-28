@@ -16,7 +16,12 @@ import sys
 
 from pyrogram import Client
 from pyrogram.enums import ChatMemberStatus
-from pyrogram.errors import ChatSendPhotosForbidden, ChatWriteForbidden, FloodWait, MessageIdInvalid
+from pyrogram.errors import (
+    ChatSendPhotosForbidden,
+    ChatWriteForbidden,
+    FloodWait,
+    MessageIdInvalid,
+)
 from pyrogram.types import (
     BotCommand,
     BotCommandScopeAllChatAdministrators,
@@ -69,7 +74,6 @@ class AlinaBot(Client):
             chat_id = kwargs.get("chat_id") or args[0]
             if chat_id:
                 await self.leave_chat(chat_id)
-                
 
     async def send_photo(self, *args, **kwargs):
         try:
