@@ -21,7 +21,6 @@ from pyrogram.errors import (
 from pyrogram.types import InlineKeyboardMarkup
 
 from AlinaMusic import YouTube, app
-from AlinaMusic.core.call import Alina
 from AlinaMusic.core.userbot import assistants
 from AlinaMusic.misc import SUDOERS
 from AlinaMusic.utils.database import (
@@ -197,12 +196,13 @@ def PlayWrapper(command):
             userbot = await get_assistant(message.chat.id)
             # Getting all members id that in voicechat
             call_participants_id = [
-                member.chat.id async for member in userbot.get_call_members(chat_id)
+                member.chat.id
+                async for member in userbot.get_call_members(chat_id)
                 if member.chat
             ]
             # Checking if assistant id not in list so clear queues and remove active voice chat and process
 
-            if (not call_participants_id or userbot.id not in call_participants_id):
+            if not call_participants_id or userbot.id not in call_participants_id:
                 await Yukki.stop_stream(chat_id)
 
         else:
