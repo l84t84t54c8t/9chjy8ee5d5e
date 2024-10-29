@@ -18,8 +18,8 @@ import aiohttp
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Voice
 
 import config
-from AlinaMusic import app
 from config import lyrical
+from AlinaMusic import app
 
 from ..utils.formatters import convert_bytes, get_readable_time, seconds_to_min
 
@@ -188,7 +188,7 @@ class TeleAPI:
                 await mystic.edit_text(
                     "sᴜᴄᴄᴇssғᴜʟʟʏ ᴅᴏᴡɴʟᴏᴀᴅᴇᴅ...\n ᴘʀᴏᴄᴇssɪɴɢ ғɪʟᴇ ɴᴏᴡ"
                 )
-                downloader.pop(message.id)
+                downloader.pop(message.id, None)
             except:
                 await mystic.edit_text(_["tg_2"])
 
