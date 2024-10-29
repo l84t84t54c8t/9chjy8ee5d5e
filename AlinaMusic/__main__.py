@@ -6,7 +6,6 @@
 # Please see < https://github.com/TheTeamVivek/YukkiMusic/blob/master/LICENSE >
 #
 # All rights reserved.
-import asyncio
 import importlib
 import sys
 
@@ -14,20 +13,14 @@ from pyrogram import idle
 from pytgcalls.exceptions import NoActiveGroupCall
 
 import config
+from config import BANNED_USERS
 from AlinaMusic import HELPABLE, LOGGER, app, userbot
 from AlinaMusic.core.call import Alina
 from AlinaMusic.plugins import ALL_MODULES
 from AlinaMusic.utils.database import get_banned_users, get_gbanned
-from config import BANNED_USERS
 
 
 async def init():
-    if sys.version_info < (3, 9):
-        LOGGER("AlinaMusic").error(
-            "AlinaMusic is optimized for Python 3.9 or higher. Exiting..."
-        )
-        sys.exit(1)
-
     if len(config.STRING_SESSIONS) == 0:
         LOGGER("AlinaMusic").error(
             "No Assistant Clients Vars Defined!.. Exiting Process."
@@ -62,7 +55,7 @@ async def init():
             "http://docs.evostream.com/sample_content/assets/sintel1m720p.mp4"
         )
     except NoActiveGroupCall:
-        LOGGER("AlinaMusic").error(
+        LOGGER("YukkiMusic").error(
             "Please ensure the voice call in your log group is active."
         )
         sys.exit()
@@ -75,5 +68,5 @@ async def init():
 
 
 if __name__ == "__main__":
-    asyncio.get_event_loop_policy().get_event_loop().run_until_complete(init())
+    app.run(init())
     LOGGER("AlinaMusic").info("Stopping AlinaMusic! GoodBye")
