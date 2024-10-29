@@ -55,7 +55,7 @@ async def init():
             "http://docs.evostream.com/sample_content/assets/sintel1m720p.mp4"
         )
     except NoActiveGroupCall:
-        LOGGER("YukkiMusic").error(
+        LOGGER("AlinaMusic").error(
             "Please ensure the voice call in your log group is active."
         )
         sys.exit()
