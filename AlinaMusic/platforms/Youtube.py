@@ -33,40 +33,27 @@ def cookies():
     return f"""cookies/{str(cookie_txt_file).split("/")[-1]}"""
 
 
-def get_ytdl_options(
-    ytdl_opts: Union[str, dict, list], commandline: bool = True
-) -> Union[str, dict, list]:
+def get_ytdl_options(ytdl_opts: Union[str, dict, list], commandline: bool = True) -> Union[str, dict, list]:
     token_data = os.getenv("TOKEN_DATA")
-
+    
     if isinstance(ytdl_opts, list):
         if token_data:
-            ytdl_opts += [
-                "--username" if commandline else "username",
-                "oauth2",
-                "--password" if commandline else "password",
-                "''",
-            ]
+            ytdl_opts += ["--username" if commandline else "username", "oauth2", "--password" if commandline else "password", "''"]
         else:
             ytdl_opts += ["--cookies" if commandline else "cookiefile", cookies()]
-
+    
     elif isinstance(ytdl_opts, str):
         if token_data:
-            ytdl_opts += (
-                "--username oauth2 --password '' "
-                if commandline
-                else "username oauth2 password '' "
-            )
+            ytdl_opts += "--username oauth2 --password '' " if commandline else "username oauth2 password '' "
         else:
-            ytdl_opts += (
-                f"--cookies {cookies()}" if commandline else f"cookiefile {cookies()}"
-            )
-
+            ytdl_opts += f"--cookies {cookies()}" if commandline else f"cookiefile {cookies()}"
+    
     elif isinstance(ytdl_opts, dict):
         if token_data:
             ytdl_opts.update({"username": "oauth2", "password": ""})
         else:
             ytdl_opts["cookiefile"] = cookies()
-
+    
     return ytdl_opts
 
 
@@ -202,18 +189,20 @@ class YouTubeAPI:
         if "&" in link:
             link = link.split("&")[0]
 
-        cmd = get_ytdl_options(
-            f"yt-dlp -i --get-id --flat-playlist --playlist-end {limit} --skip-download {link}"
+        cmd = (
+            f'yt-dlp -i --compat-options no-youtube-unavailable-videos '
+            f'--get-id --flat-playlist --playlist-end {limit} --skip-download "{link}" '
+            f'2>/dev/null'
         )
+
         playlist = await shell_cmd(cmd)
+
         try:
-            result = playlist.split("\n")
-            for key in result:
-                if key == "":
-                    result.remove(key)
+            result = [key for key in playlist.split("\n") if key]
         except:
             result = []
         return result
+
 
     async def track(self, link: str, videoid: Union[bool, str] = None):
         if videoid:
@@ -410,7 +399,7 @@ class YouTubeAPI:
                     link,
                 ]
                 command = get_ytdl_options(command)
-
+                
                 proc = await asyncio.create_subprocess_exec(
                     *command,
                     stdout=asyncio.subprocess.PIPE,
