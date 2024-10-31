@@ -92,10 +92,10 @@ def stream_markup(_, videoid, chat_id):
         ],
         [
             InlineKeyboardButton(
-                text=_["P_B_2"], callback_data=f"downloadvideo {videoid}"
+                text=_["SG_B_3"], callback_data=f"downloadvideo {videoid}"
             ),
             InlineKeyboardButton(
-                text=_["P_B_1"],
+                text=_["SG_B_2"],
                 callback_data=f"downloadaudio {videoid}",
             ),
         ],
