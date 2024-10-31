@@ -109,7 +109,7 @@ async def join_chat(message, chat_id, _, myu, attempts=1):
 
 
 def PlayWrapper(command):
-    async def wrapper(app, message):
+    async def wrapper(client, message):
         language = await get_lang(message.chat.id)
         _ = get_string(language)
 
@@ -228,7 +228,7 @@ def PlayWrapper(command):
                 await join_chat(message, chat_id, _, myu)
 
         return await command(
-            # client
+            client,
             message,
             _,
             chat_id,
