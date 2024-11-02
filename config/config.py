@@ -38,7 +38,7 @@ CLEANMODE_DELETE_MINS = int(
 # Custom max audio(music) duration for voice chat. set DURATION_LIMIT in variables with your own time(mins), Default to 60 mins.
 
 DURATION_LIMIT_MIN = int(
-    getenv("DURATION_LIMIT", "999999999999999999999999999999")
+    getenv("DURATION_LIMIT", "9999")
 )  # Remember to give value in Minutes
 
 
@@ -64,7 +64,7 @@ EXTRA_PLUGINS_FOLDER = getenv("EXTRA_PLUGINS_FOLDER", "plugins")
 
 # Duration Limit for downloading Songs in MP3 or MP4 format from bot
 SONG_DOWNLOAD_DURATION = int(
-    getenv("SONG_DOWNLOAD_DURATION_LIMIT", "99999999999999999999999")
+    getenv("SONG_DOWNLOAD_DURATION_LIMIT", "9999")
 )  # Remember to give value in Minutes
 
 
@@ -225,11 +225,11 @@ autoclean = []
 
 START_IMG_URL = getenv(
     "START_IMG_URL",
-    "https://te.legra.ph/file/4ec5ae4381dffb039b4ef.jpg",
+    "https://envs.sh/_HQ.jpg",
 )
 PING_IMG_URL = getenv(
     "PING_IMG_URL",
-    "https://graph.org/file/3202937ba2792dfa8722f.jpg",
+    "https://envs.sh/_HQ.jpg",
 )
 
 PLAYLIST_IMG_URL = getenv(
@@ -239,7 +239,7 @@ PLAYLIST_IMG_URL = getenv(
 
 GLOBAL_IMG_URL = getenv(
     "GLOBAL_IMG_URL",
-    "https://graph.org/file/3202937ba2792dfa8722f.jpg",
+    "https://envs.sh/_HQ.jpg",
 )
 
 STATS_IMG_URL = getenv(
@@ -332,7 +332,7 @@ if GITHUB_REPO:
 
 
 if PING_IMG_URL:
-    if PING_IMG_URL != "https://telegra.ph/file/91533956c91d0fd7c9f20.jpg":
+    if PING_IMG_URL != "https://envs.sh/_HQ.jpg":
         if not re.match("(?:http|https)://", PING_IMG_URL):
             print(
                 "[ERROR] - Your PING_IMG_URL url is wrong. Please ensure that it starts with https://"
@@ -357,7 +357,7 @@ if GLOBAL_IMG_URL:
 
 
 if STATS_IMG_URL:
-    if STATS_IMG_URL != "https://telegra.ph/file/4dd9e2c231eaf7c290404.jpg":
+    if STATS_IMG_URL != "https://envs.sh/_HQ.jpg":
         if not re.match("(?:http|https)://", STATS_IMG_URL):
             print(
                 "[ERROR] - Your STATS_IMG_URL url is wrong. Please ensure that it starts with https://"
