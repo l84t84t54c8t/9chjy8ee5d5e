@@ -261,22 +261,24 @@ async def overall_stats(client, CallbackQuery, _):
         ass = "Yes"
     else:
         ass = "No"
-    text = f"""**Bot's Stats and information:**
+    text = f"""**• ئامار و زانیاری بۆت:
 
-**Imported Modules:** {mod}
-**Served chats:** {served_chats} 
-**Served Users:** {served_users} 
-**Blocked Users:** {blocked} 
-**Sudo Users:** {sudoers} 
+╮⊷⊰• فەرمانەکان: {mod}
+│⊷⊰• گرووپەکان: {served_chats} 
+│⊷⊰• بەکارهێنەرەکان: {served_users} 
+│⊷⊰• بلۆککراوەکان: {blocked} 
+╯⊷⊰• گەشەپێدەرەکان: {sudoers} 
     
-**Total Queries:** {total_queries} 
-**Total Assistant:** {assistant}
-**Auto Leaving Assistsant:** {ass}
+╮⊷⊰• کۆی گشتی پرسیارەکان: {total_queries} 
+│⊷⊰• کۆی گشتی یاریدەدەرەکان: {assistant}
+╯⊷⊰• دەرچوونی خۆکاری یاریدەدەر: {ass}
 
-**Play Duration Limit:** {play_duration} ᴍɪɴs
-**Song Download Limit:** {song} ᴍɪɴs
-**Bot's Server Playlist Limit:** {playlist_limit}
-**Playlist Play Limit:** {fetch_playlist}"""
+╮⊷⊰• سنووری ماوەی پەخشکردن: {play_duration} خولەک
+│⊷⊰• سنووری داگرتنی گۆرانی: {song} خولەک
+│⊷⊰• سنووری لیستی پەخشکردن: {playlist_limit}
+╯⊷⊰• سنووری پەخشکردنی لیست: {fetch_playlist}
+
+• دروستکراوم لەلایەن: [﮼محمد](https://t.me/IQ7amo)**"""
     med = InputMediaPhoto(media=config.STATS_IMG_URL, caption=text)
     try:
         await CallbackQuery.edit_message_media(media=med, reply_markup=upl)
