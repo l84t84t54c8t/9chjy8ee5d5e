@@ -278,7 +278,7 @@ async def overall_stats(client, CallbackQuery, _):
 │⊷⊰• سنووری لیستی پەخشکردن: {playlist_limit}
 ╯⊷⊰• سنووری پەخشکردنی لیست: {fetch_playlist}
 
-• دروستکراوم لەلایەن : [﮼محمد](https://t.me/IQ7amo)**"""
+• دروستکراوم لەلایەن:  [﮼محمد](https://t.me/IQ7amo)**"""
     med = InputMediaPhoto(media=config.STATS_IMG_URL, caption=text)
     try:
         await CallbackQuery.edit_message_media(media=med, reply_markup=upl)
