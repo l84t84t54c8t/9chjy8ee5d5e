@@ -26,7 +26,7 @@ from ..utils.formatters import convert_bytes, get_readable_time, seconds_to_min
 downloader = {}
 
 
-class Telegram:
+class TeleApi:
     def __init__(self):
         self.chars_limit = 4096
         self.sleep = config.TELEGRAM_DOWNLOAD_EDIT_SLEEP
