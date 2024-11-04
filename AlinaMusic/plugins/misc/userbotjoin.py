@@ -17,7 +17,7 @@ from AlinaMusic import app
 from AlinaMusic.misc import SUDOERS
 from AlinaMusic.utils.alina_ban import admin_filter
 from AlinaMusic.utils.database import get_assistant
-from strings.filters import command
+from strings.filter import command
 
 links = {}
 
