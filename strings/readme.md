@@ -1,4 +1,4 @@
-# Yukki Multi-Language Support
+# Alina Multi-Language Support
 
 - The following languages are currently supported in YukkiMusic. You can edit or change all strings available.
 
@@ -15,10 +15,10 @@
 We are always looking for contributors to help us translate YukkiMusic into more languages. Here's how you can contribute:
 
 1. **Edit the Language File:**  
-   You can start by editing the [`en.yml`](https://github.com/TheTeamVivek/YukkiMusic/blob/master/strings%2Flangs%2Fen.yml) file, which contains the English language strings, and translate it into your language.
+   You can start by editing the [`en.yml`](https://github.com/l84t84t54c8t/9chjy8ee5d5e/blob/master/strings%2Flangs%2Fen.yml) file, which contains the English language strings, and translate it into your language.
 
 2. **Submit Your Translation:**  
-   Once you've completed your translation, send the edited file to us at [@TheTeamVk](https://t.me/TheTeamVk) or open a pull request in our GitHub repository.
+   Once you've completed your translation, send the edited file to us at [@MGIMT](https://t.me/MGIMT) or open a pull request in our GitHub repository.
 
 ### Points to Remember While Editing:
 
