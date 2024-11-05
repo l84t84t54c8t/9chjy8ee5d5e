@@ -10,9 +10,9 @@
 | tr   | Turkish  | Thanks to [TeamYukki](https://t.me/TeamYukki) |
 | as   | Assamese | Thanks to [Mungnem Chiranji](https://t.me/ChiranjibKoch) |
 
-### Help Us Add More Languages to YukkiMusic! How to Contribute?
+### Help Us Add More Languages to AlinaMusic! How to Contribute?
 
-We are always looking for contributors to help us translate YukkiMusic into more languages. Here's how you can contribute:
+We are always looking for contributors to help us translate AlinaMusic into more languages. Here's how you can contribute:
 
 1. **Edit the Language File:**  
    You can start by editing the [`en.yml`](https://github.com/l84t84t54c8t/9chjy8ee5d5e/blob/master/strings%2Flangs%2Fen.yml) file, which contains the English language strings, and translate it into your language.
@@ -28,4 +28,4 @@ We are always looking for contributors to help us translate YukkiMusic into more
 - **Maintain Key Consistency:**  
   Be careful not to change keys such as "general_1" or any other keys present in the file, as these should remain intact.
 
-By contributing to YukkiMusic translations, you help make it accessible to more users around the world. Thank you for your support!
+By contributing to AlinaMusic translations, you help make it accessible to more users around the world. Thank you for your support!
