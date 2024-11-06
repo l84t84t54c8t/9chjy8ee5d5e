@@ -10,7 +10,7 @@
 import random
 
 from pyrogram import filters
-from pyrogram.types import CallbackQuery, InlineKeyboardMarkup, InputMediaPhoto
+from pyrogram.types import CallbackQuery, InlineKeyboardMarkup, InlineKeyboardButton, InputMediaPhoto
 
 import config
 from AlinaMusic import Platform, app
