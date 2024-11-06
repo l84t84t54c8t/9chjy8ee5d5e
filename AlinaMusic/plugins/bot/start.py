@@ -33,7 +33,7 @@ from AlinaMusic.utils.database import (
 from AlinaMusic.utils.decorators.language import LanguageStart
 from AlinaMusic.utils.formatters import get_readable_time
 from AlinaMusic.utils.functions import MARKDOWN, WELCOMEHELP
-from AlinaMusic.utils.inline import private_panel, start_pannel
+from AlinaMusic.utils.inline import alive_panel, private_panel, start_pannel
 from config import BANNED_USERS, START_IMG_URL
 from config.config import OWNER_ID
 from strings import command, get_string
@@ -319,13 +319,13 @@ async def welcome(client, message: Message):
                         )
                     )
                     return await app.leave_chat(chat_id)
+                photo_file = await app.download_media(message.chat.photo.big_file_id)
                 userbot = await get_assistant(message.chat.id)
                 out = start_pannel(_)
-                await message.reply_text(
-                    _["start_2"].format(
-                        app.mention,
-                        userbot.username,
-                        userbot.id,
+                await message.reply_photo(
+                    photo=photo_file,
+                    caption=_["start_2"].format(
+                        message.from_user.mention,
                     ),
                     reply_markup=InlineKeyboardMarkup(out),
                 )
