@@ -1,7 +1,3 @@
-import json
-import os
-from datetime import datetime
-
 from pyrogram import filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 
@@ -12,10 +8,7 @@ from AlinaMusic.utils.database import (
     authuserdb,
     delete_playlist,
     delete_served_user,
-    get_playlist,
     get_playlist_names,
-    get_userss,
-    is_banned_user,
     remove_sudo,
 )
 from config import BANNED_USERS
@@ -82,12 +75,14 @@ PRIVACY_SECTIONS = {
 """,
 }
 
+
 # New function to safely edit messages if content has changed
 async def safe_edit_message_text(message, new_text, **kwargs):
     if message.text != new_text:
         await message.edit_text(new_text, **kwargs)
     else:
         print("Message content is the same; no edit performed.")
+
 
 async def find_chat_ids_by_auth_user_id(auth_user_id):
     chat_ids = []
@@ -96,6 +91,7 @@ async def find_chat_ids_by_auth_user_id(auth_user_id):
             if note_data.get("auth_user_id") == auth_user_id:
                 chat_ids.append(document["chat_id"])
     return chat_ids
+
 
 async def delete_auth_user_data(auth_user_id):
     async for document in authuserdb.find():
@@ -112,6 +108,7 @@ async def delete_auth_user_data(auth_user_id):
             await authuserdb.update_one(
                 {"chat_id": chat_id}, {"$set": {"notes": notes}}
             )
+
 
 @app.on_message(command("PRIVACY_COMMAND") & ~BANNED_USERS)
 async def privacy_menu(client, message: Message):
@@ -130,6 +127,7 @@ async def privacy_menu(client, message: Message):
         ]
     )
     await message.reply_text(TEXT, reply_markup=keyboard, disable_web_page_preview=True)
+
 
 @app.on_callback_query(filters.regex("show_privacy_sections") & ~BANNED_USERS)
 async def show_privacy_sections(client, callback_query):
@@ -154,6 +152,7 @@ async def show_privacy_sections(client, callback_query):
         disable_web_page_preview=True,
     )
 
+
 @app.on_callback_query(filters.regex("privacy_") & ~BANNED_USERS)
 async def privacy_section_callback(client, callback_query):
     """Handle privacy section callbacks"""
@@ -177,7 +176,10 @@ async def privacy_section_callback(client, callback_query):
             ]
         )
         return await safe_edit_message_text(
-            callback_query.message, TEXT, reply_markup=keyboard, disable_web_page_preview=True
+            callback_query.message,
+            TEXT,
+            reply_markup=keyboard,
+            disable_web_page_preview=True,
         )
 
     if section in PRIVACY_SECTIONS:
@@ -193,11 +195,13 @@ async def privacy_section_callback(client, callback_query):
             callback_query.message, PRIVACY_SECTIONS[section], reply_markup=keyboard
         )
 
+
 @app.on_callback_query(filters.regex("retrieve_data"))
 async def export_user_data(_, cq):
     await safe_edit_message_text(cq.message, "Please wait..")
     user_id = cq.from_user.id
     # Additional code for exporting user data
+
 
 @app.on_callback_query(filters.regex("delete_data"))
 async def retrieve_data(_, cq):
@@ -211,6 +215,7 @@ async def retrieve_data(_, cq):
             ]
         ),
     )
+
 
 @app.on_callback_query(filters.regex("confirm_delete_data"))
 async def delete_user_data(_, cq):
