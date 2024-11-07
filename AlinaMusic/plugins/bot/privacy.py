@@ -1,26 +1,33 @@
 from pyrogram import filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
-
+import json
+import os
+from datetime import datetime
 import config
+from strings import command
 from AlinaMusic import app
+from config import BANNED_USERS
 from AlinaMusic.misc import SUDOERS
 from AlinaMusic.utils.database import (
-    authuserdb,
-    delete_playlist,
-    delete_served_user,
     get_playlist_names,
+    get_playlist,
+    delete_playlist,
+    get_userss,
+    is_banned_user,
+    authuserdb,
+    delete_served_user,
     remove_sudo,
 )
-from config import BANNED_USERS
-from strings import command
+
 
 TEXT = f"""
 🔒 **Privacy Policy for {app.mention} !**
 
-Your privacy is important to us. To learn more about how we collect, use, and protect your data, please review our Privacy Policy here: [Privacy Policy](https://t.me/MGIMT).
+Your privacy is important to us. To learn more about how we collect, use, and protect your data, please review our Privacy Policy here: [Privacy Policy]({config.SUPPORT_CHANNEL).
 
 If you have any questions or concerns, feel free to reach out to our [Support Team]({config.SUPPORT_GROUP}).
 """
+
 
 PRIVACY_SECTIONS = {
     "collect": """
@@ -74,14 +81,6 @@ PRIVACY_SECTIONS = {
 • Contact support for help
 """,
 }
-
-
-# New function to safely edit messages if content has changed
-async def safe_edit_message_text(message, new_text, **kwargs):
-    if message.text != new_text:
-        await message.edit_text(new_text, **kwargs)
-    else:
-        print("Message content is the same; no edit performed.")
 
 
 async def find_chat_ids_by_auth_user_id(auth_user_id):
@@ -145,8 +144,7 @@ async def show_privacy_sections(client, callback_query):
             ],
         ]
     )
-    await safe_edit_message_text(
-        callback_query.message,
+    await callback_query.edit_message_text(
         f"{TEXT}\n\nSelect a section to learn more:",
         reply_markup=keyboard,
         disable_web_page_preview=True,
@@ -175,11 +173,8 @@ async def privacy_section_callback(client, callback_query):
                 [InlineKeyboardButton("Close", callback_data="close")],
             ]
         )
-        return await safe_edit_message_text(
-            callback_query.message,
-            TEXT,
-            reply_markup=keyboard,
-            disable_web_page_preview=True,
+        return await callback_query.edit_message_text(
+            TEXT, reply_markup=keyboard, disable_web_page_preview=True
         )
 
     if section in PRIVACY_SECTIONS:
@@ -191,22 +186,90 @@ async def privacy_section_callback(client, callback_query):
                 ],
             ]
         )
-        await safe_edit_message_text(
-            callback_query.message, PRIVACY_SECTIONS[section], reply_markup=keyboard
+        await callback_query.edit_message_text(
+            PRIVACY_SECTIONS[section], reply_markup=keyboard
         )
 
 
 @app.on_callback_query(filters.regex("retrieve_data"))
 async def export_user_data(_, cq):
-    await safe_edit_message_text(cq.message, "Please wait..")
+    m = await cq.message.edit("Please wait..")
     user_id = cq.from_user.id
-    # Additional code for exporting user data
+    user_data = {
+        "user_id": user_id,
+        "export_date": datetime.now().isoformat(),
+        "basic_info": {
+            "user_id": user_id,
+            "username": cq.from_user.username,
+            "first_name": cq.from_user.first_name,
+            "last_name": cq.from_user.last_name,
+        },
+        "playlists": {},
+        "authed_in": await find_chat_ids_by_auth_user_id(user_id),
+        "ban_status": await is_banned_user(user_id),
+        "sudo_status": user_id in SUDOERS,
+        "user_stats": await get_userss(user_id),
+    }
+    try:
+        playlist_names = await get_playlist_names(user_id)
+        for name in playlist_names:
+            playlist = await get_playlist(user_id, name)
+            if playlist:
+                user_data["playlists"][name] = playlist
+    except Exception as e:
+        pass
+    user_data = {
+        k: (
+            {sk: sv for sk, sv in v.items() if sv is not None}
+            if isinstance(v, dict)
+            else v
+        )
+        for k, v in user_data.items()
+        if v is not None
+    }
+
+    file_path = os.path.join("cache", f"user_data_{user_id}.json")
+
+    try:
+        with open(file_path, "w", encoding="utf-8") as f:
+            json.dump(user_data, f, indent=4, ensure_ascii=False)
+    except Exception as e:
+        return await m.edit(
+            f"Error occurred while creating data file: {str(e)}", show_alert=True
+        )
+
+    try:
+        await cq.message.reply_document(
+            document=file_path,
+            caption=(
+                "🔒 Here is your user data export from AlinaMusic.\n\n"
+                "⚠️ This file contains your personal information. "
+                "Please handle it carefully and do not share it with others.\n\n"
+                "📊 Includes:\n"
+                "- Personal Information\n"
+                "- Playlists\n"
+                "- Usage Statistics\n"
+                "- Authorization Status\n"
+                "- Ban Status\n"
+                "- Sudo Privileges\n"
+            ),
+            file_name=f"data_{user_id}_.json",
+        )
+    except Exception as e:
+        await m.edit(
+            f"Error occurred while creating data file: {str(e)}", show_alert=True
+        )
+    finally:
+        try:
+            await cq.message.delete()
+            os.remove(file_path)
+        except:
+            pass
 
 
 @app.on_callback_query(filters.regex("delete_data"))
 async def retrieve_data(_, cq):
-    await safe_edit_message_text(
-        cq.message,
+    await cq.message.edit(
         "Are you sure you want to delete your data?",
         reply_markup=InlineKeyboardMarkup(
             [
@@ -215,15 +278,6 @@ async def retrieve_data(_, cq):
             ]
         ),
     )
-
-
-@app.on_callback_query(filters.regex("confirm_delete_data"))
-async def delete_user_data(_, cq):
-    await cq.answer("Please wait...", show_alert=True)
-
-    user_id = cq.from_user.id
-    # Additional code for deleting user data
-    await safe_edit_message_text(cq.message, "Your data has been deleted from the bot.")
 
 
 @app.on_callback_query(filters.regex("confirm_delete_data"))
