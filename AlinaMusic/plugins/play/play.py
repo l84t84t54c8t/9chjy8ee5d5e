@@ -87,7 +87,6 @@ async def joinch(message):
         print(f"An error occurred in joinch function: {e}")
 
 
-
 @app.on_message(
     command(
         "PLAY_COMMAND",
