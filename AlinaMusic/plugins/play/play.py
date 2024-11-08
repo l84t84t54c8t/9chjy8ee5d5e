@@ -38,7 +38,7 @@ async def joinch(message):
     try:
         # Ensure the message has a valid sender (from_user)
         if not message.from_user:
-            await message.reply("Error: This command can only be used by actual users.")
+            await message.reply("**• ئەم فەرمانە تەنیا بۆ بەکارهێنەرانی ڕاستەقینەیە.**")
             return
 
         # Check for the first required channel (MUST_JOIN)
