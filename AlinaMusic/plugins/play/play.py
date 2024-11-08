@@ -36,7 +36,12 @@ from strings import command
 
 async def joinch(message):
     try:
-        # Check for the first required channel (MUST_JOIN1)
+        # Ensure the message has a valid sender (from_user)
+        if not message.from_user:
+            await message.reply("Error: This command can only be used by actual users.")
+            return
+
+        # Check for the first required channel (MUST_JOIN)
         if MUST_JOIN:
             try:
                 await app.get_chat_member(MUST_JOIN, message.from_user.id)
@@ -80,6 +85,7 @@ async def joinch(message):
 
     except Exception as e:
         print(f"An error occurred in joinch function: {e}")
+
 
 
 @app.on_message(
