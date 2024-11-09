@@ -323,7 +323,8 @@ async def welcome(client, message: Message):
                 await message.reply_text(
                     _["start_2"].format(
                         message.from_user.mention,
-                    )
+                    ),
+                    reply_markup=InlineKeyboardMarkup(out),
                 )
             if member.id in config.OWNER_ID:
                 return await message.reply_text(
