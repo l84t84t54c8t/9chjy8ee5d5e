@@ -319,12 +319,12 @@ async def welcome(client, message: Message):
                 )
 
             else:
-                    # Send a text message if no group photo is available
-                    await message.reply_text(
-                        _["start_2"].format(
-                            message.from_user.mention,
-                        )
+                # Send a text message if no group photo is available
+                await message.reply_text(
+                    _["start_2"].format(
+                        message.from_user.mention,
                     )
+                )
             if member.id in config.OWNER_ID:
                 return await message.reply_text(
                     _["start_3"].format(app.mention, member.mention)
