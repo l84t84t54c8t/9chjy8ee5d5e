@@ -93,6 +93,7 @@ OWNER_ID = list(
 OWNER_USERNAME = getenv("OWNER_USERNAME", "IQ7amo")
 USER_OWNER = getenv("USER_OWNER", "IQ7amo")
 
+
 # Get it from http://dashboard.heroku.com/account
 HEROKU_API_KEY = getenv("HEROKU_API_KEY")
 
@@ -113,6 +114,8 @@ GIT_TOKEN = getenv(
     "",
 )
 
+# Token allow for access youtube songs. [ True = use token data, False = use cookies ]
+TOKEN_ALLOW = os.getenv("TOKEN_ALLOW", "True")
 
 # Only  Links formats are  accepted for this Var value.
 SUPPORT_CHANNEL = getenv(
