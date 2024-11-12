@@ -36,11 +36,7 @@ from strings import command
 
 async def joinch(message):
     try:
-        # Ensure the message has a valid sender (from_user)
-        if not message.from_user:
-            await message.reply("**• ئەم فەرمانە تەنیا بۆ بەکارهێنەرانی ڕاستەقینەیە.**")
-            return
-
+        
         # Check for the first required channel (MUST_JOIN)
         if MUST_JOIN:
             try:
