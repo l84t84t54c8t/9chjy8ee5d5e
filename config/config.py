@@ -116,7 +116,7 @@ GIT_TOKEN = getenv(
 )
 
 # Token allow for access youtube songs. [ True = use token data, False = use cookies ]
-TOKEN_ALLOW = os.getenv("TOKEN_ALLOW", "True")
+TOKEN_ALLOW = os.getenv("TOKEN_ALLOW", "False")
 
 # Only  Links formats are  accepted for this Var value.
 SUPPORT_CHANNEL = getenv(
