@@ -36,7 +36,7 @@ from strings import command
 
 async def joinch(message):
     try:
-        
+
         # Check for the first required channel (MUST_JOIN)
         if MUST_JOIN:
             try:
