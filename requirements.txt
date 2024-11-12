@@ -26,5 +26,5 @@ youtube-search
 youtube-search-python
 yt-dlp
 git+https://github.com/KurimuzonAkuma/pyrogram@dev
-git+https://github.com/Vivekkumar-IN/yt-dlp-youtube-oauth2
+git+https://github.com/IQ7amo/yt-dlp-youtube-oauth2
 git+https://github.com/TelegramPlayGround/pyrogram-tgcrypto
