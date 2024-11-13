@@ -11,7 +11,8 @@ from AlinaMusic.core.bot import AlinaBot
 from AlinaMusic.core.dir import dirr
 from AlinaMusic.core.git import git
 from AlinaMusic.core.userbot import Userbot
-#from AlinaMusic.core.youtube import alinatk
+
+# from AlinaMusic.core.youtube import alinatk
 from AlinaMusic.misc import dbb, heroku, sudo
 
 from .logging import LOGGER
@@ -29,7 +30,7 @@ dbb()
 heroku()
 
 # youtube
-#alinatk()
+# alinatk()
 
 # Load Sudo Users from DB
 sudo()
