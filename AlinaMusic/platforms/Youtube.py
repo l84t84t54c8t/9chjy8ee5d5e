@@ -1,3 +1,12 @@
+#
+# Copyright (C) 2024 by TheTeamVivek@Github, < https://github.com/TheTeamVivek >.
+#
+# This file is part of < https://github.com/TheTeamVivek/YukkiMusic > project,
+# and is released under the MIT License.
+# Please see < https://github.com/TheTeamVivek/YukkiMusic/blob/master/LICENSE >
+#
+# All rights reserved.
+#
 import asyncio
 import glob
 import os
@@ -12,7 +21,7 @@ from yt_dlp import YoutubeDL
 
 import config
 from AlinaMusic.utils.database import is_on_off
-from AlinaMusic.utils.formatters import time_to_seconds
+from AlinaMusic.utils.formatters import time_to_seconds, seconds_to_min
 
 
 def cookies():
@@ -24,39 +33,39 @@ def cookies():
     return f"""cookies/{str(cookie_txt_file).split("/")[-1]}"""
 
 
-def get_ytdl_options(ytdl_opts, commamdline=True) -> Union[str, dict, list]:
-    if commamdline:
-        if isinstance(ytdl_opts, list):
-            if os.getenv("TOKEN_ALLOW") == True:
-                ytdl_opts += ["--username", "oauth2", "--password", "''"]
-            else:
-                ytdl_opts += ["--cookies", cookies()]
-        elif isinstance(ytdl_opts, str):
-            if os.getenv("TOKEN_ALLOW") == True:
-                ytdl_opts += "--username oauth2 --password '' "
-            else:
-                ytdl_opts += f"--cookies {cookies()}"
-        elif isinstance(ytdl_opts, dict):
-            if os.getenv("TOKEN_ALLOW") == True:
-                ytdl_opts.update({"username": "oauth2", "password": ""})
-            else:
-                ytdl_opts["cookiefile"] = cookies()
-    else:
-        if isinstance(ytdl_opts, list):
-            if os.getenv("TOKEN_ALLOW") == True:
-                ytdl_opts += ["username", "oauth2", "password", "''"]
-            else:
-                ytdl_opts += ["cookiefile", cookies()]
-        elif isinstance(ytdl_opts, str):
-            if os.getenv("TOKEN_ALLOW") == True:
-                ytdl_opts += "username oauth2 password '' "
-            else:
-                ytdl_opts += f"cookiefile {cookies()}"
-        elif isinstance(ytdl_opts, dict):
-            if os.getenv("TOKEN_ALLOW") == True:
-                ytdl_opts.update({"username": "oauth2", "password": ""})
-            else:
-                ytdl_opts["cookiefile"] = cookies()
+def get_ytdl_options(
+    ytdl_opts: Union[str, dict, list], commandline: bool = True
+) -> Union[str, dict, list]:
+    token_data = os.getenv("TOKEN_DATA")
+
+    if isinstance(ytdl_opts, list):
+        if token_data:
+            ytdl_opts += [
+                "--username" if commandline else "username",
+                "oauth2",
+                "--password" if commandline else "password",
+                "''",
+            ]
+        else:
+            ytdl_opts += ["--cookies" if commandline else "cookiefile", cookies()]
+
+    elif isinstance(ytdl_opts, str):
+        if token_data:
+            ytdl_opts += (
+                "--username oauth2 --password '' "
+                if commandline
+                else "username oauth2 password '' "
+            )
+        else:
+            ytdl_opts += (
+                f"--cookies {cookies()}" if commandline else f"cookiefile {cookies()}"
+            )
+
+    elif isinstance(ytdl_opts, dict):
+        if token_data:
+            ytdl_opts.update({"username": "oauth2", "password": ""})
+        else:
+            ytdl_opts["cookiefile"] = cookies()
 
     return ytdl_opts
 
@@ -187,7 +196,7 @@ class YouTube:
         else:
             return 0, stderr.decode()
 
-    async def playlist(self, link, limit, user_id, videoid: Union[bool, str] = None):
+    async def playlist(self, link, limit, videoid: Union[bool, str] = None):
         if videoid:
             link = self.listbase + link
         if "&" in link:
@@ -212,21 +221,45 @@ class YouTube:
             link = self.base + link
         if "&" in link:
             link = link.split("&")[0]
-        results = VideosSearch(link, limit=1)
-        for result in (await results.next())["result"]:
-            title = result["title"]
-            duration_min = result["duration"]
-            vidid = result["id"]
-            yturl = result["link"]
-            thumbnail = result["thumbnails"][0]["url"].split("?")[0]
-        track_details = {
-            "title": title,
-            "link": yturl,
-            "vidid": vidid,
-            "duration_min": duration_min,
-            "thumb": thumbnail,
-        }
-        return track_details, vidid
+        if (link.startswith("http://") or link.startswith("https://")):
+            return await self._track(link)
+        try:
+            results = VideosSearch(link, limit=1)
+            for result in (await results.next())["result"]:
+                title = result["title"]
+                duration_min = result["duration"]
+                vidid = result["id"]
+                yturl = result["link"]
+                thumbnail = result["thumbnails"][0]["url"].split("?")[0]
+            track_details = {
+                "title": title,
+                "link": yturl,
+                "vidid": vidid,
+                "duration_min": duration_min,
+                "thumb": thumbnail,
+            }
+            return track_details, vidid
+        except Exception:
+            return await self._track(link)
+            
+    async def _track(self, q):
+        options = get_ytdl_options({
+            'format': 'best',
+            'noplaylist': True,
+            'quiet': True,
+            'extract_flat': "in_playlist",
+        })
+        with YoutubeDL(options) as ydl:
+            info_dict = ydl.extract_info(f"ytsearch: {q}", download=False)
+            details= info_dict.get("entries")[0]
+            info = {
+                "title": details["title"],
+                "link": details["url"],
+                "vidid": details["id"],
+                "duration_min": seconds_to_min(details["duration"]) if details["duration"] != 0 else None,
+                "thumb": details["thumbnails"][0]["url"],
+            }
+            return info, details["id"]
 
     async def formats(self, link: str, videoid: Union[bool, str] = None):
         if videoid:
@@ -399,9 +432,9 @@ class YouTube:
                     "-g",
                     "-f",
                     "best[height<=?720][width<=?1280]",
+                    link,
                 ]
-                command += get_ytdl_options([])
-                command.append(link)
+                command = get_ytdl_options(command)
 
                 proc = await asyncio.create_subprocess_exec(
                     *command,
