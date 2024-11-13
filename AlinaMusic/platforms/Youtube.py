@@ -21,7 +21,7 @@ from yt_dlp import YoutubeDL
 
 import config
 from AlinaMusic.utils.database import is_on_off
-from AlinaMusic.utils.formatters import time_to_seconds, seconds_to_min
+from AlinaMusic.utils.formatters import seconds_to_min, time_to_seconds
 
 
 def cookies():
@@ -221,7 +221,7 @@ class YouTube:
             link = self.base + link
         if "&" in link:
             link = link.split("&")[0]
-        if (link.startswith("http://") or link.startswith("https://")):
+        if link.startswith("http://") or link.startswith("https://"):
             return await self._track(link)
         try:
             results = VideosSearch(link, limit=1)
@@ -241,22 +241,28 @@ class YouTube:
             return track_details, vidid
         except Exception:
             return await self._track(link)
-            
+
     async def _track(self, q):
-        options = get_ytdl_options({
-            'format': 'best',
-            'noplaylist': True,
-            'quiet': True,
-            'extract_flat': "in_playlist",
-        })
+        options = get_ytdl_options(
+            {
+                "format": "best",
+                "noplaylist": True,
+                "quiet": True,
+                "extract_flat": "in_playlist",
+            }
+        )
         with YoutubeDL(options) as ydl:
             info_dict = ydl.extract_info(f"ytsearch: {q}", download=False)
-            details= info_dict.get("entries")[0]
+            details = info_dict.get("entries")[0]
             info = {
                 "title": details["title"],
                 "link": details["url"],
                 "vidid": details["id"],
-                "duration_min": seconds_to_min(details["duration"]) if details["duration"] != 0 else None,
+                "duration_min": (
+                    seconds_to_min(details["duration"])
+                    if details["duration"] != 0
+                    else None
+                ),
                 "thumb": details["thumbnails"][0]["url"],
             }
             return info, details["id"]
