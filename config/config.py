@@ -6,7 +6,6 @@
 # Please see < https://github.com/TheTeamVivek/YukkiMusic/blob/master/LICENSE >
 #
 # All rights reserved.
-import os
 import re
 import sys
 from os import getenv
@@ -116,7 +115,7 @@ GIT_TOKEN = getenv(
 )
 
 # Token allow for access youtube songs. [ True = use token data, False = use cookies ]
-#TOKEN_ALLOW = os.getenv("TOKEN_ALLOW", "False")
+# TOKEN_ALLOW = os.getenv("TOKEN_ALLOW", "False")
 
 # Only  Links formats are  accepted for this Var value.
 SUPPORT_CHANNEL = getenv(
