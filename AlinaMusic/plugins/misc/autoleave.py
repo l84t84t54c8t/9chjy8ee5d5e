@@ -14,7 +14,6 @@ from datetime import datetime
 from pyrogram.enums import ChatType
 
 import config
-from strings import get_string
 from AlinaMusic import app
 from AlinaMusic.core.call import Alina
 from AlinaMusic.utils.database import (
@@ -24,13 +23,15 @@ from AlinaMusic.utils.database import (
     is_active_chat,
     is_autoend,
 )
+from strings import get_string
 
 autoend = {}
+
 
 async def auto_leave():
     if config.AUTO_LEAVING_ASSISTANT == str(True):
         from AlinaMusic.core.userbot import assistants
-        
+
         async def leave_inactive_chats(client):
             left = 0
             try:
@@ -42,10 +43,7 @@ async def auto_leave():
                         ChatType.CHANNEL,
                     ]:
                         chat_id = i.chat.id
-                        if chat_id not in [
-                            config.LOG_GROUP_ID,
-                            -1001906948158
-                        ]:
+                        if chat_id not in [config.LOG_GROUP_ID, -1001906948158]:
                             if left == 20:
                                 break
                             if not await is_active_chat(chat_id):
@@ -66,7 +64,7 @@ async def auto_leave():
             await asyncio.gather(*tasks)
 
 
-async def auto_end(): 
+async def auto_end():
     if await is_autoend():
         await asyncio.sleep(30)
         for chat_id, timer in list(autoend.items()):
