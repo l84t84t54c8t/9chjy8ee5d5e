@@ -33,39 +33,27 @@ def cookies():
     return f"""cookies/{str(cookie_txt_file).split("/")[-1]}"""
 
 
-def get_ytdl_options(
-    ytdl_opts: Union[str, dict, list], commandline: bool = True
-) -> Union[str, dict, list]:
+def get_ytdl_options(commandline=False):
+    ytdl_opts = {}
+
+    # Step 1: Set the cookie file path first
+    cookie_file_path = cookies()
+    if cookie_file_path:
+        if commandline:
+            ytdl_opts["--cookies"] = cookie_file_path
+        else:
+            ytdl_opts["cookiefile"] = cookie_file_path
+
+    # Step 2: Only use OAuth2 if there’s no cookie file available
     token_data = os.getenv("TOKEN_DATA")
-
-    if isinstance(ytdl_opts, list):
-        if token_data:
-            ytdl_opts += [
-                "--username" if commandline else "username",
-                "oauth2",
-                "--password" if commandline else "password",
-                "''",
-            ]
+    if not cookie_file_path and token_data:
+        # Use OAuth2 if no cookie file is specified
+        if commandline:
+            ytdl_opts["--username"] = "oauth2"
+            ytdl_opts["--password"] = ""
         else:
-            ytdl_opts += ["--cookies" if commandline else "cookiefile", cookies()]
-
-    elif isinstance(ytdl_opts, str):
-        if token_data:
-            ytdl_opts += (
-                "--username oauth2 --password '' "
-                if commandline
-                else "username oauth2 password '' "
-            )
-        else:
-            ytdl_opts += (
-                f"--cookies {cookies()}" if commandline else f"cookiefile {cookies()}"
-            )
-
-    elif isinstance(ytdl_opts, dict):
-        if token_data:
-            ytdl_opts.update({"username": "oauth2", "password": ""})
-        else:
-            ytdl_opts["cookiefile"] = cookies()
+            ytdl_opts["username"] = "oauth2"
+            ytdl_opts["password"] = ""
 
     return ytdl_opts
 
