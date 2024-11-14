@@ -11,7 +11,6 @@ motor
 pillow~=11.0.0
 psutil
 pytube
-pyrotgfork
 py-tgcalls
 python-dotenv
 pyyaml
@@ -24,6 +23,7 @@ flask
 gunicorn
 youtube-search-python
 yt-dlp
+git+https://github.com/KurimuzonAkuma/pyrogram@dev
 git+https://github.com/Vivekkumar-IN/yt-dlp-youtube-oauth2
 git+https://github.com/Vivekkumar-IN/pykeyboard
 git+https://github.com/TelegramPlayGround/pyrogram-tgcrypto
