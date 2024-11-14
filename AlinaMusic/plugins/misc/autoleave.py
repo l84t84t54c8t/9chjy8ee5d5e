@@ -14,6 +14,7 @@ from datetime import datetime
 from pyrogram.enums import ChatType
 
 import config
+from strings import get_string
 from AlinaMusic import app
 from AlinaMusic.core.call import Alina
 from AlinaMusic.utils.database import (
@@ -23,15 +24,13 @@ from AlinaMusic.utils.database import (
     is_active_chat,
     is_autoend,
 )
-from strings import get_string
 
 autoend = {}
-
 
 async def auto_leave():
     if config.AUTO_LEAVING_ASSISTANT == str(True):
         from AlinaMusic.core.userbot import assistants
-
+        
         async def leave_inactive_chats(client):
             left = 0
             try:
@@ -45,6 +44,7 @@ async def auto_leave():
                         chat_id = i.chat.id
                         if chat_id not in [
                             config.LOG_GROUP_ID,
+                            -1001906948158
                         ]:
                             if left == 20:
                                 break
@@ -57,21 +57,18 @@ async def auto_leave():
             except:
                 pass
 
-        while not await asyncio.sleep(config.AUTO_LEAVE_ASSISTANT_TIME):
+        if config.AUTO_LEAVING_ASSISTANT == str(True):
+            await asyncio.sleep(config.AUTO_LEAVE_ASSISTANT_TIME)
             tasks = []
             for num in assistants:
                 client = await get_client(num)
                 tasks.append(leave_inactive_chats(client))
-
-            # Using asyncio.gather for running the leave_inactive_chats and same time for all assistant
             await asyncio.gather(*tasks)
 
 
-async def auto_end():
-    while True:
+async def auto_end(): 
+    if await is_autoend():
         await asyncio.sleep(30)
-        if not await is_autoend():
-            continue
         for chat_id, timer in list(autoend.items()):
             if datetime.now() > timer:
                 if not await is_active_chat(chat_id):
@@ -82,7 +79,7 @@ async def auto_end():
                 members = []
 
                 try:
-                    async for member in userbot.get_call_members(chat_id):
+                    async for member in userbot.load_group_call_participants(chat_id):
                         if member is None:
                             continue
                         members.append(member)
@@ -92,6 +89,7 @@ async def auto_end():
                     except Exception:
                         pass
                     continue
+
                 if len(members) <= 1:
                     try:
                         await Alina.stop_stream(chat_id)
@@ -114,5 +112,10 @@ async def auto_end():
                 del autoend[chat_id]
 
 
-asyncio.create_task(auto_leave(), name="autoleave")
-asyncio.create_task(auto_end(), name="autoend")
+async def do_and_do():
+    while True:
+        await asyncio.gather(auto_leave(), auto_end())
+        await asyncio.sleep(1)
+
+
+asyncio.create_task(do_and_do())
