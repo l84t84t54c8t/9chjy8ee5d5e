@@ -61,7 +61,9 @@ async def leave_if_muted():
                     userbot = await get_assistant(chat_id)
                     members = []
                     try:
-                        async for member in userbot.load_group_call_participants(chat_id):
+                        async for member in userbot.load_group_call_participants(
+                            chat_id
+                        ):
                             if member is None:
                                 continue
                             members.append(member)
@@ -72,7 +74,9 @@ async def leave_if_muted():
                             pass
                         continue
 
-                    m = next((m for m in members if m.participant.id == userbot.id), None)
+                    m = next(
+                        (m for m in members if m.participant.id == userbot.id), None
+                    )
                     if m is None:
                         continue
                     is_muted = bool(m.is_muted_for_all_users and not m.can_unmute_self)
