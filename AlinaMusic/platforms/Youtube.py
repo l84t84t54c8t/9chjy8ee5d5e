@@ -44,13 +44,17 @@ def get_ytdl_options(
             # Add cookie file option
             ytdl_opts += ["--cookies" if commandline else "cookiefile", cookies()]
         elif isinstance(ytdl_opts, str):
-            ytdl_opts += f"--cookies {cookies()}" if commandline else f"cookiefile {cookies()}"
+            ytdl_opts += (
+                f"--cookies {cookies()}" if commandline else f"cookiefile {cookies()}"
+            )
         elif isinstance(ytdl_opts, dict):
             ytdl_opts["cookiefile"] = cookies()
-        
+
         # Test the cookies by running a basic extraction command (to check for expiration)
         with YoutubeDL(ytdl_opts) as ydl:
-            ydl.extract_info("https://www.youtube.com/watch?v=dQw4w9WgXcQ", download=False)
+            ydl.extract_info(
+                "https://www.youtube.com/watch?v=dQw4w9WgXcQ", download=False
+            )
 
     except Exception as e:
         # Fallback to OAuth2 if cookies are expired or invalid
@@ -72,7 +76,6 @@ def get_ytdl_options(
             ytdl_opts.update({"username": "oauth2", "password": ""})
 
     return ytdl_opts
-
 
 
 async def shell_cmd(cmd):
