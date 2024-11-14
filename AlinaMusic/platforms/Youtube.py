@@ -33,29 +33,46 @@ def cookies():
     return f"""cookies/{str(cookie_txt_file).split("/")[-1]}"""
 
 
-def get_ytdl_options(commandline=False):
-    ytdl_opts = {}
-
-    # Step 1: Set the cookie file path first
-    cookie_file_path = cookies()
-    if cookie_file_path:
-        if commandline:
-            ytdl_opts["--cookies"] = cookie_file_path
-        else:
-            ytdl_opts["cookiefile"] = cookie_file_path
-
-    # Step 2: Only use OAuth2 if there’s no cookie file available
+def get_ytdl_options(
+    ytdl_opts: Union[str, dict, list], commandline: bool = True
+) -> Union[str, dict, list]:
     token_data = os.getenv("TOKEN_DATA")
-    if not cookie_file_path and token_data:
-        # Use OAuth2 if no cookie file is specified
-        if commandline:
-            ytdl_opts["--username"] = "oauth2"
-            ytdl_opts["--password"] = ""
-        else:
-            ytdl_opts["username"] = "oauth2"
-            ytdl_opts["password"] = ""
+
+    # Try cookies first, fallback to OAuth2 if cookies don't work
+    try:
+        if isinstance(ytdl_opts, list):
+            # Add cookie file option
+            ytdl_opts += ["--cookies" if commandline else "cookiefile", cookies()]
+        elif isinstance(ytdl_opts, str):
+            ytdl_opts += f"--cookies {cookies()}" if commandline else f"cookiefile {cookies()}"
+        elif isinstance(ytdl_opts, dict):
+            ytdl_opts["cookiefile"] = cookies()
+        
+        # Test the cookies by running a basic extraction command (to check for expiration)
+        with YoutubeDL(ytdl_opts) as ydl:
+            ydl.extract_info("https://www.youtube.com/watch?v=dQw4w9WgXcQ", download=False)
+
+    except Exception as e:
+        # Fallback to OAuth2 if cookies are expired or invalid
+        print("Cookie file failed, switching to OAuth2")
+        if isinstance(ytdl_opts, list):
+            ytdl_opts += [
+                "--username" if commandline else "username",
+                "oauth2",
+                "--password" if commandline else "password",
+                "''",
+            ]
+        elif isinstance(ytdl_opts, str):
+            ytdl_opts += (
+                "--username oauth2 --password '' "
+                if commandline
+                else "username oauth2 password '' "
+            )
+        elif isinstance(ytdl_opts, dict):
+            ytdl_opts.update({"username": "oauth2", "password": ""})
 
     return ytdl_opts
+
 
 
 async def shell_cmd(cmd):
