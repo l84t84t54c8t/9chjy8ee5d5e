@@ -38,42 +38,34 @@ def get_ytdl_options(
 ) -> Union[str, dict, list]:
     token_data = os.getenv("TOKEN_DATA")
 
-    # Try cookies first, fallback to OAuth2 if cookies don't work
-    try:
-        if isinstance(ytdl_opts, list):
-            # Add cookie file option
-            ytdl_opts += ["--cookies" if commandline else "cookiefile", cookies()]
-        elif isinstance(ytdl_opts, str):
-            ytdl_opts += (
-                f"--cookies {cookies()}" if commandline else f"cookiefile {cookies()}"
-            )
-        elif isinstance(ytdl_opts, dict):
-            ytdl_opts["cookiefile"] = cookies()
-
-        # Test the cookies by running a basic extraction command (to check for expiration)
-        with YoutubeDL(ytdl_opts) as ydl:
-            ydl.extract_info(
-                "https://www.youtube.com/watch?v=dQw4w9WgXcQ", download=False
-            )
-
-    except Exception as e:
-        # Fallback to OAuth2 if cookies are expired or invalid
-        print("Cookie file failed, switching to OAuth2")
-        if isinstance(ytdl_opts, list):
+    if isinstance(ytdl_opts, list):
+        if token_data:
             ytdl_opts += [
                 "--username" if commandline else "username",
                 "oauth2",
                 "--password" if commandline else "password",
                 "''",
             ]
-        elif isinstance(ytdl_opts, str):
+        else:
+            ytdl_opts += ["--cookies" if commandline else "cookiefile", cookies()]
+
+    elif isinstance(ytdl_opts, str):
+        if token_data:
             ytdl_opts += (
                 "--username oauth2 --password '' "
                 if commandline
                 else "username oauth2 password '' "
             )
-        elif isinstance(ytdl_opts, dict):
+        else:
+            ytdl_opts += (
+                f"--cookies {cookies()}" if commandline else f"cookiefile {cookies()}"
+            )
+
+    elif isinstance(ytdl_opts, dict):
+        if token_data:
             ytdl_opts.update({"username": "oauth2", "password": ""})
+        else:
+            ytdl_opts["cookiefile"] = cookies()
 
     return ytdl_opts
 
