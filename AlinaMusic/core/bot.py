@@ -16,16 +16,22 @@ import sys
 
 from pyrogram import Client
 from pyrogram.enums import ChatMemberStatus
-from pyrogram.types import BotCommand
-from pyrogram.types import BotCommandScopeAllChatAdministrators
-from pyrogram.types import BotCommandScopeAllGroupChats
-from pyrogram.types import BotCommandScopeAllPrivateChats
-from pyrogram.types import BotCommandScopeChat
-from pyrogram.types import BotCommandScopeChatMember, InlineKeyboardButton, InlineKeyboardMarkup
-from pyrogram.errors import ChatSendPhotosForbidden
-from pyrogram.errors import ChatWriteForbidden
-from pyrogram.errors import FloodWait
-from pyrogram.errors import MessageIdInvalid
+from pyrogram.errors import (
+    ChatSendPhotosForbidden,
+    ChatWriteForbidden,
+    FloodWait,
+    MessageIdInvalid,
+)
+from pyrogram.types import (
+    BotCommand,
+    BotCommandScopeAllChatAdministrators,
+    BotCommandScopeAllGroupChats,
+    BotCommandScopeAllPrivateChats,
+    BotCommandScopeChat,
+    BotCommandScopeChatMember,
+    InlineKeyboardButton,
+    InlineKeyboardMarkup,
+)
 
 import config
 
@@ -183,27 +189,27 @@ class AlinaBot(Client):
             BotCommand("admin", "• بانگکردنی ئەدمینەکانی گرووپ"),
             BotCommand("gpt", "• چات جیپیتی"),
             BotCommand("gemini", "• زیرەکی دەستکردی گوگڵ"),
-                        BotCommand("tr", "• وەرگێڕانی دەق بۆ هەر زمانێك"),
-                        BotCommand("ban", "• دەرکردنی-باندکردنی کەسێك"),
-                        BotCommand("unban", "• لادانی باند-دەرکردنی لەسەر کەسێك"),
-                        BotCommand("mute", "• کپکردنی-ئاگاداری کەسێك"),
-                        BotCommand("unmute", "• لادانی ئاگاداری-کپکردن"),
-                        BotCommand("warn", "• ئاگادارکردنەوەی کەسێک"),
-                        BotCommand("promote", "• زیادکردنی ئەدمین"),
-                        BotCommand("demote", "• لادانی ئەدمین"),
-                        BotCommand("purge", "• سڕینەوەی چاتی گرووپ بە ڕیپلەی"),
-             BotCommand("sudolist", "• لیستی گەشەپێدەرانی بۆت"),
-                        BotCommand("dev", "• خاوەنی بۆت"),
-                        BotCommand("filter", "• زیادکردنی چات"),
-                        BotCommand("lang", "• گۆڕینی زمانی بۆت"),
-                        BotCommand("welcome", "• دانانی بەخێرهاتن"),
-                        BotCommand("staff", "• پیشاندانی ستافی ئەدمینەکان"),
-                        BotCommand("bots", "• پیشاندانی بۆتەکانی گرووپ"),
-                        BotCommand("botcheck", "• پشکنینی بۆتەکانی تێلەگرام"),
-                        BotCommand("gdata", "• زانیاری گرووپەکان"),
-                        BotCommand("stats", "• ئاماری بۆتی ئەلینا"),
-                        BotCommand("story", "• بۆ داخستن و کردنەوەی ناردنی ستۆری لە گرووپ"),
-                        BotCommand("forward", "• بۆ داخستن و کردنەوەی ناردنی ڕێکڵام لە گرووپ"),
+            BotCommand("tr", "• وەرگێڕانی دەق بۆ هەر زمانێك"),
+            BotCommand("ban", "• دەرکردنی-باندکردنی کەسێك"),
+            BotCommand("unban", "• لادانی باند-دەرکردنی لەسەر کەسێك"),
+            BotCommand("mute", "• کپکردنی-ئاگاداری کەسێك"),
+            BotCommand("unmute", "• لادانی ئاگاداری-کپکردن"),
+            BotCommand("warn", "• ئاگادارکردنەوەی کەسێک"),
+            BotCommand("promote", "• زیادکردنی ئەدمین"),
+            BotCommand("demote", "• لادانی ئەدمین"),
+            BotCommand("purge", "• سڕینەوەی چاتی گرووپ بە ڕیپلەی"),
+            BotCommand("sudolist", "• لیستی گەشەپێدەرانی بۆت"),
+            BotCommand("dev", "• خاوەنی بۆت"),
+            BotCommand("filter", "• زیادکردنی چات"),
+            BotCommand("lang", "• گۆڕینی زمانی بۆت"),
+            BotCommand("welcome", "• دانانی بەخێرهاتن"),
+            BotCommand("staff", "• پیشاندانی ستافی ئەدمینەکان"),
+            BotCommand("bots", "• پیشاندانی بۆتەکانی گرووپ"),
+            BotCommand("botcheck", "• پشکنینی بۆتەکانی تێلەگرام"),
+            BotCommand("gdata", "• زانیاری گرووپەکان"),
+            BotCommand("stats", "• ئاماری بۆتی ئەلینا"),
+            BotCommand("story", "• بۆ داخستن و کردنەوەی ناردنی ستۆری لە گرووپ"),
+            BotCommand("forward", "• بۆ داخستن و کردنەوەی ناردنی ڕێکڵام لە گرووپ"),
         ]
         owner_commands = [
             BotCommand("update", "Update the bot"),
@@ -231,18 +237,38 @@ class AlinaBot(Client):
             BotCommand("restart", "Restart the bot"),
         ]
 
-        await self.set_bot_commands(private_commands, scope=BotCommandScopeAllPrivateChats())
-        await self.set_bot_commands(group_commands, scope=BotCommandScopeAllGroupChats())
-        await self.set_bot_commands(admin_commands, scope=BotCommandScopeAllChatAdministrators())
+        await self.set_bot_commands(
+            private_commands, scope=BotCommandScopeAllPrivateChats()
+        )
+        await self.set_bot_commands(
+            group_commands, scope=BotCommandScopeAllGroupChats()
+        )
+        await self.set_bot_commands(
+            admin_commands, scope=BotCommandScopeAllChatAdministrators()
+        )
 
-        LOG_GROUP_ID = f"@{config.LOG_GROUP_ID}" if isinstance(config.LOG_GROUP_ID, str) and not config.LOG_GROUP_ID.startswith("@") else config.LOG_GROUP_ID
+        LOG_GROUP_ID = (
+            f"@{config.LOG_GROUP_ID}"
+            if isinstance(config.LOG_GROUP_ID, str)
+            and not config.LOG_GROUP_ID.startswith("@")
+            else config.LOG_GROUP_ID
+        )
 
         for owner_id in config.OWNER_ID:
             try:
-                await self.set_bot_commands(owner_commands, scope=BotCommandScopeChatMember(chat_id=LOG_GROUP_ID, user_id=owner_id))
-                await self.set_bot_commands(owner_commands, scope=BotCommandScopeChat(chat_id=owner_id))
+                await self.set_bot_commands(
+                    owner_commands,
+                    scope=BotCommandScopeChatMember(
+                        chat_id=LOG_GROUP_ID, user_id=owner_id
+                    ),
+                )
+                await self.set_bot_commands(
+                    owner_commands, scope=BotCommandScopeChat(chat_id=owner_id)
+                )
             except Exception as e:
-                LOGGER(__name__).warning("Failed to set owner commands for user %s:", owner_id, exc_info=True)
+                LOGGER(__name__).warning(
+                    "Failed to set owner commands for user %s:", owner_id, exc_info=True
+                )
 
         else:
             pass
