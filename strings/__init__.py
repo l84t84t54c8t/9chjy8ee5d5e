@@ -113,7 +113,9 @@ def command(
             _ = get_string("en")
 
         if not await is_maintenance():
-            if (message.from_user and message.from_user.id not in SUDOERS) or not message.from_user:
+            if (
+                message.from_user and message.from_user.id not in SUDOERS
+            ) or not message.from_user:
                 if message.chat.type == ChatType.PRIVATE:
                     await message.reply_text(_["maint_4"])
                     return False
