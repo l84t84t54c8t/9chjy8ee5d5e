@@ -15,8 +15,12 @@ from typing import Dict, List, Union
 import yaml
 from pyrogram import Client, filters
 from pyrogram.types import Message
+from pyrogram.enums import ChatType
 
-from AlinaMusic.utils.database import get_lang
+from AlinaMusic.misc import SUDOERS
+
+from AlinaMusic.utils.database import get_lang, is_maintenance
+
 
 languages = {}
 commands = {}
@@ -105,6 +109,16 @@ def command(
 ):
     async def func(flt, client: Client, message: Message):
         lang_code = await get_lang(message.chat.id)
+        try:
+            _ = get_string(lang_code)
+        except:
+            _ = get_string("en")
+
+        if not await is_maintenance():
+            if message.from_user.id not in SUDOERS:
+                if message.chat.type == ChatType.PRIVATE:
+                    return await message.reply_text(_["maint_4"])
+                return
 
         if isinstance(commands, str):
             commands_list = [commands]
