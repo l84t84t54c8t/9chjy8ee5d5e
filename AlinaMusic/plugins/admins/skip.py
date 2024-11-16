@@ -11,16 +11,17 @@
 
 from pyrogram import filters
 from pyrogram.types import InlineKeyboardMarkup, Message
-from YukkiMusic import Platform, app
-from YukkiMusic.core.call import Yukki
-from YukkiMusic.misc import db
-from YukkiMusic.utils.database import get_loop
-from YukkiMusic.utils.decorators import AdminRightsCheck
-from YukkiMusic.utils.inline.play import stream_markup, telegram_markup
-from YukkiMusic.utils.stream.autoclear import auto_clean
-from YukkiMusic.utils.thumbnails import gen_thumb
 
 import config
+from AlinaMusic import Platform, app
+from AlinaMusic.core.call import Alina
+from AlinaMusic.misc import db
+from AlinaMusic.utils.database import get_loop
+from AlinaMusic.utils.decorators import AdminRightsCheck
+from AlinaMusic.utils.inline import close_markup
+from AlinaMusic.utils.inline.play import stream_markup, telegram_markup
+from AlinaMusic.utils.stream.autoclear import auto_clean
+from AlinaMusic.utils.thumbnails import gen_thumb
 from config import BANNED_USERS
 from strings import command
 
@@ -57,12 +58,10 @@ async def skip(cli, message: Message, _, chat_id):
                             if not check:
                                 try:
                                     await message.reply_text(
-                                        _["admin_10"].format(
-                                            message.from_user.first_name
-                                        ),
-                                        disable_web_page_preview=True,
+                                        _["admin_10"].format(message.from_user.mention),
+                                        reply_markup=close_markup(_),
                                     )
-                                    await Yukki.stop_stream(chat_id)
+                                    await Alina.stop_stream(chat_id)
                                 except:
                                     return
                                 break
@@ -88,20 +87,20 @@ async def skip(cli, message: Message, _, chat_id):
                         pass
             if not check:
                 await message.reply_text(
-                    _["admin_10"].format(message.from_user.first_name),
-                    disable_web_page_preview=True,
+                    _["admin_10"].format(message.from_user.mention),
+                    reply_markup=close_markup(_),
                 )
                 try:
-                    return await Yukki.stop_stream(chat_id)
+                    return await Alina.stop_stream(chat_id)
                 except:
                     return
         except:
             try:
                 await message.reply_text(
-                    _["admin_10"].format(message.from_user.first_name),
-                    disable_web_page_preview=True,
+                    _["admin_10"].format(message.from_user.mention),
+                    reply_markup=close_markup(_),
                 )
-                return await Yukki.stop_stream(chat_id)
+                return await Alina.stop_stream(chat_id)
             except:
                 return
     queued = check[0]["file"]
@@ -117,7 +116,7 @@ async def skip(cli, message: Message, _, chat_id):
         if n == 0:
             return await message.reply_text(_["admin_11"].format(title))
         try:
-            await Yukki.skip_stream(chat_id, link, video=status)
+            await Alina.skip_stream(chat_id, link, video=status)
         except Exception:
             return await message.reply_text(_["call_7"])
         button = telegram_markup(_, chat_id)
@@ -144,7 +143,7 @@ async def skip(cli, message: Message, _, chat_id):
         except:
             return await mystic.edit_text(_["call_7"])
         try:
-            await Yukki.skip_stream(chat_id, file_path, video=status)
+            await Alina.skip_stream(chat_id, file_path, video=status)
         except Exception:
             return await mystic.edit_text(_["call_7"])
         button = stream_markup(_, videoid, chat_id)
@@ -152,7 +151,7 @@ async def skip(cli, message: Message, _, chat_id):
         run = await message.reply_photo(
             photo=img,
             caption=_["stream_1"].format(
-                title[:27],
+                title[:20],
                 f"https://t.me/{app.username}?start=info_{videoid}",
                 duration_min,
                 user,
@@ -177,7 +176,7 @@ async def skip(cli, message: Message, _, chat_id):
         db[chat_id][0]["markup"] = "tg"
     else:
         try:
-            await Yukki.skip_stream(chat_id, queued, video=status)
+            await Alina.skip_stream(chat_id, queued, video=status)
         except Exception:
             return await message.reply_text(_["call_7"])
         if videoid == "telegram":
@@ -227,7 +226,7 @@ async def skip(cli, message: Message, _, chat_id):
             run = await message.reply_photo(
                 photo=img,
                 caption=_["stream_1"].format(
-                    title[:27],
+                    title[:20],
                     f"https://t.me/{app.username}?start=info_{videoid}",
                     duration_min,
                     user,
