@@ -1,5 +1,7 @@
 import os
+
 import requests
+
 import config
 
 from ..logging import LOGGER
