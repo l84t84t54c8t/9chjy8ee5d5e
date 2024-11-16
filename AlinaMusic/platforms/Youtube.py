@@ -21,7 +21,8 @@ from yt_dlp import YoutubeDL
 
 import config
 from AlinaMusic.utils.database import is_on_off
-from AlinaMusic.utils.formatters import seconds_to_min, time_to_seconds
+from AlinaMusic.utils.formatters import time_to_seconds, seconds_to_min
+from AlinaMusic.utils.decorators import asyncify
 
 
 def cookies():
@@ -31,43 +32,6 @@ def cookies():
         raise FileNotFoundError("No .txt files found in the specified folder.")
     cookie_txt_file = random.choice(txt_files)
     return f"""cookies/{str(cookie_txt_file).split("/")[-1]}"""
-
-
-def get_ytdl_options(
-    ytdl_opts: Union[str, dict, list], commandline: bool = True
-) -> Union[str, dict, list]:
-    token_data = os.getenv("TOKEN_DATA")
-
-    if isinstance(ytdl_opts, list):
-        if token_data:
-            ytdl_opts += [
-                "--username" if commandline else "username",
-                "oauth2",
-                "--password" if commandline else "password",
-                "''",
-            ]
-        else:
-            ytdl_opts += ["--cookies" if commandline else "cookiefile", cookies()]
-
-    elif isinstance(ytdl_opts, str):
-        if token_data:
-            ytdl_opts += (
-                "--username oauth2 --password '' "
-                if commandline
-                else "username oauth2 password '' "
-            )
-        else:
-            ytdl_opts += (
-                f"--cookies {cookies()}" if commandline else f"cookiefile {cookies()}"
-            )
-
-    elif isinstance(ytdl_opts, dict):
-        if token_data:
-            ytdl_opts.update({"username": "oauth2", "password": ""})
-        else:
-            ytdl_opts["cookiefile"] = cookies()
-
-    return ytdl_opts
 
 
 async def shell_cmd(cmd):
@@ -101,7 +65,8 @@ class YouTube:
         else:
             return False
 
-    async def url(self, message_1: Message) -> Union[str, None]:
+    @asyncify
+    def url(self, message_1: Message) -> Union[str, None]:
         messages = [message_1]
         if message_1.reply_to_message:
             messages.append(message_1.reply_to_message)
@@ -182,9 +147,9 @@ class YouTube:
             "-g",
             "-f",
             "best[height<=?720][width<=?1280]",
+            f"--cookies {cookies()}",
             f"{link}",
         ]
-        cmd = get_ytdl_options(cmd)
         proc = await asyncio.create_subprocess_exec(
             *cmd,
             stdout=asyncio.subprocess.PIPE,
@@ -242,15 +207,15 @@ class YouTube:
         except Exception:
             return await self._track(link)
 
-    async def _track(self, q):
-        options = get_ytdl_options(
-            {
-                "format": "best",
-                "noplaylist": True,
-                "quiet": True,
-                "extract_flat": "in_playlist",
-            }
-        )
+    @asyncify
+    def _track(self, q):
+        options = {
+            "format": "best",
+            "noplaylist": True,
+            "quiet": True,
+            "extract_flat": "in_playlist",
+            "cookiefile": f"{cookies()}",
+        }
         with YoutubeDL(options) as ydl:
             info_dict = ydl.extract_info(f"ytsearch: {q}", download=False)
             details = info_dict.get("entries")[0]
@@ -267,7 +232,8 @@ class YouTube:
             }
             return info, details["id"]
 
-    async def formats(self, link: str, videoid: Union[bool, str] = None):
+    @asyncify
+    def formats(self, link: str, videoid: Union[bool, str] = None):
         if videoid:
             link = self.base + link
         if "&" in link:
@@ -275,8 +241,8 @@ class YouTube:
 
         ytdl_opts = {
             "quiet": True,
+            "cookiefile": f"{cookies()}",
         }
-        ytdl_opts = get_ytdl_options(ytdl_opts, False)
 
         ydl = YoutubeDL(ytdl_opts)
         with ydl:
@@ -349,8 +315,8 @@ class YouTube:
                 "nocheckcertificate": True,
                 "quiet": True,
                 "no_warnings": True,
+                "cookiefile": f"{cookies()}",
             }
-            ydl_optssx = get_ytdl_options(ydl_optssx, False)
 
             x = YoutubeDL(ydl_optssx)
             info = x.extract_info(link, False)
@@ -368,8 +334,8 @@ class YouTube:
                 "nocheckcertificate": True,
                 "quiet": True,
                 "no_warnings": True,
+                "cookiefile": f"{cookies()}",
             }
-            ydl_optssx = get_ytdl_options(ydl_optssx, False)
 
             x = YoutubeDL(ydl_optssx)
             info = x.extract_info(link, False)
@@ -391,8 +357,8 @@ class YouTube:
                 "no_warnings": True,
                 "prefer_ffmpeg": True,
                 "merge_output_format": "mp4",
+                "cookiefile": f"{cookies()}",
             }
-            ydl_optssx = get_ytdl_options(ydl_optssx, False)
 
             x = YoutubeDL(ydl_optssx)
             x.download([link])
@@ -414,8 +380,8 @@ class YouTube:
                         "preferredquality": "192",
                     }
                 ],
+                "cookiefile": f"{cookies()}",
             }
-            ydl_optssx = get_ytdl_options(ydl_optssx, False)
 
             x = YoutubeDL(ydl_optssx)
             x.download([link])
@@ -438,9 +404,9 @@ class YouTube:
                     "-g",
                     "-f",
                     "best[height<=?720][width<=?1280]",
+                    f"--cookies {cookies()}",
                     link,
                 ]
-                command = get_ytdl_options(command)
 
                 proc = await asyncio.create_subprocess_exec(
                     *command,
