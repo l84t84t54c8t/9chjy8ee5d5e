@@ -8,6 +8,7 @@
 # All rights reserved.
 
 from AlinaMusic.core.bot import AlinaBot
+from AlinaMusic.core.cookies import save_cookies
 from AlinaMusic.core.dir import dirr
 from AlinaMusic.core.git import git
 from AlinaMusic.core.userbot import Userbot
@@ -16,6 +17,9 @@ from AlinaMusic.core.userbot import Userbot
 from AlinaMusic.misc import dbb, heroku, sudo
 
 from .logging import LOGGER
+
+# Save cookies in txt
+save_cookies()
 
 # Directories
 dirr()
