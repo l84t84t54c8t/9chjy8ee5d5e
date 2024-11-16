@@ -313,13 +313,13 @@ async def admin_callback(client, CallbackQuery, _):
             except Exception:
                 await CallbackQuery.edit_message_text(txt)
                 await CallbackQuery.message.reply_text(
-                    _["admin_10"].format(mention), 
+                    _["admin_10"].format(mention),
                     reply_markup=InlineKeyboardMarkup(buttons_skip),
                 )
                 return await Alina.stop_stream(chat_id)
         elif command == "Replay":
             db[chat_id][0]["played"] = 0
-    
+
         await CallbackQuery.answer()
         queued = check[0]["file"]
         title = (check[0]["title"]).title()
