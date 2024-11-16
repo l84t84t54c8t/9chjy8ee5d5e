@@ -283,7 +283,7 @@ async def admin_callback(client, CallbackQuery, _):
         await CallbackQuery.message.reply_text(
             _["admin_23"].format(mention), disable_web_page_preview=True
         )
-    elif command == "Skip" or command == "Replay":
+    elif command in ["Skip", "Replay"]:
         check = db.get(chat_id)
         buttons_skip = [
             [
@@ -293,43 +293,33 @@ async def admin_callback(client, CallbackQuery, _):
                 InlineKeyboardButton(text=_["S_B_4"], url=config.SUPPORT_CHANNEL),
             ],
         ]
+        txt = f"<b>●꒐ پەخشکردن تێپەڕێندرا♥•\n●꒐ لەلایەن : {mention} ⎋</b>"
+
         if command == "Skip":
-            txt = f"<b>●꒐ پەخشکردن تێپەڕێندرا♥•\n●꒐ لەلایەن : {mention} ⎋</b>"
-            popped = None
             try:
                 popped = check.pop(0)
                 if popped:
                     await auto_clean(popped)
                 if not check:
-                    await CallbackQuery.edit_message_text(
-                        f"<b>●꒐ پەخشکردن تێپەڕێندرا♥•\n●꒐ لەلایەن : {mention} ⎋</b>"
-                    )
+                    await CallbackQuery.edit_message_text(txt)
                     await CallbackQuery.message.reply_text(
-                        text=_["admin_10"].format(
-                            mention, CallbackQuery.message.chat.title
-                        ),
+                        _["admin_10"].format(mention),
                         reply_markup=InlineKeyboardMarkup(buttons_skip),
                     )
                     try:
                         return await Alina.stop_stream(chat_id)
-                    except:
+                    except Exception:
                         return
-            except:
-                try:
-                    await CallbackQuery.edit_message_text(
-                        f"<b>●꒐ پەخشکردن تێپەڕێندرا♥•\n●꒐ لەلایەن : {mention} ⎋</b>"
-                    )
-                    await CallbackQuery.message.reply_text(
-                        text=_["admin_10"].format(
-                            mention, CallbackQuery.message.chat.title
-                        ),
-                        reply_markup=InlineKeyboardMarkup(buttons_skip),
-                    )
-                    return await Alina.st_stream(chat_id)
-                except:
-                    return
-        else:
-            txt = f"<b>●꒐ پەخشکردن دووبارەکرایەوە ♥•\n●꒐ لەلایەن : {mention} ⎋</b>"
+            except Exception:
+                await CallbackQuery.edit_message_text(txt)
+                await CallbackQuery.message.reply_text(
+                    _["admin_10"].format(mention), 
+                    reply_markup=InlineKeyboardMarkup(buttons_skip),
+                )
+                return await Alina.stop_stream(chat_id)
+        elif command == "Replay":
+            db[chat_id][0]["played"] = 0
+    
         await CallbackQuery.answer()
         queued = check[0]["file"]
         title = (check[0]["title"]).title()
