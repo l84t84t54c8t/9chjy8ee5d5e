@@ -11,7 +11,6 @@ motor
 pillow
 psutil
 pytube
-pyrotgfork
 py-tgcalls
 python-dotenv
 pyyaml
