@@ -21,8 +21,8 @@ from yt_dlp import YoutubeDL
 
 import config
 from AlinaMusic.utils.database import is_on_off
+from AlinaMusic.utils.formatters import time_to_seconds, seconds_to_min
 from AlinaMusic.utils.decorators import asyncify
-from AlinaMusic.utils.formatters import seconds_to_min, time_to_seconds
 
 
 def cookies():
@@ -312,10 +312,12 @@ class YouTube:
                 "format": "bestaudio/best",
                 "outtmpl": "downloads/%(id)s.%(ext)s",
                 "geo_bypass": True,
+                "noplaylist": True,
                 "nocheckcertificate": True,
                 "quiet": True,
                 "no_warnings": True,
                 "cookiefile": f"{cookies()}",
+                "prefer_ffmpeg": True,
             }
 
             x = YoutubeDL(ydl_optssx)
@@ -331,9 +333,11 @@ class YouTube:
                 "format": "(bestvideo[height<=?720][width<=?1280][ext=mp4])+(bestaudio[ext=m4a])",
                 "outtmpl": "downloads/%(id)s.%(ext)s",
                 "geo_bypass": True,
+                "noplaylist": True,
                 "nocheckcertificate": True,
                 "quiet": True,
                 "no_warnings": True,
+                "prefer_ffmpeg": True,
                 "cookiefile": f"{cookies()}",
             }
 
@@ -352,6 +356,7 @@ class YouTube:
                 "format": formats,
                 "outtmpl": fpath,
                 "geo_bypass": True,
+                "noplaylist": True,
                 "nocheckcertificate": True,
                 "quiet": True,
                 "no_warnings": True,
@@ -369,6 +374,7 @@ class YouTube:
                 "format": format_id,
                 "outtmpl": fpath,
                 "geo_bypass": True,
+                "noplaylist": True,
                 "nocheckcertificate": True,
                 "quiet": True,
                 "no_warnings": True,
