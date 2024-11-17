@@ -61,7 +61,7 @@ async def log_(client, message, _):
         data = ""
         try:
             NUMB = int(message.text.split(None, 1)[1])
-        except:
+        except Exception:
             NUMB = 100
         for x in lines[-NUMB:]:
             data += x
@@ -284,14 +284,14 @@ async def update_(client, message, _):
                 )
                 await remove_active_chat(x)
                 await remove_active_video_chat(x)
-            except:
+            except Exception:
                 pass
         await response.edit(
             _final_updates_
             + f"<b>⇜ بۆت بە سەرکەوتوویی نوێ دەکرێتەوە\nئێستا چاوەڕێ بکە تاوەکو نوێ دەبێتەوە ⎋</b>",
             disable_web_page_preview=True,
         )
-    except:
+    except Exception:
         pass
 
     if await is_heroku():
@@ -326,18 +326,18 @@ async def reboot(client, message: Message, _):
     try:
         db[message.chat.id] = []
         await Alina.stop_stream(message.chat.id)
-    except:
+    except Exception:
         pass
     chat_id = await get_cmode(message.chat.id)
     if chat_id:
         try:
             await app.get_chat(chat_id)
-        except:
+        except Exception:
             pass
         try:
             db[chat_id] = []
             await Alina.stop_stream(chat_id)
-        except:
+        except Exception:
             pass
     return await mystic.edit_text(
         "**- بە سەرکەوتوویی دەستی پێکردەوە\n- گۆرانی لێبدە **"
@@ -360,14 +360,14 @@ async def restart_(client, message):
             )
             await remove_active_chat(x)
             await remove_active_video_chat(x)
-        except:
+        except Exception:
             pass
 
     try:
         shutil.rmtree("downloads")
         shutil.rmtree("raw_files")
         shutil.rmtree("cache")
-    except:
+    except Exception:
         pass
     await response.edit_text(
         "**» پڕۆسەی دووبارە دەستپێکردنەوە دەستی پێکرد, کەمێك چاوەڕێ بکە تاوەکو بۆت چالاك دەبێتەوە**"
