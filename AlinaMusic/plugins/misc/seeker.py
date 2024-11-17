@@ -103,7 +103,7 @@ async def markup_timer():
             try:
                 language = await get_lang(chat_id)
                 _ = get_string(language)
-            except:
+            except Exception:
                 _ = get_string("en")
 
             is_muted = False
@@ -152,14 +152,14 @@ async def markup_timer():
             try:
                 mystic = playing[0]["mystic"]
                 markup = playing[0]["markup"]
-            except:
+            except Exception:
                 continue
 
             try:
                 check = wrong[chat_id][mystic.id]
                 if check is False:
                     continue
-            except:
+            except Exception:
                 pass
 
             try:
