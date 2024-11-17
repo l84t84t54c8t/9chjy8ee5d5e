@@ -195,13 +195,10 @@ class AlinaBot(Client):
                     ),
                 )
                 await self.set_bot_commands(
-                    private_commands + owner_commands,
-                    scope=BotCommandScopeChat(chat_id=owner_id),
+                    private_commands + owner_commands, scope=BotCommandScopeChat(chat_id=owner_id)
                 )
-            except Exception as e:
-                LOGGER(__name__).warning(
-                    "Failed to set owner commands for user %s:", owner_id, exc_info=True
-                )
+            except Exception:
+                pass
 
         else:
             pass
@@ -212,8 +209,4 @@ class AlinaBot(Client):
                 sys.exit()
         except Exception:
             pass
-        if get_me.last_name:
-            self.name = get_me.first_name + " " + get_me.last_name
-        else:
-            self.name = get_me.first_name
         LOGGER(__name__).info(f"MusicBot started as {self.name}")
