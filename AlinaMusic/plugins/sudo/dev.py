@@ -12,10 +12,9 @@
 # Credit goes to TheHamkerCat.
 #
 
-import os
-import re
-import sys
 import asyncio
+import os
+import sys
 import traceback
 from inspect import getfullargspec
 from io import StringIO
@@ -31,11 +30,6 @@ from AlinaMusic.misc import SUDOERS
 
 ## ------ Below are some optional Imports you can remove it if is imported  you don't need to import it when using eval command
 
-from pyrogram.raw.functions import *
-from pyrogram.raw.types import *
-
-from AlinaMusic import userbot
-from AlinaMusic.core.call import Alina
 
 ## end
 
@@ -191,7 +185,7 @@ async def shellrunner(_, message: Message):
                 value=exc_obj,
                 tb=exc_tb,
             )
-            return None, ''.join(errors)
+            return None, "".join(errors)
 
     if "\n" in text:
         commands = text.split("\n")
