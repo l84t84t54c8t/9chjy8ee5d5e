@@ -21,8 +21,8 @@ from yt_dlp import YoutubeDL
 
 import config
 from AlinaMusic.utils.database import is_on_off
+from AlinaMusic.utils.formatters import time_to_seconds, seconds_to_min
 from AlinaMusic.utils.decorators import asyncify
-from AlinaMusic.utils.formatters import seconds_to_min, time_to_seconds
 
 
 def cookies():
@@ -409,7 +409,7 @@ class YouTube:
                     "yt-dlp",
                     "-g",
                     "-f",
-                    "best[height<=?720][width<=?1280]",
+                    "best",
                     f"--cookies {cookies()}",
                     link,
                 ]
@@ -425,7 +425,8 @@ class YouTube:
                     downloaded_file = stdout.decode().split("\n")[0]
                     direct = None
                 else:
-                    return
+                    downloaded_file = await loop.run_in_executor(None, video_dl)
+                    direct = True
         else:
             direct = True
             downloaded_file = await loop.run_in_executor(None, audio_dl)
