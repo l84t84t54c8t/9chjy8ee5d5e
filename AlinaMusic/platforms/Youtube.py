@@ -21,8 +21,8 @@ from yt_dlp import YoutubeDL
 
 import config
 from AlinaMusic.utils.database import is_on_off
-from AlinaMusic.utils.formatters import time_to_seconds, seconds_to_min
 from AlinaMusic.utils.decorators import asyncify
+from AlinaMusic.utils.formatters import seconds_to_min, time_to_seconds
 
 
 def cookies():
