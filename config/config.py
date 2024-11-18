@@ -39,7 +39,7 @@ TOKEN_DATA = getenv("TOKEN_DATA", "AUTHTOKENN")
 MONGO_DB_URI = getenv("MONGO_DB_URI", None)
 
 # You can paste your cookies to https://batbin.me, save them, and get a link to paste here
-COOKIE_LINK = getenv("COOKIE_LINK", "https://batbin.me/tophetical")
+COOKIE_LINK = getenv("COOKIE_LINK", None)
 
 CLEANMODE_DELETE_MINS = int(
     getenv("CLEANMODE_MINS", "99999")
