@@ -9,8 +9,8 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from youtubesearchpython import SearchVideos
 from yt_dlp import YoutubeDL
 
-from AlinaMusic import app
-
+from AlinaMusic import app, Platform
+from AlinaMusic.Platform.Youtube import cookies
 # Define a dictionary to track the last query timestamp for each user
 user_last_CallbackQuery_time = {}
 user_CallbackQuery_count = {}
@@ -84,6 +84,7 @@ async def download_video(client, CallbackQuery):
         "addmetadata": True,
         "key": "FFmpegMetadata",
         "prefer_ffmpeg": True,
+        "cookiefile": f"{cookies()}",
         "geo_bypass": True,
         "nocheckcertificate": True,
         "postprocessors": [{"key": "FFmpegVideoConvertor", "preferedformat": "mp4"}],
@@ -229,6 +230,7 @@ async def download_audio(client, CallbackQuery):
         "addmetadata": True,
         "key": "FFmpegMetadata",
         "prefer_ffmpeg": True,
+        "cookiefile": f"{cookies()}",
         "geo_bypass": True,
         "nocheckcertificate": True,
         "outtmpl": "%(id)s.mp3",  # Output format changed to mp3
