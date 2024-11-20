@@ -15,10 +15,7 @@ usersdb = mongodb.tgusersdb
 
 
 async def get_served_chats() -> list:
-    chats_list = []
-    async for chat in chatsdb.find({"chat_id": {"$lt": 0}}):
-        chats_list.append(chat)
-    return chats_list
+    return [chat async for chat in chatsdb.find({"chat_id": {"$lt": 0}})]
 
 
 async def delete_served_chat(chat_id: int):
@@ -26,10 +23,7 @@ async def delete_served_chat(chat_id: int):
 
 
 async def get_served_users() -> list:
-    users_list = []
-    async for user in usersdb.find({"user_id": {"$gt": 0}}):
-        users_list.append(user)
-    return users_list
+    return [user async for user in usersdb.find({"user_id": {"$gt": 0}})]
 
 
 async def delete_served_user(user_id: int):
@@ -38,20 +32,19 @@ async def delete_served_user(user_id: int):
 
 @app.on_message(filters.command(["rstats", "allstats"]) & SUDOERS)
 async def all_stats(client, message: Message):
-    served_chats = []
     chats = await get_served_chats()
-    for chat in chats:
-        served_chats.append(int(chat["chat_id"]))
+    served_chats = [int(chat["chat_id"]) for chat in chats]
     time_expected = get_readable_time(len(served_chats))
     SKY = await message.reply_text(
-        "Getting all real stats of {0}\n\nTime to take: {1}".format(
-            app.mention, time_expected
-        )
+        f"Getting all real stats of {app.mention}\n\nEstimated time: {time_expected}"
     )
+
     admin_chats = 0
     admin_not = 0
     chat_not = 0
-    for chat_id in served_chats:
+
+    async def process_chat(chat_id):
+        nonlocal admin_chats, admin_not, chat_not
         try:
             member = await app.get_chat_member(chat_id, app.me.id)
             if member.status == ChatMemberStatus.ADMINISTRATOR:
@@ -60,35 +53,35 @@ async def all_stats(client, message: Message):
                 admin_not += 1
         except FloodWait as fw:
             await asyncio.sleep(fw.value)
-        except Exception as e:
+        except Exception:
             chat_not += 1
-            # Delete the chat from the database after determining it's not accessible
+            await delete_served_chat(chat_id)  # Delete inaccessible chats
 
-            continue
+    await asyncio.gather(*(process_chat(chat_id) for chat_id in served_chats))
 
     await SKY.edit(
-        "Real stats of {0}\n\nAdmin in chats: {1}\nNot admin in chats: {2}\nChats not accessible: {3}".format(
-            app.mention, admin_chats, admin_not, chat_not
-        )
+        f"Real stats of {app.mention}\n\n"
+        f"Admin in chats: {admin_chats}\n"
+        f"Not admin in chats: {admin_not}\n"
+        f"Chats not accessible (deleted): {chat_not}"
     )
 
 
 @app.on_message(filters.command(["ustats", "userstats"]) & SUDOERS)
 async def user_stats(client, message: Message):
-    served_users = []
     users = await get_served_users()
-    for user in users:
-        served_users.append(int(user["user_id"]))
+    served_users = [int(user["user_id"]) for user in users]
     time_expected = get_readable_time(len(served_users))
     SKY = await message.reply_text(
-        "Getting all real user stats of {0}\n\nTime to take: {1}".format(
-            app.mention, time_expected
-        )
+        f"Getting all real user stats of {app.mention}\n\nEstimated time: {time_expected}"
     )
+
     active_users = 0
     inactive_users = 0
     user_not_found = 0
-    for user_id in served_users:
+
+    async def process_user(user_id):
+        nonlocal active_users, inactive_users, user_not_found
         try:
             user = await app.get_users(user_id)
             if user.is_bot:
@@ -97,14 +90,15 @@ async def user_stats(client, message: Message):
                 active_users += 1
         except FloodWait as fw:
             await asyncio.sleep(fw.value)
-        except Exception as e:
+        except Exception:
             user_not_found += 1
-            # Optionally, delete users not found
+            await delete_served_user(user_id)  # Delete inaccessible users
 
-            continue
+    await asyncio.gather(*(process_user(user_id) for user_id in served_users))
 
     await SKY.edit(
-        "Real user stats of {0}\n\nActive users: {1}\nInactive users (bots): {2}\nUsers not accessible: {3}".format(
-            app.mention, active_users, inactive_users, user_not_found
-        )
+        f"Real user stats of {app.mention}\n\n"
+        f"Active users: {active_users}\n"
+        f"Inactive users (bots): {inactive_users}\n"
+        f"Users not accessible (deleted): {user_not_found}"
     )
