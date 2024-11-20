@@ -1,15 +1,21 @@
+#
+# Copyright (C) 2024 by TheTeamVivek@Github, < https://github.com/TheTeamVivek >.
+#
+# This file is part of < https://github.com/TheTeamVivek/YukkiMusic > project,
+# and is released under the MIT License.
+# Please see < https://github.com/TheTeamVivek/YukkiMusic/blob/master/LICENSE >
+#
+# All rights reserved.
+#
+
 import asyncio
 import shlex
 from typing import Tuple
-
 from git import Repo
 from git.exc import GitCommandError, InvalidGitRepositoryError
-
 import config
-
 from ..logging import LOGGER
-
-
+loop = asyncio.get_event_loop_policy().get_event_loop()
 def install_req(cmd: str) -> Tuple[str, str, int, int]:
     async def install_requirements():
         args = shlex.split(cmd)
@@ -25,10 +31,7 @@ def install_req(cmd: str) -> Tuple[str, str, int, int]:
             process.returncode,
             process.pid,
         )
-
-    return asyncio.get_event_loop().run_until_complete(install_requirements())
-
-
+    return loop.run_until_complete(install_requirements())
 def git():
     REPO_LINK = config.UPSTREAM_REPO
     if config.GIT_TOKEN:
