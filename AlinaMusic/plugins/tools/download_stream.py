@@ -10,7 +10,7 @@ from youtubesearchpython import SearchVideos
 from yt_dlp import YoutubeDL
 
 from AlinaMusic import app
-from AlinaMusic.Platform.Youtube import cookies
+from AlinaMusic.platforms.Youtube import cookies
 
 # Define a dictionary to track the last query timestamp for each user
 user_last_CallbackQuery_time = {}
