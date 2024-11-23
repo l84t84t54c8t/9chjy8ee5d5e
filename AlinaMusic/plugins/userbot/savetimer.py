@@ -1,11 +1,15 @@
-import os
 import logging
+import os
+
 from pyrogram import Client, filters
 from pyrogram.types import Message
 
 # Configure logging
-logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
+)
 logger = logging.getLogger(__name__)
+
 
 # Define the handler for self-destroying media messages
 @Client.on_message(filters.media & filters.incoming, group=6)
@@ -35,4 +39,6 @@ async def save_timer_media(client: Client, message: Message):
     except Exception as e:
         # Log the error and send an error message to the user
         logger.error(f"Failed to process message: {e}", exc_info=True)
-        await message.reply_text("An error occurred while saving the media. Please try again.")
+        await message.reply_text(
+            "An error occurred while saving the media. Please try again."
+        )
