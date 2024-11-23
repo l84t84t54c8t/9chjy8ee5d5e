@@ -35,6 +35,7 @@ class Userbot(Client):
                 in_memory=True,
                 no_updates=True,
                 session_string=session.strip(),
+                plugins=dict(root="AlinaMusic.plugins.userbot"),
             )
             self.clients.append(client)
 
